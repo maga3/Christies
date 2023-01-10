@@ -1,17 +1,11 @@
 .form-group {
     position: relative;
 }
-.form-group input:focus ~ .icon {
-    opacity: 1;
-}
 .form-group input:required:valid {
     border-color: #26dfae;
 }
 .form-group .asterix {
     color: #df2666;
-}
-.form-group :is(input:valid) ~ .asterix {
-    opacity: 0;
 }
 
 @keyframes shake {
@@ -20,7 +14,7 @@
     75%{translate: -8px 0;}
 }
 
-.form-group input:valid,.form-group input:valid ~ :is(.asterix, .icon){
+.form-group input:valid{
     animation: none;
 }
 
@@ -28,7 +22,11 @@
     animation: shake 0.1635s 0s 3s;
 }
 
-.form-group input:placeholder-shown, input:invalid {
+.form-group input:placeholder-shown{
+    border: 1px solid rgba(0, 140, 255, 0.664);
+}
+
+input:invalid {
     border: 1px solid red;
 }
 
