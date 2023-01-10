@@ -1,0 +1,35 @@
+.form-group input:required:valid {
+    border-color: #26dfae;
+}
+.form-group .asterix {
+    color: #df2666;
+}
+
+@keyframes shake {
+    0%,100%{translate: 0;}
+    25%{translate: 8px 0;}
+    75%{translate: -8px 0;}
+}
+
+.form-group input:valid{
+    animation: none;
+}
+
+.form-group:is(input:invalid){
+    animation: shake 0.1635s 0s 3s;
+}
+
+.form-group input:placeholder-shown{
+    border: 1px solid rgba(0, 140, 255, 0.664);
+}
+
+input:invalid {
+    border: 1px solid red;
+}
+.auth .auth-form-light {
+    border: 1px solid rgb(26, 25, 25) !important;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px 5px;
+}
+
+
