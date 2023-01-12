@@ -17,7 +17,13 @@ class Controller
         if (isset($_POST['usr'], $_POST['pass'])){
             $usr = $_POST['usr'];
             $pass = $_POST['pass'];
-            if (ChristiesGestorDB::login($usr,$pass)){
+            if (!filter_var($usr, FILTER_VALIDATE_EMAIL)){
+                $_SESSION["userError"] = true;
+                header('Location: http://localhost/christies/mvc/index.php/admin/login');
+            }else if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/',$pass)){
+                $_SESSION["passError"] = true;
+                header('Location: http://localhost/christies/mvc/index.php/admin/login');
+            }else if (ChristiesGestorDB::login($usr,$pass)){
                 $_SESSION['loginAdmin'] = true;
                 $_SESSION['user'] = $usr;
                 header('Location: http://localhost/christies/mvc/index.php/admin/dashboard');

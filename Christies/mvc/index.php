@@ -8,6 +8,7 @@ require("./model/Categoria.php");
 require("./model/ObjetoVirtual.php");
 require("./model/Usuario.php");
 require("./model/Comentario.php");
+require("./model/cruddb.php");
 
 //Instancio el controlador
 $controller = new Controller();
