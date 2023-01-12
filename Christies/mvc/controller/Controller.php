@@ -4,6 +4,8 @@ use model\ChristiesGestorDB;
 
 /**
  * @author martin ruiz
+ * Clase controladora de acciones
+ *
  */
 class Controller
 {
@@ -18,19 +20,19 @@ class Controller
             if (ChristiesGestorDB::login($usr,$pass)){
                 $_SESSION['loginAdmin'] = true;
                 $_SESSION['user'] = $usr;
-                header('Location: http://localhost/Christies/mvc/index.php/admin/dashboard');
+                header('Location: http://localhost/christies/mvc/index.php/admin/dashboard');
             }else {
-                header('Location: http://localhost/Christies/mvc/index.php/admin/login');
+                header('Location: http://localhost/christies/mvc/index.php/admin/login');
             }
         }else {
-            header('Location: http://localhost/Christies/mvc/index.php/admin/login');
+            header('Location: http://localhost/christies/mvc/index.php/admin/login');
         }
     }
 
     public function showLogin(): void
     {
         if (isset($_SESSION['loginAdmin']) && $_SESSION['loginAdmin']===true){
-            header('Location: http://localhost/Christies/mvc/index.php/admin/dashboard');
+            header('Location: http://localhost/christies/mvc/index.php/admin/dashboard');
         }else {
             require './view/admin/login.php';
         }
@@ -55,7 +57,7 @@ class Controller
     public function logout(): void
     {
         session_destroy();
-        header('Location: http://localhost/Christies/mvc/index.php/admin/login');
+        header('Location: http://localhost/christies/mvc/index.php/admin/login');
     }
 
     public function categorias(): void

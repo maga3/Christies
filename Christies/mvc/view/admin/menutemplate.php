@@ -386,16 +386,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+                    <a class="nav-link" data-bs-toggle="collapse" href="../../index.php/admin/productos" aria-expanded="false" aria-controls="charts">
                         <i class="menu-icon mdi mdi-cube-outline "></i>
                         <span class="menu-title">Articulo</span>
-                        <i class="menu-arrow"></i>
                     </a>
-                    <div class="collapse" id="charts">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="../../view/admin/star-admin2/template/pages/charts/chartjs.html">Tabla articulo</a></li>
-                        </ul>
-                    </div>
                 </li>
                 <li class="nav-item nav-category">Usuarios y contacto</li>
                 <li class="nav-item">

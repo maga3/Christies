@@ -13,7 +13,7 @@ require("./model/Comentario.php");
 $controller = new Controller();
 
 //Ruta de la home
-$home = "/Christies/mvc/index.php/";
+$home = "/christies/mvc/index.php/";
 
 $ruta = str_replace($home, "", $_SERVER["REQUEST_URI"]);//accion
 $array_ruta = array_filter(explode("/", $ruta));
