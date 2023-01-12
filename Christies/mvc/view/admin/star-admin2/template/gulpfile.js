@@ -103,7 +103,7 @@ gulp.task('injectCommonAssets', function () {
 /* inject Js and CCS assets into HTML */
 gulp.task('injectLayoutStyles', function () {
     var verticalLightStream = gulp.src(['./**/*.html',
-            './index.html'])
+            './dashboard.php'])
         .pipe(inject(gulp.src([
             './css/vertical-layout-light/style.css', 
         ], {read: false}), {relative: true}))
@@ -116,9 +116,9 @@ gulp.task('replacePath', function(){
     var replacePath2 = gulp.src(['./pages/*.html'], { base: "./" })
         .pipe(replace('="images/', '="../images/'))
         .pipe(replace('"pages/', '"../pages/'))
-        .pipe(replace('href="index.html"', 'href="../index.html"'))
+        .pipe(replace('href="dashboard.php"', 'href="../dashboard.php"'))
         .pipe(gulp.dest('.'));
-    var replacePath3 = gulp.src(['./index.html'], { base: "./" })
+    var replacePath3 = gulp.src(['./dashboard.php'], { base: "./" })
         .pipe(replace('="images/', '="images/'))
         .pipe(gulp.dest('.'));
     return merge( replacePath2, replacePath3);
