@@ -3,12 +3,13 @@ session_start();
 //Incluyo los archivos necesarios
 require("./controller/Controller.php");
 require("./model/Conexion.php");
+require("./model/cruddb.php");
 require("./model/ChristiesGestorDB.php");
+require("./model/DBApi.php");
 require("./model/Categoria.php");
 require("./model/ObjetoVirtual.php");
 require("./model/Usuario.php");
 require("./model/Comentario.php");
-require("./model/cruddb.php");
 
 //Instancio el controlador
 $controller = new Controller();
@@ -36,5 +37,9 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $arra
 }else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "logout") {
     $controller->logout();
 }else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "categorias"){
-    $controller->categorias();
+    try {
+        $controller->categorias();
+    } catch (JsonException $e) {
+        echo "Error: ".$e->getMessage();
+    }
 }

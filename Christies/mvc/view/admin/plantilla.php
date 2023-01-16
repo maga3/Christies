@@ -1,13 +1,17 @@
 <?php
 $url = '';
-$component = explode('/', $_SERVER['HTTP_REFERER']);
-for ($i = 0, $iMax = count($component); $i < $iMax; $i++) {
-    if ($component[$i] !== 'index.php' && !str_contains($url, 'admin')) {
-        if ($component[$i] === 'admin') {
-            $url .= 'view/';
+if (isset($_SERVER['HTTP_REFERER'])){
+    $component = explode('/', $_SERVER['HTTP_REFERER']);
+    for ($i = 0, $iMax = count($component); $i < $iMax; $i++) {
+        if ($component[$i] !== 'index.php' && !str_contains($url, 'admin')) {
+            if ($component[$i] === 'admin') {
+                $url .= 'view/';
+            }
+            $url .= $component[$i] . '/';
         }
-        $url .= $component[$i] . '/';
     }
+}else {
+    $url = 'http://localhost/christies/mvc/view/admin/';
 }
 ?>
 
@@ -16,7 +20,7 @@ for ($i = 0, $iMax = count($component); $i < $iMax; $i++) {
 
 <head>
     <!-- Required meta tags -->
-    <base href="<?php echo $url?>">
+    <base href="<?php echo $url ?>">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Star Admin2 </title>
@@ -40,11 +44,14 @@ for ($i = 0, $iMax = count($component); $i < $iMax; $i++) {
 </head>
 <body>
 <div class="container-scroller">
-
+    <!-- partial -->
+    <!-- partial:partials/_navbar.html -->
     <?php
-    include('star-admin2/template/partials/_navbar.php');
+    include('star-admin2/template/partials/_navbar.html');
     ?>
     <div class="container-fluid page-body-wrapper">
+        <!-- partial -->
+        <!-- partial:partials/_settings-panel.html -->
         <?php
         include('star-admin2/template/partials/_settings-panel.html');
         ?>
@@ -53,31 +60,31 @@ for ($i = 0, $iMax = count($component); $i < $iMax; $i++) {
         <?php
         include('star-admin2/template/partials/_sidebar.html');
         ?>
-    </div>
-
-    <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="home-tab">
-                        <?php
-                        //                        require($contenido);
-                        ?>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="home-tab">
+                            <?php
+                            if (isset($contenido)){
+                                include('myPages/dark-table.php');
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <?php
+            include('star-admin2/template/partials/_footer.html');
+            ?>
+            <!-- partial -->
         </div>
-        <!-- content-wrapper ends -->
+        <!-- main-panel ends -->
+        <!-- page-body-wrapper ends -->
     </div>
-    <!-- main-panel ends -->
-    <!-- partial:partials/_footer.html -->
-    <?php
-    include('star-admin2/template/partials/_footer.html');
-    ?>
-    <!-- partial -->
-    <!-- page-body-wrapper ends -->
-
 </div>
 <!-- container-scroller -->
 

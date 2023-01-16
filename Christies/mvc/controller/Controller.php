@@ -1,15 +1,16 @@
 <?php
 
 use model\ChristiesGestorDB;
-
+use model\DBApi;
 /**
  * @author martin ruiz
- * Clase controladora de acciones
+ * Clase controladora de acciones parte admin
  *
  */
 class Controller
 {
     /**
+     * Valida el login y da feedback del error
      * @return void
      */
     public function login(): void
@@ -19,22 +20,21 @@ class Controller
             $pass = $_POST['pass'];
             if (!filter_var($usr, FILTER_VALIDATE_EMAIL)){
                 $_SESSION["userError"] = true;
-                header('Location: http://localhost/christies/mvc/index.php/admin/login');
             }else if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/',$pass)){
                 $_SESSION["passError"] = true;
-                header('Location: http://localhost/christies/mvc/index.php/admin/login');
             }else if (ChristiesGestorDB::login($usr,$pass)){
                 $_SESSION['loginAdmin'] = true;
                 $_SESSION['user'] = $usr;
                 header('Location: http://localhost/christies/mvc/index.php/admin/dashboard');
-            }else {
-                header('Location: http://localhost/christies/mvc/index.php/admin/login');
             }
-        }else {
-            header('Location: http://localhost/christies/mvc/index.php/admin/login');
+                header('Location: http://localhost/christies/mvc/index.php/admin/login');
         }
     }
 
+    /**
+     * Muestra el formulario de login
+     * @return void
+     */
     public function showLogin(): void
     {
         if (isset($_SESSION['loginAdmin']) && $_SESSION['loginAdmin']===true){
@@ -44,31 +44,52 @@ class Controller
         }
     }
 
+    /**
+     * Muestra el formulario de recuperar la password
+     * @return void
+     */
     public function showRecuperar(): void
     {
         require './view/admin/recuperar.php';
     }
 
+    /**
+     * Muestra el formulario para registrarse
+     * @return void
+     */
     public function showRegister(): void
     {
         require './view/admin/register.php';
     }
 
+    /**
+     * Muestra el dashboard
+     * @return void
+     */
     public function showDashboard(): void
     {
         require './model/sesiones.php';
-        require './view/admin/dashboard.php';
+        require './view/admin/plantilla.php';
     }
 
+    /**
+     * Logsout
+     * @return void
+     */
     public function logout(): void
     {
         session_destroy();
         header('Location: http://localhost/christies/mvc/index.php/admin/login');
     }
 
+    /**
+     * @return void
+     * @throws JsonException
+     */
     public function categorias(): void
     {
         require './model/sesiones.php';
+        $contenido = 'Categorias';
         require './view/admin/categorias.php';
     }
 }

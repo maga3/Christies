@@ -1,8 +1,8 @@
 <?php
 
 namespace model;
-//implements \model\cruddb
-class Categoria
+
+class Categoria implements \model\cruddb
 {
     protected int $id;
     public string $nombre;
@@ -18,7 +18,7 @@ class Categoria
      */
     public function __construct(int $id, string $nombre, string $descripcion, string $img)
     {
-        $this->id = $id;
+        $this->id = $id || '';
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->img = $img;
@@ -86,23 +86,23 @@ class Categoria
         return $this;
     }
 
-    public static function create()
+    public function create(): bool
     {
-        // TODO: Implement create() method.
+            return ChristiesGestorDB::addCat($this->getNombre(), $this->getDescripcion(), $this->getImg());
     }
 
-    public static function read()
+    public function read()
     {
         // TODO: Implement read() method.
     }
 
-    public static function update()
+    public function update(): bool
     {
-        // TODO: Implement update() method.
+        return ChristiesGestorDB::updateCat($this->getId(),$this->getNombre(),$this->getDescripcion(),$this->getImg());
     }
 
-    public static function delete()
+    public function delete(): bool
     {
-        // TODO: Implement delete() method.
+        return ChristiesGestorDB::deleteCat($this->getId());
     }
 }

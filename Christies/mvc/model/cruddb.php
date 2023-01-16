@@ -3,8 +3,8 @@
 namespace model;
 
 interface cruddb {
-    public static function create();
-    public static function read();
-    public static function update();
-    public static function delete();
+    public function create();
+    public function read();
+    public function update();
+    public function delete();
 }

@@ -1,8 +1,8 @@
 <?php
 
 namespace model;
-//implements \model\cruddb
-class Usuario
+
+class Usuario implements cruddb
 {
     protected int $id;
     public string $email;
@@ -129,23 +129,24 @@ class Usuario
     }
 
 
-    public static function create()
+    public function create(): bool
     {
-        // TODO: Implement create() method.
+        return ChristiesGestorDB::addUser($this->getEmail(),$this->getPassword(),$this->getTlf());
     }
 
-    public static function read()
+    public function read()
     {
         // TODO: Implement read() method.
+
     }
 
-    public static function update()
+    public function update(): bool
     {
-        // TODO: Implement update() method.
+        return ChristiesGestorDB::updateUser($this->getId(),$this->getEmail(),$this->getTokens(),$this->getTlf());
     }
 
-    public static function delete()
+    public function delete(): bool
     {
-        // TODO: Implement delete() method.
+        return ChristiesGestorDB::deleteUser($this->getId());
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 namespace model;
-//implements \model\cruddb
-class Comentario
+
+class Comentario implements cruddb
 {
     protected int $id;
     public string $contenido;
@@ -87,22 +87,22 @@ class Comentario
     }
 
 
-    public static function create()
+    public function create()
     {
         // TODO: Implement create() method.
     }
 
-    public static function read()
+    public function read()
     {
         // TODO: Implement read() method.
     }
 
-    public static function update()
+    public function update()
     {
         // TODO: Implement update() method.
     }
 
-    public static function delete()
+    public function delete()
     {
         // TODO: Implement delete() method.
     }
