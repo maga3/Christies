@@ -1,6 +1,6 @@
 <?php
 $url = '';
-if (isset($_SERVER['HTTP_REFERER'])){
+if (isset($_SERVER['HTTP_REFERER'])) {
     $component = explode('/', $_SERVER['HTTP_REFERER']);
     for ($i = 0, $iMax = count($component); $i < $iMax; $i++) {
         if ($component[$i] !== 'index.php' && !str_contains($url, 'admin')) {
@@ -10,7 +10,7 @@ if (isset($_SERVER['HTTP_REFERER'])){
             $url .= $component[$i] . '/';
         }
     }
-}else {
+} else {
     $url = 'http://localhost/christies/mvc/view/admin/';
 }
 ?>
@@ -34,13 +34,19 @@ if (isset($_SERVER['HTTP_REFERER'])){
     <link rel="stylesheet" href="star-admin2/template/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <!--  <link rel="stylesheet" href="star-admin2/template/vendors/datatables.net-bs4/dataTables.bootstrap4.css">-->
+    <!--<link rel="stylesheet" href="star-admin2/template/vendors/datatables.net-bs4/dataTables.bootstrap4.css">-->
     <link rel="stylesheet" href="star-admin2/template/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="star-admin2/template/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="star-admin2/template/images/favicon.png"/>
+    <!-- datatables -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs4/dt-1.13.1/af-2.5.1/b-2.3.3/b-colvis-2.3.3/cr-1.6.1/date-1.2.0/fc-4.2.1/fh-3.3.1/kt-2.8.0/r-2.4.0/rg-1.3.0/rr-1.3.1/sc-2.0.7/sb-1.4.0/sp-2.1.0/sl-1.5.0/sr-1.2.0/datatables.min.css"/>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/bs4/dt-1.13.1/af-2.5.1/b-2.3.3/b-colvis-2.3.3/cr-1.6.1/date-1.2.0/fc-4.2.1/fh-3.3.1/kt-2.8.0/r-2.4.0/rg-1.3.0/rr-1.3.1/sc-2.0.7/sb-1.4.0/sp-2.1.0/sl-1.5.0/sr-1.2.0/datatables.min.js"></script>
 </head>
 <body>
 <div class="container-scroller">
@@ -67,8 +73,9 @@ if (isset($_SERVER['HTTP_REFERER'])){
                     <div class="col-sm-12">
                         <div class="home-tab">
                             <?php
-                            if (isset($contenido)){
-                                include('myPages/dark-table.php');
+                            if (isset($contenido)) {
+//                                include('component/dark-table.php');
+                                  include($content);
                             }
                             ?>
                         </div>
@@ -94,7 +101,7 @@ if (isset($_SERVER['HTTP_REFERER'])){
 <!-- Plugin js for this page -->
 <script src="star-admin2/template/vendors/chart.js/Chart.min.js"></script>
 <script src="star-admin2/template/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-<script src="star-admin2/template/vendors/progressbar.js/progressbar.min.js"></script>
+<!--<script src="star-admin2/template/vendors/progressbar.js/progressbar.min.js"></script>-->
 
 <!-- End plugin js for this page -->
 <!-- inject:js -->

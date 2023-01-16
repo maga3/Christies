@@ -42,4 +42,6 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $arra
     } catch (JsonException $e) {
         echo "Error: ".$e->getMessage();
     }
+}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "users") {
+    $controller->users();
 }

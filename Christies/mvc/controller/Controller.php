@@ -2,6 +2,7 @@
 
 use model\ChristiesGestorDB;
 use model\DBApi;
+
 /**
  * @author martin ruiz
  * Clase controladora de acciones parte admin
@@ -89,7 +90,15 @@ class Controller
     public function categorias(): void
     {
         require './model/sesiones.php';
-        $contenido = 'Categorias';
+        $contenido = 'categorias';
         require './view/admin/categorias.php';
+    }
+
+    public function users()
+    {
+        require './model/sesiones.php';
+        $contenido = 'usuarios';
+        $content = './view/admin/data-tables/users.php';
+        require './view/admin/plantilla.php';
     }
 }

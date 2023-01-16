@@ -131,4 +131,26 @@ class ChristiesGestorDB
 
     //COMENTARIOS
     //Area de comentarios donde se realizan las operaciones del crud con las conexiones a la base de datos
+
+
+
+    public static function getColumns($table): array
+    {
+        try {
+            include_once '../../../model/Conexion.php';
+            header('Content-Type: application/json');
+            $db = Conexion::connect();
+            $clause ="SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'".$table."' AND TABLE_SCHEMA = 'christies'";
+            $result = $db->query($clause);
+            $columns = [];
+            foreach ($result as $r){
+                $columns[] = $r['COLUMN_NAME'];
+            }
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $columns;
+    }
 }
