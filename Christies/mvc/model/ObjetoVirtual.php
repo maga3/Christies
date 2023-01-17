@@ -27,14 +27,14 @@ class ObjetoVirtual
      * @param float $lon
      * @param int $id_cat
      */
-    public function __construct(int $id, float $precio, string $nombre, string $img1, string $img2, string $img3, float $lat, float $lon, int $id_cat)
+    public function __construct(int $id, float $precio, string $nombre, string $img1, $img2, $img3, float $lat, float $lon, int $id_cat)
     {
         $this->id = $id;
         $this->precio = $precio;
         $this->nombre = $nombre;
         $this->img1 = $img1;
-        $this->img2 = $img2;
-        $this->img3 = $img3;
+        $this->img2 = $img2 || '';
+        $this->img3 = $img3 || '';
         $this->lat = $lat;
         $this->lon = $lon;
         $this->id_cat = $id_cat;
@@ -198,9 +198,12 @@ class ObjetoVirtual
         // TODO: Implement create() method.
     }
 
-    public static function read()
+    /**
+     * @throws \JsonException
+     */
+    public static function read($id)
     {
-        // TODO: Implement read() method.
+        return ChristiesGestorDB::readProduct($id);
     }
 
     public static function update()

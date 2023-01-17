@@ -85,12 +85,12 @@ class Controller
 
     /**
      * @return void
-     * @throws JsonException
      */
     public function categorias(): void
     {
         require './model/sesiones.php';
         $contenido = 'categorias';
+        $content = './view/admin/data-tables/table.php';
         require './view/admin/categorias.php';
     }
 
@@ -98,7 +98,24 @@ class Controller
     {
         require './model/sesiones.php';
         $contenido = 'usuarios';
-        $content = './view/admin/data-tables/users.php';
+        $content = './view/admin/data-tables/table.php';
+        require './view/admin/plantilla.php';
+    }
+
+    public function articles()
+    {
+        require './model/sesiones.php';
+        $contenido = 'objetos';
+        $content = './view/admin/data-tables/table.php';
+        require './view/admin/plantilla.php';
+    }
+
+    public function articlesCard($id)
+    {
+        require './model/sesiones.php';
+        $contenido = 'Articulos';
+        $article = ChristiesGestorDB::readProduct($id);
+        $content = './view/admin/cards/card.php';
         require './view/admin/plantilla.php';
     }
 }

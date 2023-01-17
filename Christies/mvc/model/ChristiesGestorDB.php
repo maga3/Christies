@@ -2,6 +2,8 @@
 
 namespace model;
 
+use Couchbase\User;
+
 class ChristiesGestorDB
 {
     public static function login($usr,$pass): bool
@@ -131,7 +133,30 @@ class ChristiesGestorDB
 
     //COMENTARIOS
     //Area de comentarios donde se realizan las operaciones del crud con las conexiones a la base de datos
+    /**
+     * @throws \JsonException
+     */
+    public static function readProduct($id)
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT * FROM objeto WHERE id_objeto =  ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$id])) {
+                return false;
+            }
+            $result = $stmt->fetch();
+            $product = new ObjetoVirtual($result['id_objeto'],(float) $result['precio'],$result['nombre'],$result['img1'],$result['img2'],$result['img3'],(float)$result['lat'],(float)$result['lon'],$result['id_cat']);
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $product;
+    }
 
+
+    //Area de objetos
 
 
     public static function getColumns($table): array

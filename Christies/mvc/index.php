@@ -36,12 +36,12 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $arra
     $controller->showDashboard();
 }else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "logout") {
     $controller->logout();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "categorias"){
-    try {
-        $controller->categorias();
-    } catch (JsonException $e) {
-        echo "Error: ".$e->getMessage();
-    }
+}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "categorias" && !isset($array_ruta[2])){
+    $controller->categorias();
 }else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "users") {
     $controller->users();
+}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "productos" && !isset($array_ruta[2])) {
+    $controller->articles();
+}else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[0] === "admin" && $array_ruta[1] === "categorias") {
+    $controller->articlesCard($array_ruta[2]);
 }
