@@ -5,7 +5,6 @@ require("./controller/Controller.php");
 require("./model/Conexion.php");
 require("./model/cruddb.php");
 require("./model/ChristiesGestorDB.php");
-require("./model/DBApi.php");
 require("./model/Categoria.php");
 require("./model/ObjetoVirtual.php");
 require("./model/Usuario.php");
@@ -51,7 +50,7 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
         }
     } else if ($array_ruta[1] === '' || !isset($array_ruta[1])) {
         $uri = $_SERVER['REQUEST_URI'];
-        if ($uri[count($uri) - 1] === '/') {
+        if ($uri[strlen($uri) - 1] === '/') {
             header('Location:' . $_SERVER['REQUEST_URI'] . 'login');
         } else {
             header('Location:' . $_SERVER['REQUEST_URI'] . '/login');

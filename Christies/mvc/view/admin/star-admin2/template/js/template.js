@@ -54,24 +54,24 @@
 
 
     //Change sidebar and content-wrapper height
-    applyStyles();
-
-    function applyStyles() {
-      //Applying perfect scrollbar
-      if (!body.hasClass("rtl")) {
-        if ($('.settings-panel .tab-content .tab-pane.scroll-wrapper').length) {
-          const settingsPanelScroll = new PerfectScrollbar('.settings-panel .tab-content .tab-pane.scroll-wrapper');
-        }
-        if ($('.chats').length) {
-          const chatsScroll = new PerfectScrollbar('.chats');
-        }
-        if (body.hasClass("sidebar-fixed")) {
-          if($('#sidebar').length) {
-            var fixedSidebarScroll = new PerfectScrollbar('#sidebar .nav');
-          }
-        }
-      }
-    }
+    // applyStyles();
+    //
+    // function applyStyles() {
+    //   //Applying perfect scrollbar
+    //   if (!body.hasClass("rtl")) {
+    //     if ($('.settings-panel .tab-content .tab-pane.scroll-wrapper').length) {
+    //       const settingsPanelScroll = new PerfectScrollbar('.settings-panel .tab-content .tab-pane.scroll-wrapper');
+    //     }
+    //     if ($('.chats').length) {
+    //       const chatsScroll = new PerfectScrollbar('.chats');
+    //     }
+    //     if (body.hasClass("sidebar-fixed")) {
+    //       if($('#sidebar').length) {
+    //         var fixedSidebarScroll = new PerfectScrollbar('#sidebar .nav');
+    //       }
+    //     }
+    //   }
+    // }
 
     $('[data-bs-toggle="minimize"]').on("click", function() {
       if ((body.hasClass('sidebar-toggle-display')) || (body.hasClass('sidebar-absolute'))) {

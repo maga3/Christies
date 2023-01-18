@@ -91,7 +91,7 @@ class Controller
         require './model/sesiones.php';
         $contenido = 'categorias';
         $content = './view/admin/data-tables/table.php';
-        require './view/admin/categorias.php';
+        require './view/admin/plantilla.php';
     }
 
     public function users()
