@@ -20,28 +20,42 @@ $home = "/christies/mvc/index.php/";
 $ruta = str_replace($home, "", $_SERVER["REQUEST_URI"]);//accion
 $array_ruta = array_filter(explode("/", $ruta));
 
-if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "login" && !isset($array_ruta[2])) {
-    $controller->showLogin();
-} else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[0] === "admin" && $array_ruta[1] === "login" && $array_ruta[2] === "process") {
-    $controller->login();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "recuperar") {
-    $controller->showRecuperar();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "register") {
-    $controller->showRegister();
-}else if (isset($array_ruta[0]) && $array_ruta[0] === "admin" && !isset($array_ruta[1])) {
-    header('Location:'.$_SERVER['REQUEST_URI'].'/login');
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "register") {
-    $controller->showRegister();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "dashboard") {
-    $controller->showDashboard();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "logout") {
-    $controller->logout();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "categorias" && !isset($array_ruta[2])){
-    $controller->categorias();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "users") {
-    $controller->users();
-}else if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin" && $array_ruta[1] === "productos" && !isset($array_ruta[2])) {
-    $controller->articles();
-}else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[0] === "admin" && $array_ruta[1] === "categorias") {
-    $controller->articlesCard($array_ruta[2]);
+
+if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
+    //Rutas del admin
+    if (isset($array_ruta[1]) && !isset($array_ruta[2])) {
+        if ($array_ruta[1] === 'login') {
+            $controller->showLogin();
+        } else if ($array_ruta[1] === 'recuperar') {
+            $controller->showRecuperar();
+        } else if ($array_ruta[1] === 'register') {
+            $controller->showRegister();
+        } else if ($array_ruta[1] === 'dashboard') {
+            $controller->showDashboard();
+        } else if ($array_ruta[1] === 'categorias') {
+            $controller->categorias();
+        } else if ($array_ruta[1] === 'productos') {
+            $controller->articles();
+        } else if ($array_ruta[1] === 'users') {
+            $controller->users();
+        } else if ($array_ruta[1] === 'logout') {
+            $controller->logout();
+        }
+    } else if (isset($array_ruta[1], $array_ruta[2])) {
+        if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "categorias") {
+            $controller->categoriesCard($array_ruta[2]);
+        } else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "login" && $array_ruta[2] === "process") {
+            $controller->login();
+        }else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "productos") {
+            $controller->articlesCard($array_ruta[2]);
+        }
+    } else if ($array_ruta[1] === '' || !isset($array_ruta[1])) {
+        $uri = $_SERVER['REQUEST_URI'];
+        if ($uri[count($uri) - 1] === '/') {
+            header('Location:' . $_SERVER['REQUEST_URI'] . 'login');
+        } else {
+            header('Location:' . $_SERVER['REQUEST_URI'] . '/login');
+        }
+
+    }
 }

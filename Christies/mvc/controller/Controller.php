@@ -115,7 +115,20 @@ class Controller
         require './model/sesiones.php';
         $contenido = 'Articulos';
         $article = ChristiesGestorDB::readProduct($id);
-        $content = './view/admin/cards/card.php';
-        require './view/admin/plantilla.php';
+        if ($article){
+            $content = './view/admin/cards/card-product.php';
+            require './view/admin/plantilla.php';
+        }
+    }
+
+    public function categoriesCard($id)
+    {
+        require './model/sesiones.php';
+        $contenido = 'Categoria';
+        $categoria = ChristiesGestorDB::readCategory($id);
+        if ($categoria){
+            $content = './view/admin/cards/card-category.php';
+            require './view/admin/plantilla.php';
+        }
     }
 }

@@ -11,10 +11,7 @@
     ?>
 </div>
 <ul class="list-group list-group-flush">
-    <li class="list-group-item"><?php echo $article->getLat(); ?></li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
+    <li class="list-group-item"><?php echo $article->getLat() . $article->getLon(); ?></li>
+    <li class="list-group-item"><?php echo $article->getPrecio(); ?></li>
 </ul>
-<div class="card-body">
-    <p class="card-text">Descripcion</p>
-</div>
+

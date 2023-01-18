@@ -133,10 +133,11 @@ class ChristiesGestorDB
 
     //COMENTARIOS
     //Area de comentarios donde se realizan las operaciones del crud con las conexiones a la base de datos
-    /**
-     * @throws \JsonException
-     */
-    public static function readProduct($id)
+
+
+
+
+    public static function readProduct($id): bool|ObjetoVirtual
     {
         try {
             $db = Conexion::connect();
@@ -177,5 +178,24 @@ class ChristiesGestorDB
             $db = null;
         }
         return $columns;
+    }
+
+    public static function readCategory($id): Categoria|bool
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT * FROM categoria WHERE id_cat =  ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$id])) {
+                return false;
+            }
+            $result = $stmt->fetch();
+            $categoria = new Categoria($result['id_cat'],$result['nombre'],$result['descripcion'],$result['img']);
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $categoria;
     }
 }
