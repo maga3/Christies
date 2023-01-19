@@ -4,7 +4,7 @@ namespace model;
 
 interface cruddb {
     public function create();
-    public function read();
+    public static function read($id);
     public function update();
-    public function delete();
+    public static function delete($id);
 }

@@ -193,26 +193,28 @@ class ObjetoVirtual
     }
 
 
-    public static function create()
+    public  function create(): bool
     {
-        // TODO: Implement create() method.
+        return ChristiesGestorDB::createProduct($this->getNombre(),$this->getPrecio(),$this->getidCat());
     }
 
-    /**
-     * @throws \JsonException
-     */
-    public static function read($id)
+    public static function read($id): bool|ObjetoVirtual
     {
-        return ChristiesGestorDB::readProduct($id);
+
+        $obj = ChristiesGestorDB::readProduct($id);
+        if ($obj instanceof self){
+            return $obj;
+        }
+        return false;
     }
 
-    public static function update()
+    public function update(): bool
     {
-        // TODO: Implement update() method.
+        return ChristiesGestorDB::updateProduct($this->getNombre(),$this->getPrecio(),$this->getidCat());
     }
 
-    public static function delete()
+    public static function delete($id): bool
     {
-        // TODO: Implement delete() method.
+        return ChristiesGestorDB::deleteProduct($id);
     }
 }

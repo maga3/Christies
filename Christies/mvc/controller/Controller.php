@@ -1,7 +1,6 @@
 <?php
 
 use model\ChristiesGestorDB;
-use model\DBApi;
 
 /**
  * @author martin ruiz
@@ -130,5 +129,21 @@ class Controller
             $content = './view/admin/cards/card-category.php';
             require './view/admin/plantilla.php';
         }
+    }
+
+    public function comentarios()
+    {
+        require './model/sesiones.php';
+        $contenido = 'Comentarios';
+        $content = './view/admin/data-tables/table.php';
+        require './view/admin/plantilla.php';
+    }
+
+    public function compras()
+    {
+        require './model/sesiones.php';
+        $contenido = 'Compras';
+        $content = './view/admin/data-tables/table.php';
+        require './view/admin/plantilla.php';
     }
 }

@@ -31,18 +31,9 @@
                 },
                 columns: response.columns,
             })
+        }).ajaxComplete(() => {
+            $('.theId').hide();
         });
-
-
-
-        function updateDB() {
-            let input = event.target;
-
-        }
-
-        $('input').blur(function () {
-            updateDB();
-        })
     });
 
 

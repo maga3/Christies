@@ -91,9 +91,13 @@ class Categoria implements \model\cruddb
             return ChristiesGestorDB::addCat($this->getNombre(), $this->getDescripcion(), $this->getImg());
     }
 
-    public function read()
+    public static function read($id): Categoria|bool
     {
-        // TODO: Implement read() method.
+        $cat =  ChristiesGestorDB::readCategory($id);
+        if ($cat instanceof self){
+            return $cat;
+        }
+        return false;
     }
 
     public function update(): bool
@@ -101,8 +105,8 @@ class Categoria implements \model\cruddb
         return ChristiesGestorDB::updateCat($this->getId(),$this->getNombre(),$this->getDescripcion(),$this->getImg());
     }
 
-    public function delete(): bool
+    public static function delete($id): bool
     {
-        return ChristiesGestorDB::deleteCat($this->getId());
+        return ChristiesGestorDB::deleteCat($id);
     }
 }

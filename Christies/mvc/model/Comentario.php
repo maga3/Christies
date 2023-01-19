@@ -90,20 +90,25 @@ class Comentario implements cruddb
     public function create()
     {
         // TODO: Implement create() method.
+        ChristiesGestorDB::createComment($this->getContenido(), $this->getIdObj(), $this->getIdUsr());
     }
 
-    public function read()
+    public static function read($id)
     {
-        // TODO: Implement read() method.
+        $comment = ChristiesGestorDB::readComment($id);
+        if ($comment instanceof self){
+            return $comment;
+        }
+        return false;
     }
 
     public function update()
     {
-        // TODO: Implement update() method.
+        ChristiesGestorDB::updateComment($this->getId(), $this->getContenido());
     }
 
-    public function delete()
+    public static function delete($id)
     {
-        // TODO: Implement delete() method.
+        ChristiesGestorDB::deleteComment($id);
     }
 }

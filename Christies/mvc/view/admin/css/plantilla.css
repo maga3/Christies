@@ -1,0 +1,22 @@
+select.form-control {
+    color: #000000 !important;
+}
+
+.table td {
+    white-space: pre-wrap !important;
+}
+
+.list-group-item{
+    background-color: inherit !important;
+    padding: 20px !important;
+    border: 0 !important;
+}
+
+.list-group{
+    border-radius: 20px !important;
+}
+
+.card-footer{
+    border: 0 !important;
+    background-color: inherit !important;
+}

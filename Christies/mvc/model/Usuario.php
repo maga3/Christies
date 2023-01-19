@@ -134,10 +134,13 @@ class Usuario implements cruddb
         return ChristiesGestorDB::addUser($this->getEmail(),$this->getPassword(),$this->getTlf());
     }
 
-    public function read()
+    public static function read($id)
     {
-        // TODO: Implement read() method.
-
+        $user = ChristiesGestorDB::readUser($id);
+        if ($user instanceof self){
+            return $user;
+        }
+        return false;
     }
 
     public function update(): bool
@@ -145,8 +148,8 @@ class Usuario implements cruddb
         return ChristiesGestorDB::updateUser($this->getId(),$this->getEmail(),$this->getTokens(),$this->getTlf());
     }
 
-    public function delete(): bool
+    public static function delete($id): bool
     {
-        return ChristiesGestorDB::deleteUser($this->getId());
+        return ChristiesGestorDB::deleteUser($id);
     }
 }

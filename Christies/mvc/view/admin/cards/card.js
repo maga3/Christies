@@ -1,16 +1,4 @@
 $(() => {
-    function viewFile(input) {
-        const file = $("input[type=file]").get(0).files[0];
-
-        if (file) {
-            let reader = new FileReader();
-            reader.onload = function () {
-                $("#previewImg").attr("src", reader.result);
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
     let arrayInputs = [...document.querySelectorAll("form input")];
 
     arrayInputs.forEach((input) => {
@@ -24,7 +12,6 @@ $(() => {
                         }
                     }
                 })
-
             }
         });
     });
@@ -35,7 +22,7 @@ function validateName() {
     if (input.value.length === 0) {
         document.getElementById("nameValidationMsg").innerText = "Cannot be empty";
     } else {
-        if (!/^([a-zñáéíóú]+\s?){3,20}$/.test(input.value)) {
+        if (!/^([a-zñáéíóú]+\s?){3,20}$/i.test(input.value)) {
             document.getElementById("nameValidationMsg").innerHTML =
                 "De 3 a 20 letras";
             document.getElementById("nameValidationMsg").classList.add("text-danger");
@@ -59,5 +46,17 @@ function validatePrice() {
             document.getElementById("precioValidationMsg").innerHTML = '✓';
             document.getElementById("precioValidationMsg").classList.remove("text-danger")
         }
+    }
+}
+
+function viewFile(input,n) {
+    const file = $("input[type=file]").get(n).files[0];
+
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function () {
+            $("#previewImg"+n).attr("src", reader.result);
+        }
+        reader.readAsDataURL(file);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace model;
 
-class Compras
+class Compras implements cruddb
 {
     protected int $id;
     public string $fecha;
@@ -17,8 +17,8 @@ class Compras
      */
     public function __construct(int $id, string $fecha, int $id_obj, int $id_user)
     {
-        $this->id = $id;
-        $this->fecha = $fecha;
+        $this->id = $id || '';
+        $this->fecha = $fecha || '';
         $this->id_obj = $id_obj;
         $this->id_user = $id_user;
     }
@@ -83,5 +83,29 @@ class Compras
     {
         $this->id_user = $id_user;
         return $this;
+    }
+
+    public function create()
+    {
+        return ChristiesGestorDB::createCompra($this->getIdObj(),$this->getIdUser());
+    }
+
+    public static function read($id)
+    {
+        $compra = ChristiesGestorDB::readCompra($id);
+        if($compra instanceof self) {
+            return $compra;
+        }
+        return false;
+    }
+
+    public function update()
+    {
+        return ChristiesGestorDB::updateCompra();
+    }
+
+    public static function delete($id)
+    {
+        return ChristiesGestorDB::deleteCompra($id);
     }
 }

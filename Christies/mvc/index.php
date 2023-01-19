@@ -37,15 +37,19 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
             $controller->articles();
         } else if ($array_ruta[1] === 'users') {
             $controller->users();
+        } else if ($array_ruta[1] === 'comentarios') {
+            $controller->comentarios();
+        } else if ($array_ruta[1] === 'compras') {
+            $controller->compras();
         } else if ($array_ruta[1] === 'logout') {
             $controller->logout();
         }
     } else if (isset($array_ruta[1], $array_ruta[2])) {
-        if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "categorias") {
+        if ($array_ruta[1] === "categorias") {
             $controller->categoriesCard($array_ruta[2]);
-        } else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "login" && $array_ruta[2] === "process") {
+        } else if ($array_ruta[1] === "login" && $array_ruta[2] === "process") {
             $controller->login();
-        }else if (isset($array_ruta[0], $array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "productos") {
+        }else if ($array_ruta[1] === "productos") {
             $controller->articlesCard($array_ruta[2]);
         }
     } else if ($array_ruta[1] === '' || !isset($array_ruta[1])) {
@@ -55,6 +59,5 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
         } else {
             header('Location:' . $_SERVER['REQUEST_URI'] . '/login');
         }
-
     }
 }

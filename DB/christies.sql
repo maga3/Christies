@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2023 at 12:52 PM
+-- Generation Time: Jan 19, 2023 at 03:26 PM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,18 +39,18 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
-(1, 'viajes virtuales', 'Viajes virtuales localizados por todo el mundo', ''),
-(2, 'placer gastronomico', 'Placer gastronomico digital', ''),
-(3, 'deporte imposible', 'deporte que no se puede realizar', ''),
-(4, 'prendas vestir', 'Prendas de vestir para mundos virtuales', '');
+(1, 'viajes virtuales', 'Viajes virtuales localizados por todo el mundo', 'http://localhost/christies/mvc/view/admin/imgs/categorias/1.jpg'),
+(2, 'placer gastronomico', 'Placer gastronomico digital', 'http://localhost/christies/mvc/view/admin/imgs/categorias/2.jpg'),
+(3, 'deporte imposible', 'deporte que no se puede realizar', 'http://localhost/christies/mvc/view/admin/imgs/categorias/3.jpg'),
+(4, 'prendas de vestir', 'Prendas para vestir para mundos virtuales', 'http://localhost/christies/mvc/view/admin/imgs/categorias/4.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comentarios`
+-- Table structure for table `comentario`
 --
 
-CREATE TABLE `comentarios` (
+CREATE TABLE `comentario` (
   `id_com` int(11) NOT NULL,
   `contenido` varchar(500) NOT NULL,
   `fecha` date NOT NULL DEFAULT current_timestamp(),
@@ -61,15 +61,22 @@ CREATE TABLE `comentarios` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `compras`
+-- Table structure for table `compra`
 --
 
-CREATE TABLE `compras` (
+CREATE TABLE `compra` (
   `id_compra` int(11) NOT NULL,
   `fecha` date NOT NULL DEFAULT current_timestamp(),
   `id_objeto` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `compra`
+--
+
+INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
+(1, '2023-01-19', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -80,14 +87,22 @@ CREATE TABLE `compras` (
 CREATE TABLE `objeto` (
   `id_objeto` int(11) NOT NULL,
   `nombre` varchar(64) NOT NULL,
-  `lat` decimal(20,20) NOT NULL,
-  `lon` decimal(20,20) NOT NULL,
+  `lat` decimal(20,20) DEFAULT NULL,
+  `lon` decimal(20,20) DEFAULT NULL,
   `precio` decimal(64,4) NOT NULL,
   `img1` varchar(255) NOT NULL,
   `img2` varchar(255) DEFAULT NULL,
   `img3` varchar(255) DEFAULT NULL,
   `id_cat` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `objeto`
+--
+
+INSERT INTO `objeto` (`id_objeto`, `nombre`, `lat`, `lon`, `precio`, `img1`, `img2`, `img3`, `id_cat`) VALUES
+(1, 'tiramisu', NULL, NULL, '5.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', NULL, NULL, 2),
+(2, 'luna marte', NULL, NULL, '2002.0000', '', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -110,7 +125,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES
 (1, 'admin@admin.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'admin', '99999.0000', '897767887'),
-(2, 'ghenric0@github.com', '05cd4f3caaae4ec88d6f97fd287ad29d04cbb884', 'user', '100.0000', '6886915588'),
+(2, 'asdja@github,com', '05cd4f3caaae4ec88d6f97fd287ad29d04cbb884', 'user', '300.0000', '6453453'),
 (3, 'wgerner1@yahoo.co.jp', 'd04ddac224cad06312f89740d2223d9486061d48', 'user', '100.0000', '9782482585'),
 (4, 'bneissen2@ed.gov', '83fdf4e4608dc6160eec4e0fb66e30d0d70ee680', 'user', '100.0000', '4778438355'),
 (5, 'gkurten3@dailymail.co.uk', 'c771d51ad5ab616b8431a129ce9752d606d4f877', 'user', '100.0000', '8741724198'),
@@ -152,17 +167,17 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_cat`);
 
 --
--- Indexes for table `comentarios`
+-- Indexes for table `comentario`
 --
-ALTER TABLE `comentarios`
+ALTER TABLE `comentario`
   ADD PRIMARY KEY (`id_com`),
   ADD KEY `comentarios_ibfk_1` (`id_objeto`),
   ADD KEY `comentarios_ibfk_2` (`id_user`);
 
 --
--- Indexes for table `compras`
+-- Indexes for table `compra`
 --
-ALTER TABLE `compras`
+ALTER TABLE `compra`
   ADD PRIMARY KEY (`id_compra`),
   ADD KEY `compras_ibfk_1` (`id_objeto`),
   ADD KEY `compras_ibfk_2` (`id_user`);
@@ -192,22 +207,22 @@ ALTER TABLE `categoria`
   MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `comentarios`
+-- AUTO_INCREMENT for table `comentario`
 --
-ALTER TABLE `comentarios`
+ALTER TABLE `comentario`
   MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `compras`
+-- AUTO_INCREMENT for table `compra`
 --
-ALTER TABLE `compras`
-  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `compra`
+  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `objeto`
 --
 ALTER TABLE `objeto`
-  MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `usuario`
@@ -220,18 +235,18 @@ ALTER TABLE `usuario`
 --
 
 --
--- Constraints for table `comentarios`
+-- Constraints for table `comentario`
 --
-ALTER TABLE `comentarios`
-  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `comentario`
+  ADD CONSTRAINT `comentario_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `compras`
+-- Constraints for table `compra`
 --
-ALTER TABLE `compras`
-  ADD CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `compra`
+  ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `objeto`
