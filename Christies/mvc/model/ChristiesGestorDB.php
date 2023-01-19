@@ -205,13 +205,13 @@ class ChristiesGestorDB
         return true;
     }
 
-    public static function updateProduct($nombre,$precio,$idobj)
+    public static function updateProduct($nombre,$precio,$img1,$img2,$img3,$idobj,$lat,$lon)
     {
         try {
             $db = Conexion::connect();
-            $query = "UPDATE `objeto` SET `nombre` = ?, `precio` = ? WHERE `objeto`.`id_objeto` = ?";
+            $query = "UPDATE `objeto` SET `nombre` = ?, `precio` = ?, `img1`= ?, `img2`= ?, `img3`= ?, `lat`= ?, `lon`= ?  WHERE `objeto`.`id_objeto` = ?";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$nombre,$precio,$idobj])) {
+            if (!$stmt->execute([$nombre,$precio,$img1,$img2,$img3,$lat,$lon,$idobj])) {
                 return false;
             }
         } catch (\PDOException $e) {

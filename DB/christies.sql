@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 19, 2023 at 03:26 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 19-01-2023 a las 21:38:30
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `christies`
+-- Base de datos: `christies`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categoria`
+-- Estructura de tabla para la tabla `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -35,7 +35,7 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categoria`
+-- Volcado de datos para la tabla `categoria`
 --
 
 INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
@@ -47,7 +47,7 @@ INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comentario`
+-- Estructura de tabla para la tabla `comentario`
 --
 
 CREATE TABLE `comentario` (
@@ -58,10 +58,17 @@ CREATE TABLE `comentario` (
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `comentario`
+--
+
+INSERT INTO `comentario` (`id_com`, `contenido`, `fecha`, `id_objeto`, `id_user`) VALUES
+(1, 'comenatio', '2023-01-19', 2, 31);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `compra`
+-- Estructura de tabla para la tabla `compra`
 --
 
 CREATE TABLE `compra` (
@@ -72,7 +79,7 @@ CREATE TABLE `compra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `compra`
+-- Volcado de datos para la tabla `compra`
 --
 
 INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
@@ -81,7 +88,7 @@ INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objeto`
+-- Estructura de tabla para la tabla `objeto`
 --
 
 CREATE TABLE `objeto` (
@@ -97,17 +104,29 @@ CREATE TABLE `objeto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `objeto`
+-- Volcado de datos para la tabla `objeto`
 --
 
 INSERT INTO `objeto` (`id_objeto`, `nombre`, `lat`, `lon`, `precio`, `img1`, `img2`, `img3`, `id_cat`) VALUES
-(1, 'tiramisu', NULL, NULL, '5.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', NULL, NULL, 2),
-(2, 'luna marte', NULL, NULL, '2002.0000', '', NULL, NULL, 1);
+(1, 'tiramisua', '0.00000000000000000000', '0.00000000000000000000', '5.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', NULL, '', 2),
+(2, 'lunaTica', '0.00000000000000000000', '0.00000000000000000000', '2000.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_1jpg', '', '', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estructura de tabla para la tabla `puntuacion`
+--
+
+CREATE TABLE `puntuacion` (
+  `id` int(11) NOT NULL,
+  `id_obj` int(11) NOT NULL,
+  `puntuacion` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -120,7 +139,7 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES
@@ -157,17 +176,17 @@ INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) 
 (31, 'gwilliamt@quantcast.com', '7cd91510d2e7e2d51e764e619b3a1c6f2572332e', 'user', '100.0000', '8923792730');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `categoria`
+-- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_cat`);
 
 --
--- Indexes for table `comentario`
+-- Indices de la tabla `comentario`
 --
 ALTER TABLE `comentario`
   ADD PRIMARY KEY (`id_com`),
@@ -175,7 +194,7 @@ ALTER TABLE `comentario`
   ADD KEY `comentarios_ibfk_2` (`id_user`);
 
 --
--- Indexes for table `compra`
+-- Indices de la tabla `compra`
 --
 ALTER TABLE `compra`
   ADD PRIMARY KEY (`id_compra`),
@@ -183,76 +202,89 @@ ALTER TABLE `compra`
   ADD KEY `compras_ibfk_2` (`id_user`);
 
 --
--- Indexes for table `objeto`
+-- Indices de la tabla `objeto`
 --
 ALTER TABLE `objeto`
   ADD PRIMARY KEY (`id_objeto`),
   ADD KEY `id_cat` (`id_cat`);
 
 --
--- Indexes for table `usuario`
+-- Indices de la tabla `puntuacion`
+--
+ALTER TABLE `puntuacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_obj` (`id_obj`);
+
+--
+-- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `categoria`
+-- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
   MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `comentario`
+-- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `compra`
+-- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
   MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `objeto`
+-- AUTO_INCREMENT de la tabla `objeto`
 --
 ALTER TABLE `objeto`
   MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `usuario`
+-- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `comentario`
+-- Filtros para la tabla `comentario`
 --
 ALTER TABLE `comentario`
   ADD CONSTRAINT `comentario_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `compra`
+-- Filtros para la tabla `compra`
 --
 ALTER TABLE `compra`
   ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON UPDATE CASCADE,
   ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `objeto`
+-- Filtros para la tabla `objeto`
 --
 ALTER TABLE `objeto`
   ADD CONSTRAINT `objeto_ibfk_1` FOREIGN KEY (`id_cat`) REFERENCES `categoria` (`id_cat`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `puntuacion`
+--
+ALTER TABLE `puntuacion`
+  ADD CONSTRAINT `puntuacion_ibfk_1` FOREIGN KEY (`id_obj`) REFERENCES `objeto` (`id_objeto`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

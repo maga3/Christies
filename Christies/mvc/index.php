@@ -44,13 +44,17 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
         } else if ($array_ruta[1] === 'logout') {
             $controller->logout();
         }
-    } else if (isset($array_ruta[1], $array_ruta[2])) {
+    } else if (isset($array_ruta[1], $array_ruta[2]) && !isset($array_ruta[3])) {
         if ($array_ruta[1] === "categorias") {
             $controller->categoriesCard($array_ruta[2]);
         } else if ($array_ruta[1] === "login" && $array_ruta[2] === "process") {
             $controller->login();
         }else if ($array_ruta[1] === "productos") {
             $controller->articlesCard($array_ruta[2]);
+        }
+    } else if (isset($array_ruta[1], $array_ruta[2],$array_ruta[3])) {
+        if ($array_ruta[1] === "productos" && $array_ruta[3] === "process") {
+            $controller->productoProcess((int)$array_ruta[2]);
         }
     } else if ($array_ruta[1] === '' || !isset($array_ruta[1])) {
         $uri = $_SERVER['REQUEST_URI'];

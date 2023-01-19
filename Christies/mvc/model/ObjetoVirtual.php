@@ -16,7 +16,6 @@ class ObjetoVirtual
     protected int $id_cat;
 
     /**
-     * @author martin ruiz
      * @param int $id
      * @param float $precio
      * @param string $nombre
@@ -26,15 +25,16 @@ class ObjetoVirtual
      * @param float $lat
      * @param float $lon
      * @param int $id_cat
+     * @author martin ruiz
      */
-    public function __construct(int $id, float $precio, string $nombre, string $img1, $img2, $img3, float $lat, float $lon, int $id_cat)
+    public function __construct(int $id, float $precio, string $nombre, string $img1, string $img2, string $img3, float $lat, float $lon, int $id_cat)
     {
         $this->id = $id;
         $this->precio = $precio;
         $this->nombre = $nombre;
         $this->img1 = $img1;
-        $this->img2 = $img2 || '';
-        $this->img3 = $img3 || '';
+        $this->img2 = $img2;
+        $this->img3 = $img3;
         $this->lat = $lat;
         $this->lon = $lon;
         $this->id_cat = $id_cat;
@@ -193,16 +193,16 @@ class ObjetoVirtual
     }
 
 
-    public  function create(): bool
+    public function create(): bool
     {
-        return ChristiesGestorDB::createProduct($this->getNombre(),$this->getPrecio(),$this->getidCat());
+        return ChristiesGestorDB::createProduct($this->getNombre(), $this->getPrecio(), $this->getidCat());
     }
 
     public static function read($id): bool|ObjetoVirtual
     {
 
         $obj = ChristiesGestorDB::readProduct($id);
-        if ($obj instanceof self){
+        if ($obj instanceof self) {
             return $obj;
         }
         return false;
@@ -210,7 +210,7 @@ class ObjetoVirtual
 
     public function update(): bool
     {
-        return ChristiesGestorDB::updateProduct($this->getNombre(),$this->getPrecio(),$this->getidCat());
+        return ChristiesGestorDB::updateProduct($this->getNombre(), $this->getPrecio(), $this->getImg1(), $this->getImg2(), $this->getImg3(), $this->getId(), $this->getLat(), $this->getLon());
     }
 
     public static function delete($id): bool

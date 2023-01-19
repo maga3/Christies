@@ -5,7 +5,7 @@ namespace model;
 class Usuario implements cruddb
 {
     protected int $id;
-    public string $email;
+    protected string $email;
     public string $password;
     public string $rol;
     public float $tokens;
