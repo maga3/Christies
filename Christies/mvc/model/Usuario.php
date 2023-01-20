@@ -152,4 +152,9 @@ class Usuario implements cruddb
     {
         return ChristiesGestorDB::deleteUser($id);
     }
+
+    public static function lastid()
+    {
+        // TODO: Implement lastid() method.
+    }
 }

@@ -43,7 +43,17 @@ function llamar(a){
     a.href = window.location.href+'/'+id;
 }
 
-function deleteCol(a) {
-        let id = a.parentElement.parentElement.firstChild.innerText;
-        a.href = window.location.href+'/'+id+'/delete';
+function deleteCol(input) {
+    let id = input.parentElement.parentElement.firstChild.innerText;
+
+    $.ajax({
+        method: "POST",
+        url: window.location.href+'/'+id+'/delete',
+    }).done(() =>{
+        window.location.reload();
+    })
+}
+
+function addRow() {
+    document.getElementById('addingRow').href = window.location.href + '/add';
 }

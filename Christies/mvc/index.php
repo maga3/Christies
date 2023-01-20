@@ -45,7 +45,7 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
             $controller->logout();
         }
     } else if (isset($array_ruta[1], $array_ruta[2]) && !isset($array_ruta[3])) {
-        if ($array_ruta[1] === "categorias") {
+        if ($array_ruta[1] === "categorias" && is_numeric($array_ruta[2]) ) {
             $controller->categoriesCard($array_ruta[2]);
         } else if ($array_ruta[1] === "login" && $array_ruta[2] === "process") {
             $controller->login();
@@ -53,6 +53,8 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
             $controller->articlesCard($array_ruta[2]);
         }else if ($array_ruta[1] === "users") {
             $controller->usersCard($array_ruta[2]);
+        }else if ($array_ruta[1] === "categorias" && $array_ruta[2] === "add") {
+            $controller->categoriasAdd();
         }
     } else if (isset($array_ruta[1], $array_ruta[2],$array_ruta[3]) && !isset($array_ruta[4])) {
         if ($array_ruta[1] === "productos" && $array_ruta[3] === "process") {
@@ -63,6 +65,8 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
             $controller->usersProcess((int)$array_ruta[2]);
         }if ($array_ruta[1] === "users" && $array_ruta[3] === "delete") {
             $controller->deleteUser((int)$array_ruta[2]);
+        }if ($array_ruta[1] === "comentarios" && $array_ruta[3] === "delete") {
+            $controller->deleteComment((int)$array_ruta[2]);
         }
     } else if ($array_ruta[1] === '' || !isset($array_ruta[1])) {
         $uri = $_SERVER['REQUEST_URI'];

@@ -1,21 +1,37 @@
 $(() => {
-    let arrayInputs = [...document.querySelectorAll("form input")];
+    let arrayInputs = [...document.querySelectorAll("form input:not([type='file'])")];
 
-    arrayInputs.forEach((input) => {
-        input.addEventListener("keyup", () => {
-            if (input.type !== 'file' && input.type !== 'submit') {
-                document.getElementsByClassName("btn-submit")[0].disabled = false;
-                arrayInputs.forEach(input => {
-                    if (input.type !== 'file' && input.type !== 'submit') {
-                        if (input.nextElementSibling.classList.contains('text-danger')) {
-                            document.getElementsByClassName("btn-submit")[0].disabled = true;
-                        }
-                    }
+    function textAreasCheck() {
+        let textareas = ([...document.querySelectorAll("textarea")]);
+        textareas.forEach((textarea) => {
+                textarea.addEventListener("keyup", () => {
+                    document.getElementsByClassName("btn-submit")[0].disabled = textarea.nextElementSibling.classList.contains('text-danger');
                 })
+                document.getElementsByClassName("btn-submit")[0].disabled = textarea.nextElementSibling.classList.contains('text-danger');
             }
-        });
+        );
+    }
+    textAreasCheck();
+    arrayInputs.forEach((input) => {
+        if (input.classname !== 'form-control todo-list-input') {
+            input.addEventListener("keyup", () => {
+                    if (input.type !== 'submit') {
+                        document.getElementsByClassName("btn-submit")[0].disabled = false;
+                        arrayInputs.forEach(input => {
+                                if (input.nextElementSibling !== null && input.nextElementSibling.classList.contains('text-danger')) {
+                                    document.getElementsByClassName("btn-submit")[0].disabled = true;
+                                }
+                            }
+                        )
+                    }
+                    textAreasCheck();
+                }
+            )
+            ;
+        }
     });
-});
+})
+;
 
 function validateName() {
     let input = event.target;
@@ -96,6 +112,20 @@ function validateEmail() {
             document.getElementById("emailValidationMsg").classList.remove("text-danger")
         }
     }
+}
+
+function deleteComment(id) {
+    let url = window.location.href.slice(0, window.location.href.indexOf('users')) + 'comentarios/' + id + '/delete';
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        params: {
+            idUser: window.location.href.match(/\d+/g)
+        }
+    }).done(() => {
+        window.location.reload();
+    })
 }
 
 function viewFile(input, n) {

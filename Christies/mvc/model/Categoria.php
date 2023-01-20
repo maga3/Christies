@@ -21,7 +21,7 @@ class Categoria implements \model\cruddb
         $this->id = $id ?? -1;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
-        $this->img = $img;
+        $this->img = $img ?? '';
     }
 
     /**
@@ -110,5 +110,10 @@ class Categoria implements \model\cruddb
     public static function delete($id): bool
     {
         return ChristiesGestorDB::deleteCat($id);
+    }
+
+    public static function lastid(): int
+    {
+        return ChristiesGestorDB::categoriaLastId();
     }
 }

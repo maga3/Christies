@@ -33,6 +33,7 @@
                         for ($i = 0, $iMax = count($comentarios); $i < $iMax; $i++) {
                             ?>
                             <li class="list-group-item">
+                                <button onclick="deleteComment(<?php echo $comentarios[$i]->getId(); ?>)" type="button" class="btn btn-danger border-0">Eliminar comentario</button>
                                 <label for="<?php echo "comentarios" . $i; ?>">
                                     <h6 class="text-capitalize">
                                         Producto: <?php echo $comentarios[$i]->getObj()->getNombre(); ?></h6>

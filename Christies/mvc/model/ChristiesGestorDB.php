@@ -95,13 +95,13 @@ class ChristiesGestorDB
 
     //CATEGORIAS
     //Area de ccategorias donde se realizan las operaciones del crud con las conexiones a la base de datos
-    public static function addCat($nombre, $descripcion, $img): bool
+    public static function addCat($id): bool
     {
         try {
             $db = Conexion::connect();
-            $query = "INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES (NULL, ?, ?, ?)";
+            $query = "INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES (?, '', '', '')";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$nombre, $descripcion, $img])) {
+            if (!$stmt->execute([$id])) {
                 return false;
             }
         } catch (\PDOException $e) {
@@ -424,5 +424,20 @@ class ChristiesGestorDB
             $db = null;
         }
         return $arrayComentarios;
+    }
+
+    public static function categoriaLastId():int
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT MAX(id_cat) FROM `categoria`";
+            $result = $db->query($query);
+            $response = (int)$result->fetch()[0];
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $response;
     }
 }

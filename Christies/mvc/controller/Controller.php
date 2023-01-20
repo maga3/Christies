@@ -377,6 +377,24 @@ class Controller
         if ($id !== null) {
             ChristiesGestorDB::deleteUser($id);
         }
-        header('Location: http://localhost/christies/mvc/index.php/admin/users');
+    }
+
+    public function deleteComment(int $id): void
+    {
+        require './model/sesiones.php';
+        if ($id !== null) {
+            ChristiesGestorDB::deleteComment($id);
+        }
+    }
+
+    public function categoriasAdd(): void
+    {
+        require './model/sesiones.php';
+        $id = ChristiesGestorDB::categoriaLastId()+1;
+        if (ChristiesGestorDB::addCat($id)){
+            header('Location: http://localhost/christies/mvc/index.php/admin/categorias/' . $id);
+        }else {
+            header('Location: http://localhost/christies/mvc/index.php/admin/categorias');
+        }
     }
 }

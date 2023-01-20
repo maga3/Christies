@@ -110,4 +110,9 @@ class Comentario implements cruddb
     {
         ChristiesGestorDB::deleteComment($id);
     }
+
+    public static function lastid()
+    {
+        // TODO: Implement lastid() method.
+    }
 }
