@@ -33,6 +33,7 @@
             })
         }).ajaxComplete(() => {
             $('.theId').hide();
+            $('td:contains("0.00000000000000000000")').html('Not set');
         });
     });
 
@@ -40,4 +41,9 @@
 function llamar(a){
     let id = a.parentElement.parentElement.firstChild.innerText;
     a.href = window.location.href+'/'+id;
+}
+
+function deleteCol(a) {
+        let id = a.parentElement.parentElement.firstChild.innerText;
+        a.href = window.location.href+'/'+id+'/delete';
 }

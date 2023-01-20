@@ -27,16 +27,16 @@ class ObjetoVirtual
      * @param int $id_cat
      * @author martin ruiz
      */
-    public function __construct(int $id, float $precio, string $nombre, string $img1, string $img2, string $img3, float $lat, float $lon, int $id_cat)
+    public function __construct(int $id, float $precio, string $nombre, string $img1, $img2,$img3, float $lat, float $lon, int $id_cat)
     {
         $this->id = $id;
         $this->precio = $precio;
         $this->nombre = $nombre;
         $this->img1 = $img1;
-        $this->img2 = $img2;
-        $this->img3 = $img3;
-        $this->lat = $lat;
-        $this->lon = $lon;
+        $this->img2 = $img2 ?? '';
+        $this->img3 = $img3 ?? '';
+        $this->lat = $lat ?? 0.0;
+        $this->lon = $lon ?? 0.0;
         $this->id_cat = $id_cat;
     }
 

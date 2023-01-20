@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2023 a las 21:38:30
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.1.12
+-- Host: 127.0.0.1
+-- Generation Time: Jan 20, 2023 at 03:15 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `christies`
+-- Database: `christies`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categoria`
+-- Table structure for table `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -35,11 +35,11 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `categoria`
+-- Dumping data for table `categoria`
 --
 
 INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
-(1, 'viajes virtuales', 'Viajes virtuales localizados por todo el mundo', 'http://localhost/christies/mvc/view/admin/imgs/categorias/1.jpg'),
+(1, 'Viajes virtuales localizados por todo el mundo puedes realiazr l', 'Viajes virtuales localizados por todo el mundo, puedes realizar la compra de un viaje con destiono en cualquier lugar localizado en cualquier lugar.', 'http://localhost/christies/mvc/view/admin/imgs/categorias/1.jpg'),
 (2, 'placer gastronomico', 'Placer gastronomico digital', 'http://localhost/christies/mvc/view/admin/imgs/categorias/2.jpg'),
 (3, 'deporte imposible', 'deporte que no se puede realizar', 'http://localhost/christies/mvc/view/admin/imgs/categorias/3.jpg'),
 (4, 'prendas de vestir', 'Prendas para vestir para mundos virtuales', 'http://localhost/christies/mvc/view/admin/imgs/categorias/4.jpg');
@@ -47,7 +47,7 @@ INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `comentario`
+-- Table structure for table `comentario`
 --
 
 CREATE TABLE `comentario` (
@@ -59,16 +59,17 @@ CREATE TABLE `comentario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `comentario`
+-- Dumping data for table `comentario`
 --
 
 INSERT INTO `comentario` (`id_com`, `contenido`, `fecha`, `id_objeto`, `id_user`) VALUES
-(1, 'comenatio', '2023-01-19', 2, 31);
+(1, 'comenatioNe', '2023-01-19', 2, 31),
+(2, 'Hola que tal', '2023-01-20', 2, 31);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `compra`
+-- Table structure for table `compra`
 --
 
 CREATE TABLE `compra` (
@@ -79,16 +80,17 @@ CREATE TABLE `compra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `compra`
+-- Dumping data for table `compra`
 --
 
 INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
-(1, '2023-01-19', 1, 1);
+(1, '2023-01-19', 1, 1),
+(2, '2023-01-20', 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `objeto`
+-- Table structure for table `objeto`
 --
 
 CREATE TABLE `objeto` (
@@ -104,17 +106,17 @@ CREATE TABLE `objeto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `objeto`
+-- Dumping data for table `objeto`
 --
 
 INSERT INTO `objeto` (`id_objeto`, `nombre`, `lat`, `lon`, `precio`, `img1`, `img2`, `img3`, `id_cat`) VALUES
-(1, 'tiramisua', '0.00000000000000000000', '0.00000000000000000000', '5.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', NULL, '', 2),
+(1, 'tiramisua', '0.00000000000000000000', '0.00000000000000000000', '6.9900', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', '', '', 2),
 (2, 'lunaTica', '0.00000000000000000000', '0.00000000000000000000', '2000.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_1jpg', '', '', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `puntuacion`
+-- Table structure for table `puntuacion`
 --
 
 CREATE TABLE `puntuacion` (
@@ -126,7 +128,7 @@ CREATE TABLE `puntuacion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -139,7 +141,7 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
 INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES
@@ -176,17 +178,17 @@ INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) 
 (31, 'gwilliamt@quantcast.com', '7cd91510d2e7e2d51e764e619b3a1c6f2572332e', 'user', '100.0000', '8923792730');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `categoria`
+-- Indexes for table `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_cat`);
 
 --
--- Indices de la tabla `comentario`
+-- Indexes for table `comentario`
 --
 ALTER TABLE `comentario`
   ADD PRIMARY KEY (`id_com`),
@@ -194,7 +196,7 @@ ALTER TABLE `comentario`
   ADD KEY `comentarios_ibfk_2` (`id_user`);
 
 --
--- Indices de la tabla `compra`
+-- Indexes for table `compra`
 --
 ALTER TABLE `compra`
   ADD PRIMARY KEY (`id_compra`),
@@ -202,86 +204,86 @@ ALTER TABLE `compra`
   ADD KEY `compras_ibfk_2` (`id_user`);
 
 --
--- Indices de la tabla `objeto`
+-- Indexes for table `objeto`
 --
 ALTER TABLE `objeto`
   ADD PRIMARY KEY (`id_objeto`),
   ADD KEY `id_cat` (`id_cat`);
 
 --
--- Indices de la tabla `puntuacion`
+-- Indexes for table `puntuacion`
 --
 ALTER TABLE `puntuacion`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_obj` (`id_obj`);
 
 --
--- Indices de la tabla `usuario`
+-- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `categoria`
+-- AUTO_INCREMENT for table `categoria`
 --
 ALTER TABLE `categoria`
   MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `comentario`
+-- AUTO_INCREMENT for table `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `compra`
+-- AUTO_INCREMENT for table `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `objeto`
+-- AUTO_INCREMENT for table `objeto`
 --
 ALTER TABLE `objeto`
   MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `usuario`
+-- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `comentario`
+-- Constraints for table `comentario`
 --
 ALTER TABLE `comentario`
   ADD CONSTRAINT `comentario_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `compra`
+-- Constraints for table `compra`
 --
 ALTER TABLE `compra`
   ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON UPDATE CASCADE,
   ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `objeto`
+-- Constraints for table `objeto`
 --
 ALTER TABLE `objeto`
   ADD CONSTRAINT `objeto_ibfk_1` FOREIGN KEY (`id_cat`) REFERENCES `categoria` (`id_cat`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `puntuacion`
+-- Constraints for table `puntuacion`
 --
 ALTER TABLE `puntuacion`
   ADD CONSTRAINT `puntuacion_ibfk_1` FOREIGN KEY (`id_obj`) REFERENCES `objeto` (`id_objeto`);

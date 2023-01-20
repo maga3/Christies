@@ -18,7 +18,7 @@ class Categoria implements \model\cruddb
      */
     public function __construct(int $id, string $nombre, string $descripcion, string $img)
     {
-        $this->id = $id || '';
+        $this->id = $id ?? -1;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->img = $img;
@@ -31,6 +31,8 @@ class Categoria implements \model\cruddb
     {
         return $this->id;
     }
+
+
 
     /**
      * @return string

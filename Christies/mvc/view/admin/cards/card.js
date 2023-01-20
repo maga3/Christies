@@ -49,13 +49,62 @@ function validatePrice() {
     }
 }
 
-function viewFile(input,n) {
+function validateDescription() {
+    let input = event.target;
+    if (input.value === 0 || input.value.includes('\[a-z]\i')) {
+        document.getElementById("desValidationMsg").innerText = "Cannot be empty";
+        document.getElementById("desValidationMsg").classList.add("text-danger");
+    } else {
+        if (!/[\w,-_'¿¡!"\s]{10,255}/gmi.test(input.value)) {
+            document.getElementById("desValidationMsg").innerHTML = "Descripcion no valido";
+            document.getElementById("desValidationMsg").classList.add("text-danger");
+        } else {
+            document.getElementById("desValidationMsg").innerHTML = '✓';
+            document.getElementById("desValidationMsg").classList.remove("text-danger")
+        }
+    }
+}
+
+function validateComment() {
+    let input = event.target;
+    let span = input.nextElementSibling;
+    if (input.value === 0 || input.value.includes('\[a-z]\i')) {
+        span.innerText = "Cannot be empty";
+        span.classList.add("text-danger");
+    } else {
+        if (!/[\w,-_'¿¡!"\s]{3,255}/gmi.test(input.value)) {
+            span.innerHTML = "Comentario no valido";
+            span.classList.add("text-danger");
+        } else {
+            span.innerHTML = '✓';
+            span.classList.remove("text-danger")
+        }
+    }
+}
+
+function validateEmail() {
+    let input = event.target;
+    if (input.value === 0 || input.value.includes('\[a-z]\i')) {
+        document.getElementById("emailValidationMsg").innerText = "Cannot be empty";
+        document.getElementById("emailValidationMsg").classList.add("text-danger");
+    } else {
+        if (!/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/.test(input.value)) {
+            document.getElementById("emailValidationMsg").innerHTML = "Email no valido";
+            document.getElementById("emailValidationMsg").classList.add("text-danger");
+        } else {
+            document.getElementById("emailValidationMsg").innerHTML = '✓';
+            document.getElementById("emailValidationMsg").classList.remove("text-danger")
+        }
+    }
+}
+
+function viewFile(input, n) {
     const file = $("input[type=file]").get(n).files[0];
 
     if (file) {
         let reader = new FileReader();
         reader.onload = function () {
-            $("#previewImg"+n).attr("src", reader.result);
+            $("#previewImg" + n).attr("src", reader.result);
         }
         reader.readAsDataURL(file);
     }

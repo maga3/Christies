@@ -51,10 +51,18 @@ if (isset($array_ruta[0]) && $array_ruta[0] === "admin") {
             $controller->login();
         }else if ($array_ruta[1] === "productos") {
             $controller->articlesCard($array_ruta[2]);
+        }else if ($array_ruta[1] === "users") {
+            $controller->usersCard($array_ruta[2]);
         }
-    } else if (isset($array_ruta[1], $array_ruta[2],$array_ruta[3])) {
+    } else if (isset($array_ruta[1], $array_ruta[2],$array_ruta[3]) && !isset($array_ruta[4])) {
         if ($array_ruta[1] === "productos" && $array_ruta[3] === "process") {
             $controller->productoProcess((int)$array_ruta[2]);
+        }if ($array_ruta[1] === "categorias" && $array_ruta[3] === "process") {
+            $controller->categoriasProcess((int)$array_ruta[2]);
+        }if ($array_ruta[1] === "users" && $array_ruta[3] === "process") {
+            $controller->usersProcess((int)$array_ruta[2]);
+        }if ($array_ruta[1] === "users" && $array_ruta[3] === "delete") {
+            $controller->deleteUser((int)$array_ruta[2]);
         }
     } else if ($array_ruta[1] === '' || !isset($array_ruta[1])) {
         $uri = $_SERVER['REQUEST_URI'];

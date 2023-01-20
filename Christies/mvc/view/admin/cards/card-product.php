@@ -1,8 +1,6 @@
-<script src="cards/card.js"></script>
-
 <div class="col-sm-12 d-flex justify-content-center align-items-center m-3 p-4">
-    <div class="card text-black text-center bg-dark mb-3">
-        <div class="card-body bg-gradient-secondary">
+    <div class="card text-black text-center mb-3">
+        <div class="card-body bg-inverse-secondary">
             <form action="<?php echo "../../index.php/admin/productos/".$article->getId().'/process';?>" method="post" enctype="multipart/form-data">
                 <label for="img1" class="mb-2">
                     Img1:
@@ -44,18 +42,18 @@
                             <label for="lat" class="mb-2">
                                 Lat:
                                 <input type="number" name="lat" min="-90" max="90" step="any"
-                                       value="<?php echo $article->getLat(); ?>">
+                                       value="<?php echo $article->getLat() === 0.00000000000000000000 ? 0 : $article->getLat() ; ?>">
                             </label>
                             <label for="lon">
                                 Lon:
                                 <input type="number" name="lon" min="-180" max="180" step="any"
-                                       value="<?php echo $article->getLon(); ?>">
+                                       value="<?php echo $article->getLon() === 0.00000000000000000000 ? 0 : $article->getLon() ; ?>">
                             </label>
                     </li>
                     <li class="list-group-item">
                         <label for="precio" class="mb-2">
                             Precio:
-                            <input type="number" name="precio" onkeyup="validatePrice()" step="0.0000"
+                            <input type="number" name="precio" onkeyup="validatePrice()" step="any"
                                    value="<?php echo $article->getPrecio(); ?>">
                             €
                             <span class="form-text" id="precioValidationMsg"></span>
@@ -71,3 +69,4 @@
         </div>
     </div>
 </div>
+<script src="cards/card.js"></script>

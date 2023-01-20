@@ -7,17 +7,17 @@ class Comentario implements cruddb
     protected int $id;
     public string $contenido;
     public string $fecha;
-    protected int $id_obj;
-    protected int $id_usr;
+    protected ObjetoVirtual $id_obj;
+    protected Usuario $id_usr;
 
     /**
      * @param int $id
      * @param string $contenido
      * @param string $fecha
-     * @param int $id_obj
-     * @param int $id_usr
+     * @param ObjetoVirtual $id_obj
+     * @param Usuario $id_usr
      */
-    public function __construct(int $id, string $contenido, string $fecha, int $id_obj, int $id_usr)
+    public function __construct(int $id, string $contenido, string $fecha, ObjetoVirtual $id_obj, Usuario $id_usr)
     {
         $this->id = $id;
         $this->contenido = $contenido;
@@ -71,17 +71,17 @@ class Comentario implements cruddb
     }
 
     /**
-     * @return int
+     * @return ObjetoVirtual
      */
-    public function getIdObj(): int
+    public function getObj(): ObjetoVirtual
     {
         return $this->id_obj;
     }
 
     /**
-     * @return int
+     * @return Usuario
      */
-    public function getIdUsr(): int
+    public function getUsr(): Usuario
     {
         return $this->id_usr;
     }
@@ -89,8 +89,7 @@ class Comentario implements cruddb
 
     public function create()
     {
-        // TODO: Implement create() method.
-        ChristiesGestorDB::createComment($this->getContenido(), $this->getIdObj(), $this->getIdUsr());
+        ChristiesGestorDB::createComment($this->getContenido(), $this->getObj()->getId(), $this->getUsr()->getId());
     }
 
     public static function read($id)

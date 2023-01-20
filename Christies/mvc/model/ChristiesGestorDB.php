@@ -283,7 +283,7 @@ class ChristiesGestorDB
             $db = Conexion::connect();
             $query = "UPDATE `comentario` SET `contenido` = ? WHERE `comentario`.`id_com` = ?";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$getId, $getContenido])) {
+            if (!$stmt->execute([$getContenido,$getId])) {
                 return false;
             }
         } catch (\PDOException $e) {
@@ -404,5 +404,25 @@ class ChristiesGestorDB
         return $columns;
     }
 
-
+    public static function getCommentsOnUserId($id): bool|array
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT * FROM `comentario` WHERE id_user =  ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$id])) {
+                return false;
+            }
+            $result = $stmt->fetchAll();
+            $arrayComentarios = [];
+            foreach ($result as $row) {
+                $arrayComentarios[] = new Comentario($row['id_com'],$row['contenido'],$row['fecha'],ObjetoVirtual::read(($row['id_objeto'])),Usuario::read($row['id_user']));
+            }
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $arrayComentarios;
+    }
 }

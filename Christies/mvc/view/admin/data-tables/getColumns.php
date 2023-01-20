@@ -19,7 +19,7 @@ for ($i = 0, $iMax = count($columns); $i < $iMax; $i++) {
 
 $array['data'] = null;
 $array['className'] = 'dt-center';
-$array['defaultContent'] = '<button type="button" class="btn btn-danger"><i class="mdi mdi-eraser"></i></button>';
+$array['defaultContent'] = '<a onclick="deleteCol(this)"><button type="button" class="btn btn-danger"><i class="mdi mdi-eraser"></i></button></a>';
 $array['title'] = 'Eraser';
 $json['columns'][] = $array;
 
