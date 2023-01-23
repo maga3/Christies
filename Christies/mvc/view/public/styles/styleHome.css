@@ -1,6 +1,5 @@
 *, ::after, ::before {
     box-sizing: border-box;
-    overflow-x: hidden;
 }
 
 @font-face {
@@ -20,9 +19,8 @@
     background: #ff2525;
 }
 
-
 h1 {
-    font-family: Futura;
+    font-family: Futura, serif;
     text-transform: uppercase;
     overflow: hidden;
 }
@@ -34,6 +32,7 @@ h1 {
 body {
     background-image: none !important;
     background-color: #D9D9D9 !important;
+    font-family: Futura, serif ;
 }
 
 .text-red {
@@ -53,7 +52,7 @@ body {
     position: relative;
     float: right;
     right: 20px;
-    top: 25px;
+    top: -70px;
     z-index: 1;
     overflow-y: hidden;
 }
@@ -61,7 +60,7 @@ body {
 .menu span {
     cursor: pointer;
     height: 2px;
-    width: 33px;
+    width: 27px;
     margin-bottom: 8px;
     background: #ff2525;
     position: relative;
@@ -72,6 +71,7 @@ body {
 }
 
 .hidden {
+    opacity: 0;
     width:0;
     transition: .7s ease;
     pointer-events: none;
@@ -108,14 +108,14 @@ body {
     color: #ff2525;
     font-weight: 400;
     font-size: 2rem;
-    height: 10%;
+    height: 9%;
     position: absolute;
     left: 0;
     top: 0;
 }
 
 a {
-    font-family: Futura;
+    font-family: Futura, serif;
     color: #ff2525;
     text-decoration: none;
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out
@@ -126,7 +126,7 @@ a {
     color: #0B0F32;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 775px) {
     .mx-xs-2 {
         margin-right: 1rem !important;
         margin-left: 1rem !important;
@@ -134,7 +134,15 @@ a {
 
     .xs-slider-img {
         width: 100%;
-        height: 400px;
+        height: 300px;
+    }
+
+    .xs-accordion-img {
+        height: 30%;
+    }
+
+    .col-5{
+        width: 63.7%;
     }
 
     .controls-xs-none {
@@ -182,4 +190,23 @@ a {
 input{
 
     border-radius: 10px;
+}
+
+.accordion-button::after {
+    background-image: initial;
+    width: 0;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: initial;
+    width: 0;
+}
+
+.btn-carousel{
+    background-color: #ff2525 !important;
+}
+
+.btn-carousel:hover{
+    background-color: #707070 !important;
+    color: #ff2525;
 }

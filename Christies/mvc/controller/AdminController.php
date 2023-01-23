@@ -25,7 +25,7 @@ class AdminController
             if (!filter_var($usr, FILTER_VALIDATE_EMAIL)) {
                 $_SESSION["userError"] = true;
             }
-            if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/', $pass)) {
+            if (!preg_match('/^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/', $pass)) {
                 $_SESSION["passError"] = true;
             } else if (ChristiesGestorDB::login($usr, $pass)) {
                 $_SESSION['loginAdmin'] = true;

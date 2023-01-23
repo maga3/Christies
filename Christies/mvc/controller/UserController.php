@@ -71,4 +71,9 @@ class UserController
         $product = ChristiesGestorDB::readProduct($id);
         require './view/public/product.php';
     }
+
+    public function showList()
+    {
+        require './view/public/lista_productos.php';
+    }
 }

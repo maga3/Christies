@@ -108,6 +108,8 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
             $userController->showRegister();
         }else if ($array_ruta[0] === "home") {
             $userController->showHome();
+        }else if($array_ruta[0] === "list"){
+            $userController->showList();
         }
 
     } else if (isset($array_ruta[1]) && !isset($array_ruta[2])) {

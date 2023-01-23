@@ -21,7 +21,7 @@
 </head>
 <body>
 <?php
-    include("components/header.html");
+include("components/header.html");
 ?>
 <main class="container mt-5 px-lg-5">
     <div class="container-fluid mb-5">
@@ -36,7 +36,7 @@
                     data-bs-target="#carouselExampleControls"
                     data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+<!--                <span class="visually-hidden">Previous</span>-->
             </button>
             <button class="carousel-control-next controls-xs-none" type="button"
                     data-bs-target="#carouselExampleControls"
@@ -54,7 +54,7 @@
     </div>
 </main>
 <?php
-    include('components/footer.html');
+include('components/footer.html');
 ?>
 </body>
 <script src="js/sliderAJAX.js"></script>

@@ -24,7 +24,30 @@
         include("components/header.html");
     ?>
     <main class="container mt-5 px-lg-5">
+        <div class="d-flex">
+            <div class="row">
+                <div class="col-4">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
 
+                        </div>
+                        <button class="carousel-control-prev controls-xs-none" type="button"
+                                data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next controls-xs-none" type="button"
+                                data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-8"></div>
+            </div>
+        </div>
     </main>
     <?php
     include("components/footer.html");

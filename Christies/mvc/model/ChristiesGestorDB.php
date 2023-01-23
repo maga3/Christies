@@ -327,7 +327,7 @@ class ChristiesGestorDB
             if (!$stmt->execute([$idobj, $idusr])) {
                 return false;
             }
-            return self::triggerPuntuacion($db, $idobj);
+//            return self::triggerPuntuacion($db, $idobj);
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
@@ -548,9 +548,9 @@ class ChristiesGestorDB
             $db = Conexion::connect();
 
             if ($signin && $id_cat!==NULL) {
-                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC";
+                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre' objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC";
             }else {
-                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj ORDER BY `puntuacion`.`puntuacion` DESC";
+                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` DESC";
             }
             $result = $db->query($sql);
             $response = $result->fetchAll();
