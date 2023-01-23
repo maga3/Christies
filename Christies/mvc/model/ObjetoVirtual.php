@@ -1,18 +1,57 @@
 <?php
 
 namespace model;
-//implements \model\cruddb
 
-class ObjetoVirtual
+/**
+
+ * * @author martin ruiz
+ */
+class ObjetoVirtual implements cruddb
 {
+    /**
+     * @var int
+     * * @author martin ruiz
+     */
     protected int $id;
+    /**
+     * @var float
+     * * @author martin ruiz
+     */
     public float $precio;
+    /**
+     * @var string
+     * * @author martin ruiz
+     */
     public string $nombre;
+    /**
+     * @var string
+     * * @author martin ruiz
+     */
     public string $img1;
+    /**
+     * @var string
+     * * @author martin ruiz
+     */
     public string $img2;
+    /**
+     * @var string
+     * * @author martin ruiz
+     */
     public string $img3;
+    /**
+     * @var float
+     * * @author martin ruiz
+     */
     public float $lat;
+    /**
+     * @var float
+     * * @author martin ruiz
+     */
     public float $lon;
+    /**
+     * @var int
+     * * @author martin ruiz
+     */
     protected int $id_cat;
 
     /**
@@ -42,6 +81,7 @@ class ObjetoVirtual
 
     /**
      * @return int
+     * * @author martin ruiz
      */
     public function getId(): int
     {
@@ -50,6 +90,7 @@ class ObjetoVirtual
 
     /**
      * @return float
+     * * @author martin ruiz
      */
     public function getPrecio(): float
     {
@@ -59,6 +100,7 @@ class ObjetoVirtual
     /**
      * @param float $precio
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setPrecio(float $precio): ObjetoVirtual
     {
@@ -68,6 +110,7 @@ class ObjetoVirtual
 
     /**
      * @return string
+     * * @author martin ruiz
      */
     public function getNombre(): string
     {
@@ -77,6 +120,7 @@ class ObjetoVirtual
     /**
      * @param string $nombre
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setNombre(string $nombre): ObjetoVirtual
     {
@@ -86,6 +130,7 @@ class ObjetoVirtual
 
     /**
      * @return string
+     * * @author martin ruiz
      */
     public function getImg1(): string
     {
@@ -95,6 +140,7 @@ class ObjetoVirtual
     /**
      * @param string $img1
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setImg1(string $img1): ObjetoVirtual
     {
@@ -104,6 +150,7 @@ class ObjetoVirtual
 
     /**
      * @return string
+     * * @author martin ruiz
      */
     public function getImg2(): string
     {
@@ -113,6 +160,7 @@ class ObjetoVirtual
     /**
      * @param string $img2
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setImg2(string $img2): ObjetoVirtual
     {
@@ -122,6 +170,7 @@ class ObjetoVirtual
 
     /**
      * @return string
+     * * @author martin ruiz
      */
     public function getImg3(): string
     {
@@ -131,6 +180,7 @@ class ObjetoVirtual
     /**
      * @param string $img3
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setImg3(string $img3): ObjetoVirtual
     {
@@ -140,6 +190,7 @@ class ObjetoVirtual
 
     /**
      * @return float
+     * * @author martin ruiz
      */
     public function getLat(): float
     {
@@ -149,6 +200,7 @@ class ObjetoVirtual
     /**
      * @param float $lat
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setLat(float $lat): ObjetoVirtual
     {
@@ -158,6 +210,7 @@ class ObjetoVirtual
 
     /**
      * @return float
+     * * @author martin ruiz
      */
     public function getLon(): float
     {
@@ -167,6 +220,7 @@ class ObjetoVirtual
     /**
      * @param float $lon
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setLon(float $lon): ObjetoVirtual
     {
@@ -176,6 +230,7 @@ class ObjetoVirtual
 
     /**
      * @return int
+     * * @author martin ruiz
      */
     public function getIdCat(): int
     {
@@ -185,6 +240,7 @@ class ObjetoVirtual
     /**
      * @param int $id_cat
      * @return ObjetoVirtual
+     * * @author martin ruiz
      */
     public function setIdCat(int $id_cat): ObjetoVirtual
     {
@@ -192,12 +248,38 @@ class ObjetoVirtual
         return $this;
     }
 
+    /**
+     * @param $id_usr
+     * @return bool
+     * * @author martin ruiz
+     */
+    public function compra($id_usr): bool
+    {
+        $usr = ChristiesGestorDB::readUser($id_usr);
+        if($usr->getTokens() >= $this->getPrecio()){
+            if(ChristiesGestorDB::createCompra($this->getId(),$id_usr)){
+                $usr->setTokens($usr->getTokens()-$this->getPrecio());
+                $usr->update();
+                return true;
+            }
+        }
+        return false;
+    }
 
+    /**
+     * @return bool
+     * * @author martin ruiz
+     */
     public function create(): bool
     {
         return ChristiesGestorDB::createProduct($this->getNombre(), $this->getPrecio(), $this->getidCat());
     }
 
+    /**
+     * @param $id
+     * @return bool|ObjetoVirtual
+     * * @author martin ruiz
+     */
     public static function read($id): bool|ObjetoVirtual
     {
 
@@ -208,13 +290,30 @@ class ObjetoVirtual
         return false;
     }
 
+    /**
+     * @return bool
+     * * @author martin ruiz
+     */
     public function update(): bool
     {
         return ChristiesGestorDB::updateProduct($this->getNombre(), $this->getPrecio(), $this->getImg1(), $this->getImg2(), $this->getImg3(), $this->getId(), $this->getLat(), $this->getLon());
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * * @author martin ruiz
+     */
     public static function delete($id): bool
     {
         return ChristiesGestorDB::deleteProduct($id);
+    }
+
+    /**
+     * @return void
+     */
+    public static function lastid()
+    {
+        // TODO: Implement lastid() method.
     }
 }

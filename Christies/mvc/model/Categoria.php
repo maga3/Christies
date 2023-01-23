@@ -18,7 +18,7 @@ class Categoria implements \model\cruddb
      */
     public function __construct(int $id, string $nombre, string $descripcion, string $img)
     {
-        $this->id = $id ?? -1;
+        $this->id = $id;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->img = $img ?? '';
@@ -90,7 +90,7 @@ class Categoria implements \model\cruddb
 
     public function create(): bool
     {
-            return ChristiesGestorDB::addCat($this->getNombre(), $this->getDescripcion(), $this->getImg());
+            return ChristiesGestorDB::addCat($this->getId());
     }
 
     public static function read($id): Categoria|bool

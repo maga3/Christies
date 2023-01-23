@@ -23,11 +23,15 @@ $array['defaultContent'] = '<button type="button" onclick="deleteCol(this)" clas
 $array['title'] = 'Eraser';
 $json['columns'][] = $array;
 
-$array['data'] = null;
-$array['className'] = 'dt-center';
-$array['defaultContent'] = '<a onclick="llamar(this)"><button type="button" class="btn btn-behance view"><i class="mdi mdi-eye"></i></button></a>';
-$array['title'] = 'View';
-$json['columns'][] = $array;
+
+if ($table !== 'compra' && $table !== 'comentario'){
+    $array['data'] = null;
+    $array['className'] = 'dt-center';
+    $array['defaultContent'] = '<a onclick="llamar(this)"><button type="button" class="btn btn-behance view"><i class="mdi mdi-eye"></i></button></a>';
+    $array['title'] = 'View';
+    $json['columns'][] = $array;
+}
+
 
 try {
     echo json_encode($json, JSON_THROW_ON_ERROR);

@@ -693,7 +693,7 @@
           }
           break;
         }
-        if (name.indexOf('mso-comment') === 0) {
+        if (name.indexOf('mso-adding') === 0) {
           node.remove();
           return;
         }

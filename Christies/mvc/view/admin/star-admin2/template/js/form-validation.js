@@ -6,7 +6,7 @@
     }
   });
   $(function() {
-    // validate the comment form when it is submitted
+    // validate the adding form when it is submitted
     $("#commentForm").validate({
       errorPlacement: function(label, element) {
         label.addClass('mt-2 text-danger');

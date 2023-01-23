@@ -53,7 +53,7 @@ CodeMirror.defineMode('shell', function() {
     if (ch === '#') {
       if (sol && stream.eat('!')) {
         stream.skipToEnd();
-        return 'meta'; // 'comment'?
+        return 'meta'; // 'adding'?
       }
       stream.skipToEnd();
       return 'comment';

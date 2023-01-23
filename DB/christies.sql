@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-01-2023 a las 21:36:43
+-- Tiempo de generación: 23-01-2023 a las 15:31:41
 -- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.1.12
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,8 +42,7 @@ INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
 (1, 'Viajes virtuales', 'Viajes personalizados localizados alrededor de todo el mundo.', 'http://localhost/christies/mvc/view/admin/imgs/categorias/1.jpg'),
 (2, 'placer gastronomico', 'Placer gastronomico digital', 'http://localhost/christies/mvc/view/admin/imgs/categorias/2.jpg'),
 (3, 'deporte imposible', 'deporte que no se puede realizar', 'http://localhost/christies/mvc/view/admin/imgs/categorias/3.jpg'),
-(4, 'prendas de vestir', 'Prendas para vestir para mundos virtuales', 'http://localhost/christies/mvc/view/admin/imgs/categorias/4.jpg'),
-(5, 'Categoria nueva', 'Nueva categoria ', '');
+(4, 'prendas de vestir', 'Prendas para vestir para mundos virtuales', 'http://localhost/christies/mvc/view/admin/imgs/categorias/4.jpg');
 
 -- --------------------------------------------------------
 
@@ -64,7 +63,40 @@ CREATE TABLE `comentario` (
 --
 
 INSERT INTO `comentario` (`id_com`, `contenido`, `fecha`, `id_objeto`, `id_user`) VALUES
-(2, 'Hola que tal', '2023-01-20', 2, 31);
+(1, 'asdasda', '2023-01-21', 3, 29),
+(2, 'dsadsasdasd', '2023-01-21', 3, 8),
+(3, 'kjskjdfkjsndf', '2023-01-21', 3, 29),
+(4, 'Comenatrio random random random', '2023-01-22', 10, 15),
+(5, 'Comenatrio random random random', '2023-01-22', 10, 29),
+(6, 'Comenatrio random random random', '2023-01-22', 7, 8),
+(7, 'Comenatrio random random random', '2023-01-22', 10, 11),
+(8, 'Comenatrio random random random', '2023-01-22', 3, 4),
+(9, 'Comenatrio random random random', '2023-01-22', 6, 7),
+(10, 'Comenatrio random random random', '2023-01-22', 4, 3),
+(11, 'Comenatrio random random random', '2023-01-22', 9, 27),
+(12, 'Comenatrio random random random', '2023-01-22', 5, 29),
+(13, 'Comenatrio random random random', '2023-01-22', 1, 30),
+(14, 'Comenatrio random random random', '2023-01-22', 2, 21),
+(15, 'Comenatrio random random random', '2023-01-22', 9, 19),
+(16, 'Comenatrio random random random', '2023-01-22', 8, 22),
+(17, 'Comenatrio random random random', '2023-01-22', 4, 29),
+(18, 'Comenatrio random random random', '2023-01-22', 5, 6),
+(19, 'Comenatrio random random random', '2023-01-22', 5, 18),
+(20, 'Comenatrio random random random', '2023-01-22', 10, 4),
+(21, 'Comenatrio random random random', '2023-01-22', 10, 5),
+(22, 'Comenatrio random random random', '2023-01-22', 5, 9),
+(23, 'Comenatrio random random random', '2023-01-22', 10, 31),
+(24, 'Comenatrio random random random', '2023-01-22', 10, 4),
+(25, 'Comenatrio random random random', '2023-01-22', 10, 22),
+(26, 'Comenatrio random random random', '2023-01-22', 2, 9),
+(27, 'Comenatrio random random random', '2023-01-22', 2, 18),
+(28, 'Comenatrio random random random', '2023-01-22', 4, 22),
+(29, 'Comenatrio random random random', '2023-01-22', 10, 22),
+(30, 'Comenatrio random random random', '2023-01-22', 9, 22),
+(31, 'Comenatrio random random random', '2023-01-22', 7, 7),
+(32, 'Comenatrio random random random', '2023-01-22', 1, 22),
+(33, 'Comenatrio random random random', '2023-01-22', 5, 30),
+(34, 'Comenatrio random random random', '2023-01-22', 6, 5);
 
 -- --------------------------------------------------------
 
@@ -98,7 +130,7 @@ CREATE TABLE `objeto` (
   `nombre` varchar(64) NOT NULL,
   `lat` decimal(20,20) DEFAULT NULL,
   `lon` decimal(20,20) DEFAULT NULL,
-  `precio` decimal(64,4) NOT NULL,
+  `precio` decimal(64,2) NOT NULL,
   `img1` varchar(255) NOT NULL,
   `img2` varchar(255) DEFAULT NULL,
   `img3` varchar(255) DEFAULT NULL,
@@ -110,8 +142,16 @@ CREATE TABLE `objeto` (
 --
 
 INSERT INTO `objeto` (`id_objeto`, `nombre`, `lat`, `lon`, `precio`, `img1`, `img2`, `img3`, `id_cat`) VALUES
-(1, 'tiramisua', '0.00000000000000000000', '0.00000000000000000000', '6.9900', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', '', '', 2),
-(2, 'lunaTica', '0.00000000000000000000', '0.00000000000000000000', '2000.0000', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_1jpg', '', '', 1);
+(1, 'tiramisua', '0.00000000000000000000', '0.00000000000000000000', '6.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', '', '', 2),
+(2, 'lunaTica', '0.00000000000000000000', '0.00000000000000000000', '5000.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_1.jpg', '', '', 1),
+(3, 'Cazadora virtual', '0.00000000000000000000', '0.00000000000000000000', '59.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/3_1.png', '', '', 4),
+(4, 'viaje a maldivas', '0.00000000000000000000', '0.00000000000000000000', '1000.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/4_1.png', '', '', 1),
+(5, 'salto bungee', '0.00000000000000000000', '0.00000000000000000000', '30.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/5_1.png', '', '', 3),
+(6, 'new york viaje', '0.00000000000000000000', '0.00000000000000000000', '800.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/6_1.png', '', '', 1),
+(7, 'lubina', '0.00000000000000000000', '0.00000000000000000000', '25.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/7_1.png', '', '', 2),
+(8, 'soccer jersey', '0.00000000000000000000', '0.00000000000000000000', '80.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/8_1.png', '', '', 4),
+(9, 'futbol espacial', '0.00000000000000000000', '0.00000000000000000000', '2999.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/9_1.png', '', '', 3),
+(10, 'baseball pie', '0.00000000000000000000', '0.00000000000000000000', '500.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/10_1.jpg', '', '', 3);
 
 -- --------------------------------------------------------
 
@@ -124,6 +164,22 @@ CREATE TABLE `puntuacion` (
   `id_obj` int(11) NOT NULL,
   `puntuacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `puntuacion`
+--
+
+INSERT INTO `puntuacion` (`id`, `id_obj`, `puntuacion`) VALUES
+(1, 3, 4),
+(2, 10, 9),
+(3, 7, 2),
+(4, 6, 2),
+(5, 4, 3),
+(6, 9, 3),
+(7, 5, 5),
+(8, 1, 2),
+(9, 2, 3),
+(10, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +231,9 @@ INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) 
 (28, 'sleechq@house.gov', '12e1b6821054e55edea9be4dc57835b95d7d50eb', 'user', '100.0000', '3133024958'),
 (29, 'mcruzr@usatoday.com', '6167d86d14c30d834f5ce80c21061b7793cf6ee4', 'user', '100.0000', '4663574268'),
 (30, 'cpettersens@cbsnews.com', 'c81494c7c3e98cc91a1dd2d7e0be24c756d45b0f', 'user', '100.0000', '5523006177'),
-(31, 'gwilliamt@quantcast.com', '7cd91510d2e7e2d51e764e619b3a1c6f2572332e', 'user', '100.0000', '8923792730');
+(31, 'gwilliamt@quantcast.com', '7cd91510d2e7e2d51e764e619b3a1c6f2572332e', 'user', '100.0000', '8923792730'),
+(32, 'magaishere@hotmail.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'user', '100.0000', ''),
+(33, 'hola@gmail.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'user', '100.0000', '');
 
 --
 -- Índices para tablas volcadas
@@ -232,13 +290,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
@@ -250,13 +308,19 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `objeto`
 --
 ALTER TABLE `objeto`
-  MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `puntuacion`
+--
+ALTER TABLE `puntuacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas

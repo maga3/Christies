@@ -32,3 +32,8 @@ input:not([type='file']), textarea, select {
 .dataTables_wrapper .dataTable .btn{
     padding: 0.5rem 1rem !important;
 }
+
+textarea {
+    width: 300px !important;
+    height: 150px !important;
+}

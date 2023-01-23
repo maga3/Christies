@@ -2,6 +2,9 @@
 
 namespace model;
 
+use JsonException;
+use PDO;
+
 class ChristiesGestorDB
 {
     public static function login($usr, $pass): bool
@@ -22,13 +25,13 @@ class ChristiesGestorDB
 
     //USUARIO
     //Area de usuario donde se realizan las operaciones del crud con las conexiones a la base de datos
-    public static function addUser($email, $password, $telf): bool
+    public static function addUser($email, $password): bool
     {
         try {
             $db = Conexion::connect();
-            $query = "INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES (NULL, ?, ?, 'user', '100', ?)";
+            $query = "INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES (NULL, ?, ?, 'user', '100', '')";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$email, $password, $telf])) {
+            if (!$stmt->execute([$email, sha1($password)])) {
                 return false;
             }
         } catch (\PDOException $e) {
@@ -205,13 +208,13 @@ class ChristiesGestorDB
         return true;
     }
 
-    public static function updateProduct($nombre,$precio,$img1,$img2,$img3,$idobj,$lat,$lon)
+    public static function updateProduct($nombre, $precio, $img1, $img2, $img3, $idobj, $lat, $lon)
     {
         try {
             $db = Conexion::connect();
             $query = "UPDATE `objeto` SET `nombre` = ?, `precio` = ?, `img1`= ?, `img2`= ?, `img3`= ?, `lat`= ?, `lon`= ?  WHERE `objeto`.`id_objeto` = ?";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$nombre,$precio,$img1,$img2,$img3,$lat,$lon,$idobj])) {
+            if (!$stmt->execute([$nombre, $precio, $img1, $img2, $img3, $lat, $lon, $idobj])) {
                 return false;
             }
         } catch (\PDOException $e) {
@@ -250,6 +253,7 @@ class ChristiesGestorDB
             if (!$stmt->execute([$content, $id_objeto, $id_user])) {
                 return false;
             }
+            self::triggerPuntuacion($db, $id_objeto);
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
@@ -283,7 +287,7 @@ class ChristiesGestorDB
             $db = Conexion::connect();
             $query = "UPDATE `comentario` SET `contenido` = ? WHERE `comentario`.`id_com` = ?";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$getContenido,$getId])) {
+            if (!$stmt->execute([$getContenido, $getId])) {
                 return false;
             }
         } catch (\PDOException $e) {
@@ -314,15 +318,16 @@ class ChristiesGestorDB
 
     //Compras crud
 
-    public static function createCompra($idobj,$idusr)
+    public static function createCompra($idobj, $idusr)
     {
         try {
             $db = Conexion::connect();
             $query = "INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES (NULL, current_timestamp(), ?, ?);";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$idobj,$idusr])) {
+            if (!$stmt->execute([$idobj, $idusr])) {
                 return false;
             }
+            return self::triggerPuntuacion($db, $idobj);
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
@@ -416,7 +421,7 @@ class ChristiesGestorDB
             $result = $stmt->fetchAll();
             $arrayComentarios = [];
             foreach ($result as $row) {
-                $arrayComentarios[] = new Comentario($row['id_com'],$row['contenido'],$row['fecha'],ObjetoVirtual::read(($row['id_objeto'])),Usuario::read($row['id_user']));
+                $arrayComentarios[] = new Comentario($row['id_com'], $row['contenido'], $row['fecha'], ObjetoVirtual::read(($row['id_objeto'])), Usuario::read($row['id_user']));
             }
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -426,7 +431,7 @@ class ChristiesGestorDB
         return $arrayComentarios;
     }
 
-    public static function categoriaLastId():int
+    public static function categoriaLastId(): int
     {
         try {
             $db = Conexion::connect();
@@ -439,5 +444,122 @@ class ChristiesGestorDB
             $db = null;
         }
         return $response;
+    }
+
+    public static function userLastId(): int
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT MAX(id_user) FROM `usuario`";
+            $result = $db->query($query);
+            $response = (int)$result->fetch()[0];
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $response;
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function jsonCatIdNombre(): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT id_cat,nombre FROM `categoria`";
+            $result = $db->query($query);
+            $response = $result->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($response, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function jsonObjIdNombre(): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT id_objeto,nombre FROM `objeto`";
+            $result = $db->query($query);
+            $response = $result->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($response, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function jsonUsrIdNombre(): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT id_user,email FROM `usuario`";
+            $result = $db->query($query);
+            $response = $result->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($response, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @param PDO|null $db
+     * @param $id_objeto
+     * @return false|void
+     */
+    private static function triggerPuntuacion(?PDO $db, $id_objeto)
+    {
+        $queryCheckExists = 'SELECT puntuacion FROM `puntuacion` WHERE `id_obj` = ?';
+        $stmt2 = $db->prepare($queryCheckExists);
+        $stmt2->execute([$id_objeto]);
+        $result = $stmt2->fetchAll();
+        if (!empty($result)) {
+            $punt = (int)$result[0][0];
+            $query2 = 'UPDATE `puntuacion` SET `puntuacion` = ' . ++$punt . ' WHERE `puntuacion`.`id_obj` = ?';
+        } else {
+            $query2 = "INSERT INTO `puntuacion` (`id`, `id_obj`, `puntuacion`) VALUES (NULL,?, '1')";
+        }
+
+        $stmt3 = $db->prepare($query2);
+        if (!$stmt3->execute([$id_objeto])) {
+            return false;
+        }
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function productsValuated($signin, $id_cat): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+
+            if ($signin && $id_cat!==NULL) {
+                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC";
+            }else {
+                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj ORDER BY `puntuacion`.`puntuacion` DESC";
+            }
+            $result = $db->query($sql);
+            $response = $result->fetchAll();
+
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($response, JSON_THROW_ON_ERROR);
     }
 }

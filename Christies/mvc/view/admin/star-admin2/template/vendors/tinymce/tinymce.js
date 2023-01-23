@@ -4001,7 +4001,7 @@
       }
       globalAttributes = 'id accesskey class dir lang style tabindex title role';
       blockContent = 'address blockquote div dl fieldset form h1 h2 h3 h4 h5 h6 hr menu ol p pre table ul';
-      phrasingContent = 'a abbr b bdo br button cite code del dfn em embed i iframe img input ins kbd ' + 'label map noscript object q s samp script select small span strong sub sup ' + 'textarea u var #text #comment';
+      phrasingContent = 'a abbr b bdo br button cite code del dfn em embed i iframe img input ins kbd ' + 'label map noscript object q s samp script select small span strong sub sup ' + 'textarea u var #text #adding';
       if (type !== 'html4') {
         globalAttributes += ' contenteditable contextmenu draggable dropzone ' + 'hidden spellcheck translate';
         blockContent += ' article aside details dialog figure main header footer hgroup section nav';
