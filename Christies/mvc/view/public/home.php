@@ -21,6 +21,11 @@
 </head>
 <body>
 <?php
+if (isset($_SESSION["login"]) && $_SESSION["login"]){
+    ?>
+    <script>sessionStorage.setItem('user','<?php echo $_SESSION['user'];?>')</script>
+    <?php
+}
 include("components/header.html");
 ?>
 <main class="container mt-5 px-lg-5">

@@ -36,6 +36,9 @@ include("components/header.html");
     <div class="accordion" id="accId">
 
     </div>
+    <div class="m-5 row justify-content-center align-items-center">
+        <button id="moreProds" class="btn btn-primary">+</button>
+    </div>
     <script src="js/accordionAJAX.js"></script>
 </main>
 <?php

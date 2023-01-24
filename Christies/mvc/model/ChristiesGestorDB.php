@@ -78,7 +78,21 @@ class ChristiesGestorDB
 
     public static function readUser($id): Usuario|bool
     {
- ;
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT * FROM usuario WHERE id_user =  ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$id])) {
+                return false;
+            }
+            $result = $stmt->fetch();
+            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'],$result['tokens'], $result['telf']);
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $usuario;
     }
     //Fin area usuario
 
@@ -313,6 +327,9 @@ class ChristiesGestorDB
             if (!$stmt->execute([$idobj, $idusr])) {
                 return false;
             }
+            if(!$db->query("UPDATE usuario SET tokens = (tokens-(SELECT precio FROM objeto WHERE objeto.id_objeto=$idobj)) WHERE id_user = $idusr")){
+                return false;
+            }
 //            return self::triggerPuntuacion($db, $idobj);
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -528,16 +545,17 @@ class ChristiesGestorDB
     /**
      * @throws JsonException
      */
-    public static function productsValuated($signin, $id_cat): bool|string
+    public static function productsValuated($signin, $id_cat,$index): bool|string
     {
         try {
             $db = Conexion::connect();
 
             if ($signin && $id_cat!==NULL) {
-                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC";
+                $sql = "SELECT puntuacion.puntuacion+(SELECT SUM() FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC LIMIT 10";
             }else {
-                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` DESC";
+                $sql = "SELECT puntuacion.puntuacion+(SELECT SUM() FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` DESC LIMIT $index,10";
             }
+
             $result = $db->query($sql);
             $response = $result->fetchAll();
 
@@ -590,7 +608,10 @@ class ChristiesGestorDB
         return json_encode($result, JSON_THROW_ON_ERROR);
     }
 
-    public static function filteredListProds($cad)
+    /**
+     * @throws JsonException
+     */
+    public static function filteredListProds($cad): bool|string
     {
         try {
             $db = Conexion::connect();
@@ -606,5 +627,74 @@ class ChristiesGestorDB
             $db = null;
         }
         return json_encode($result, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function userdata(mixed $user): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT u.email AS 'email', u.tokens AS 'tokens', u.telf AS 'telf', c.contenido AS 'contenido', o.nombre AS 'producto', c.fecha AS 'fecha_com'  FROM usuario u JOIN comentario c on u.id_user = c.id_user JOIN objeto o on c.id_objeto = o.id_objeto WHERE u.email  = ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$user])) {
+                return false;
+            }
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($result, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function userPurchases(mixed $user): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT o.nombre AS 'producto', c.fecha AS 'fecha_com', o.img1 AS 'img' FROM usuario u JOIN compra c on u.id_user = c.id_user JOIN objeto o on c.id_objeto = o.id_objeto WHERE u.email  = ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$user])) {
+                return false;
+            }
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($result, JSON_THROW_ON_ERROR);
+    }
+
+    public static function readUserOnName(mixed $actualName): Usuario|bool
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT * FROM usuario WHERE email =  ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$actualName])) {
+                return false;
+            }
+            $result = $stmt->fetch();
+            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'],$result['tokens'], $result['telf']);
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return $usuario;
+    }
+
+    public static function makePurchase(Usuario $usuario,ObjetoVirtual $objeto): bool
+    {
+        if ($usuario->getTokens()>=$objeto->getPrecio()){
+            return self::createCompra($objeto->getId(),$usuario->getId());
+        }
+        return false;
     }
 }

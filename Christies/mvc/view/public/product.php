@@ -24,7 +24,7 @@
 include("components/header.html");
 ?>
 <main class="container mt-5 px-lg-5">
-    <div class="content d-flex mt-5 mb-5">
+    <div class="content row d-flex mt-5 mb-5">
         <div class="d-flex justify-content-between align-items-center">
             <div id="pContent" class="col-2">
                 <div id="titleProd">
@@ -59,7 +59,7 @@ include("components/header.html");
 
     </div>
     <div class="mb-5 d-flex justify-content-center align-items-center">
-        <button type="button" class="btn btn-outline-info">Buy</button>
+        <button id="buy-btn" type="button" class="btn btn-outline-dark">Buy</button>
     </div>
 
     <div class="row d-flex justify-content-center mb-5">
