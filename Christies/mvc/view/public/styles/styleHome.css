@@ -39,14 +39,14 @@ body {
     color: #ff2525;
 }
 
-.bg-footer-gradient {
+.bg-footer {
     background-color: #707070;
 }
 
 .menu {
     width: 33px;
     height: 33px;
-    padding: 5px;
+    padding: 3px;
     display: block;
     cursor: pointer;
     position: relative;
@@ -134,7 +134,7 @@ a {
 
     .xs-slider-img {
         width: 100%;
-        height: 300px;
+        height: 200px;
     }
 
     .xs-accordion-img {
@@ -156,35 +156,6 @@ a {
 
 .mt-5 {
     margin-top: 6rem !important;
-}
-
-.button-35 {
-    align-items: center;
-    background-color: #707070;
-    border-radius: 12px;
-    box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, .1) 0 6px 20px;
-    box-sizing: border-box;
-    color: #ff2525;
-    cursor: pointer;
-    font-family: Inter, sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    justify-content: center;
-    line-height: 0.5;
-    margin: 0;
-    outline: none;
-    padding: 0.7rem 1rem;
-    text-align: center;
-    text-decoration: none;
-    transition: box-shadow .2s, -webkit-box-shadow .2s;
-    white-space: nowrap;
-    border: 0;
-    user-select: none;
-    touch-action: manipulation;
-}
-
-.button-35:hover, .button-35:active {
-    border:1px solid #000000;
 }
 
 input{
@@ -209,4 +180,11 @@ input{
 .btn-carousel:hover{
     background-color: #707070 !important;
     color: #ff2525;
+}
+
+.carousel-control-next-icon{
+    background-image: url(../../admin/imgs/icon-next.png);
+}
+.carousel-control-prev-icon{
+    background-image: url(../../admin/imgs/icon-back.png);
 }

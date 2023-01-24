@@ -1,4 +1,7 @@
 <?php
+
+use model\ChristiesGestorDB;
+
 session_start();
 //Incluyo los archivos necesarios
 require("./controller/AdminController.php");
@@ -131,6 +134,24 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
     if (isset($array_ruta[1]) && $array_ruta[1] === "valuatedProds"){
         try {
             echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, ($array_ruta[2] ?? null));
+        } catch (JsonException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    } if (isset($array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "prodsCat" && is_numeric($array_ruta[2])){
+        try {
+            echo \model\ChristiesGestorDB::productosUnaCategoria((int)$array_ruta[2]);
+        } catch (JsonException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }  if (isset($array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "product" && is_numeric($array_ruta[2])){
+        try {
+            echo \model\ChristiesGestorDB::productById((int)$array_ruta[2]);
+        } catch (JsonException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    } if (isset($array_ruta[1]) && $array_ruta[1] === "listProds"){
+        try {
+            echo \model\ChristiesGestorDB::filteredListProds($_POST['search']);
         } catch (JsonException $e) {
             echo "Error: " . $e->getMessage();
         }

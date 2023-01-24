@@ -74,6 +74,11 @@ class UserController
 
     public function showList()
     {
+        try {
+            $cats = json_decode(ChristiesGestorDB::jsonCatIdNombre(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            echo "Error: ".$e->getMessage();
+        }
         require './view/public/lista_productos.php';
     }
 }

@@ -24,6 +24,15 @@
 include("components/header.html");
 ?>
 <main class="container mt-5 px-lg-5 mb-5">
+    <label class="d-flex justify-content-center mb-5" for="cat">
+        <select class="form-select-lg" name="cat" id="cat">
+            <?php
+            for ($i = 0, $iMax = count($cats); $i < $iMax; $i++) {
+                echo "<option selected value='" . $cats[$i][0] . "'>" . ucfirst($cats[$i][1]) . "</option>";
+            }
+            ?>
+        </select>
+    </label>
     <div class="accordion" id="accId">
 
     </div>

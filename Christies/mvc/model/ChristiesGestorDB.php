@@ -78,21 +78,7 @@ class ChristiesGestorDB
 
     public static function readUser($id): Usuario|bool
     {
-        try {
-            $db = Conexion::connect();
-            $query = "SELECT * FROM usuario WHERE id_user =  ?";
-            $stmt = $db->prepare($query);
-            if (!$stmt->execute([$id])) {
-                return false;
-            }
-            $result = $stmt->fetch();
-            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'], $result['tokens'], $result['telf']);
-        } catch (\PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        } finally {
-            $db = null;
-        }
-        return $usuario;
+ ;
     }
     //Fin area usuario
 
@@ -548,9 +534,9 @@ class ChristiesGestorDB
             $db = Conexion::connect();
 
             if ($signin && $id_cat!==NULL) {
-                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre' objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC";
+                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC";
             }else {
-                $sql = "SELECT puntuacion.puntuacion AS 'puntuacion', puntuacion.id_obj AS 'id_obj', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` DESC";
+                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` DESC";
             }
             $result = $db->query($sql);
             $response = $result->fetchAll();
@@ -561,5 +547,64 @@ class ChristiesGestorDB
             $db = null;
         }
         return json_encode($response, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function productosUnaCategoria($id_cat): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+
+            $sql = "SELECT *, o.img1 AS 'ruta_img' FROM categoria JOIN objeto o on categoria.id_cat = o.id_cat WHERE o.id_cat=$id_cat";
+            $result = $db->query($sql);
+            $response = $result->fetchAll();
+
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($response, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public static function productById(int $id): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT c2.nombre AS 'category', p.puntuacion AS 'num_comments',objeto.img2 AS 'img2', objeto.img3 AS 'img3', objeto.img1 AS 'img1', objeto.precio AS 'precio', objeto.nombre AS 'nombre', c.fecha AS 'fecha', u.email AS 'email', c.contenido AS 'contenido', objeto.lat AS 'lat', objeto.lon AS 'lon', (SELECT COUNT(*) FROM compra WHERE compra.id_objeto = ?) AS 'num_compras' FROM objeto JOIN comentario c on objeto.id_objeto = c.id_objeto JOIN usuario u on c.id_user = u.id_user JOIN puntuacion p on objeto.id_objeto = p.id_obj JOIN categoria c2 on objeto.id_cat = c2.id_cat WHERE objeto.id_objeto = ?";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([$id,$id])) {
+                return false;
+            }
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($result, JSON_THROW_ON_ERROR);
+    }
+
+    public static function filteredListProds($cad)
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT * FROM objeto WHERE objeto.nombre LIKE '%".$cad."%' ";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([])) {
+                return false;
+            }
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
 }
