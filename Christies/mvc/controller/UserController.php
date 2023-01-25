@@ -1,4 +1,5 @@
 <?php
+ob_start();
 
 use model\ChristiesGestorDB;
 use model\Usuario;
@@ -146,5 +147,30 @@ class UserController
     {
         session_destroy();
         header('Location: login');
+    }
+
+    public function comment()
+    {
+
+        if (isset($_POST) && !empty($_POST)){
+            $user = ChristiesGestorDB::readUserOnName($_POST['user']);
+            if ($user instanceof Usuario){
+                $com = new \model\Comentario((int)null,$_POST['comment'],'',\model\ObjetoVirtual::read($_POST['idobj']),$user);
+
+                if ($com->create()){
+                    header('Location: profile');
+                    exit();
+                }
+            }
+        }
+    }
+
+    public function showContact()
+    {
+        if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
+            require './view/public/contact.php';
+        } else {
+            header('Location: login');
+        }
     }
 }

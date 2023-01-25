@@ -36,6 +36,16 @@ $().ready(() =>{
         }
         invalidForm();
     });
+    $('#addANote').keyup(() =>{
+        if (!/^[a-zA-Z0-9 ]{3,}$/gm.test($('#addANote').val())) {
+            if ($('#addANote').hasClass('is-valid'))$('#addANote').removeClass('is-valid');
+            $('#addANote').addClass('is-invalid');
+        } else {
+            $('#addANote').addClass('is-valid');
+            if ($('#addANote').hasClass('is-invalid'))$('#addANote').removeClass('is-invalid');
+        }
+        invalidForm();
+    });
 })
 
 function invalidForm(){

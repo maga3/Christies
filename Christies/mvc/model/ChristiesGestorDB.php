@@ -545,14 +545,13 @@ class ChristiesGestorDB
     /**
      * @throws JsonException
      */
-    public static function productsValuated($signin, $id_cat, $index, $order, $price): bool|string
+    public static function productsValuated($signin, $id_cat, $index, $order, $price,$slider): bool|string
     {
         try {
             $db = Conexion::connect();
-
-            if ($id_cat !== NULL && $order !== NULL && !$price) {
+            if ($id_cat !== NULL && $order !== NULL && !$price && !$slider) {
                 $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra JOIN objeto o on compra.id_objeto = o.id_objeto WHERE objeto.id_cat = $id_cat) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
-            } else if ($price) {
+            } else if ($price && !$slider) {
                 //Compras no precio
 //                if ($id_cat !== NULL) {
 //                    $sql = "SELECT COUNT(*) AS 'puntuacion', objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM objeto LEFT JOIN compra c on objeto.id_objeto = c.id_objeto JOIN categoria ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) GROUP BY compra.id_objeto ORDER BY COUNT(*) $order LIMIT $index,10";
@@ -564,8 +563,10 @@ class ChristiesGestorDB
                 }else {
                     $sql = "SELECT *, c.descripcion AS 'descripcion',objeto.img1 AS ruta_img FROM objeto JOIN categoria c on objeto.id_cat = c.id_cat ORDER BY objeto.precio $order LIMIT $index,10";
                 }
-            } else {
+            } else if(!$price && !$slider){
                 $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
+            }else {
+                $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat LIMIT $index,10";
             }
 
             $result = $db->query($sql);
@@ -626,7 +627,7 @@ class ChristiesGestorDB
     {
         try {
             $db = Conexion::connect();
-            $query = "SELECT * FROM objeto WHERE objeto.nombre LIKE '%" . $cad . "%' ";
+            $query = "SELECT DISTINCT(objeto.id_objeto), objeto.nombre AS 'nombre', objeto.precio AS 'precio', c.descripcion AS 'descripcion', c.nombre AS 'category', c2.contenido AS 'contenido' FROM objeto LEFT JOIN categoria c on c.id_cat = objeto.id_cat LEFT JOIN comentario c2 on objeto.id_objeto = c2.id_objeto WHERE objeto.nombre LIKE '%$cad%' OR c.nombre LIKE '%$cad%' OR c.descripcion LIKE '%$cad%' OR c2.contenido LIKE '%$cad%' GROUP BY objeto.id_objeto";
             $stmt = $db->prepare($query);
             if (!$stmt->execute([])) {
                 return false;

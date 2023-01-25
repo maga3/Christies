@@ -2,6 +2,13 @@ $().ready(() => {
     $.ajax({
         method: "POST",
         dataType: "json",
+        data: {
+            slider: 'true',
+            order: 'DESC',
+            idcat: parseInt(sessionStorage.getItem('cat')),
+            index: 0,
+            price: 'false',
+        },
         url: window.location.href.slice(0, window.location.href.lastIndexOf("home")) + 'api/valuatedProds',
     }).done((response) => {
         for (const responseKey in response) {
@@ -24,6 +31,7 @@ $().ready(() => {
                 },
                 url: window.location.href.slice(0, window.location.href.lastIndexOf("home")) + 'api/listProds',
             }).done((response) => {
+                console.log(response)
                 $('#product-list').empty();
                 for (const responseElement of response) {
                     $('#product-list').append("<option data-action='" + responseElement.id_objeto + "' value='" + capitalizeFirstLetter(responseElement.nombre) + "'>");

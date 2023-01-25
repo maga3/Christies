@@ -54,6 +54,9 @@ $().ready(()=>{
                 "        </div>")
         }
     })
+    $('#logoutBtn').click(()=>{
+        sessionStorage.removeItem('user');
+    })
 })
 
 function capitalizeFirstLetter(string) {

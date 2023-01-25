@@ -48,7 +48,7 @@ include("components/header.html");
                                             <p class="tokens text-muted"></p>
                                         </div>
                                         <div class="col-6 mb-3">
-                                            <h6><a href="../../index.php/logout" class="btn btn-warning">Logout</a></h6>
+                                            <h6><a href="../../index.php/logout" id="logoutBtn" class="btn btn-warning">Logout</a></h6>
                                         </div>
                                         <div class="col-6 mb-3">
                                             <!-- Button trigger modal -->

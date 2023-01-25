@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="../../view/public/">
+    <base href="../../mvc/view/public/">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -67,10 +67,13 @@ include("components/header.html");
             <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                 <div class="card-body p-4 comments">
                     <div class="form-outline mb-4">
-                        <input type="text" id="addANote" disabled class="form-control" placeholder="Type comment..." />
+                        <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
                         <label class="form-label" for="addANote">+ Add a note</label>
                     </div>
                 </div>
+            </div>
+            <div class="m-5 row justify-content-center align-items-center">
+                <button id="moreComments" class="btn btn-primary">+</button>
             </div>
         </div>
     </div>
@@ -80,4 +83,5 @@ include("components/footer.html");
 ?>
 </body>
 <script src="js/productAJAX.js"></script>
+<script src="js/validations.js"></script>
 </html>

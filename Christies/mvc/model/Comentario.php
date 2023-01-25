@@ -19,9 +19,9 @@ class Comentario implements cruddb
      */
     public function __construct(int $id, string $contenido, string $fecha, ObjetoVirtual $id_obj, Usuario $id_usr)
     {
-        $this->id = $id;
+        $this->id = $id ?? NULL;
         $this->contenido = $contenido;
-        $this->fecha = $fecha;
+        $this->fecha = $fecha ?? '';
         $this->id_obj = $id_obj;
         $this->id_usr = $id_usr;
     }
@@ -87,9 +87,9 @@ class Comentario implements cruddb
     }
 
 
-    public function create()
+    public function create(): bool
     {
-        ChristiesGestorDB::createComment($this->getContenido(), $this->getObj()->getId(), $this->getUsr()->getId());
+        return ChristiesGestorDB::createComment($this->getContenido(), $this->getObj()->getId(), $this->getUsr()->getId());
     }
 
     public static function read($id)

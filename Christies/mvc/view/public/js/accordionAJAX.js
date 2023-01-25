@@ -23,7 +23,8 @@ function ajaxProductsValuated(mode,price) {
             index: parseInt(sessionStorage.getItem('index')),
             order: mode,
             price: price,
-            idcat: sessionStorage.getItem('cats')==='true'?parseInt(sessionStorage.getItem('cat')):'dont'
+            idcat: sessionStorage.getItem('cats')==='true'?parseInt(sessionStorage.getItem('cat')):'dont',
+            slider: 'false'
         },
         url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/valuatedProds',
     }).done((response) => {
@@ -71,7 +72,8 @@ $().ready(() => {
     });
     $('#bestsellers').click(() => {
         let mode = modoCheck('#bestsellers');
-        if (sessionStorage.getItem('price')==='true') {
+        sessionStorage.setItem('price', 'true');
+        if (sessionStorage.getItem('cats')==='true') {
             catsFiltering(mode,true);
         } else {
             ajaxProductsValuated(mode,true);
@@ -117,9 +119,11 @@ function catsFiltering(mode,price) {
         data: {
             order: mode,
             idcat: parseInt(sessionStorage.getItem('cat')),
+            index: parseInt(sessionStorage.getItem('index')),
             price: price,
+            slider:'false',
         },
-        url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/prodsCat',
+        url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/valuatedProds',
     }).done((response) => {
         $('#accId').empty();
         printAccordionJson(response);

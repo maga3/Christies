@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-01-2023 a las 15:31:41
+-- Tiempo de generación: 25-01-2023 a las 19:46:19
 -- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Versión de PHP: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -96,7 +96,9 @@ INSERT INTO `comentario` (`id_com`, `contenido`, `fecha`, `id_objeto`, `id_user`
 (31, 'Comenatrio random random random', '2023-01-22', 7, 7),
 (32, 'Comenatrio random random random', '2023-01-22', 1, 22),
 (33, 'Comenatrio random random random', '2023-01-22', 5, 30),
-(34, 'Comenatrio random random random', '2023-01-22', 6, 5);
+(34, 'Comenatrio random random random', '2023-01-22', 6, 5),
+(35, 'The admin com', '2023-01-25', 8, 1),
+(36, 'The admin com', '2023-01-25', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -117,7 +119,11 @@ CREATE TABLE `compra` (
 
 INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
 (1, '2023-01-19', 1, 1),
-(2, '2023-01-20', 1, NULL);
+(2, '2023-01-20', 1, NULL),
+(3, '2023-01-24', 2, 1),
+(4, '2023-01-24', 2, 1),
+(5, '2023-01-24', 2, 1),
+(6, '2023-01-24', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -170,16 +176,16 @@ CREATE TABLE `puntuacion` (
 --
 
 INSERT INTO `puntuacion` (`id`, `id_obj`, `puntuacion`) VALUES
-(1, 3, 4),
+(1, 3, 5),
 (2, 10, 9),
 (3, 7, 2),
-(4, 6, 2),
-(5, 4, 3),
+(4, 6, 3),
+(5, 4, 4),
 (6, 9, 3),
-(7, 5, 5),
-(8, 1, 2),
-(9, 2, 3),
-(10, 8, 1);
+(7, 5, 8),
+(8, 1, 3),
+(9, 2, 4),
+(10, 8, 3);
 
 -- --------------------------------------------------------
 
@@ -201,7 +207,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES
-(1, 'admin@admin.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'admin', '99999.0000', '897767887'),
+(1, 'admin@admin.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'admin', '74999.9999', '8977678873'),
 (2, 'asdja@github,com', '05cd4f3caaae4ec88d6f97fd287ad29d04cbb884', 'user', '300.0000', '6453453'),
 (3, 'wgerner1@yahoo.co.jp', 'd04ddac224cad06312f89740d2223d9486061d48', 'user', '100.0000', '9782482585'),
 (4, 'bneissen2@ed.gov', '83fdf4e4608dc6160eec4e0fb66e30d0d70ee680', 'user', '100.0000', '4778438355'),
@@ -231,9 +237,7 @@ INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) 
 (28, 'sleechq@house.gov', '12e1b6821054e55edea9be4dc57835b95d7d50eb', 'user', '100.0000', '3133024958'),
 (29, 'mcruzr@usatoday.com', '6167d86d14c30d834f5ce80c21061b7793cf6ee4', 'user', '100.0000', '4663574268'),
 (30, 'cpettersens@cbsnews.com', 'c81494c7c3e98cc91a1dd2d7e0be24c756d45b0f', 'user', '100.0000', '5523006177'),
-(31, 'gwilliamt@quantcast.com', '7cd91510d2e7e2d51e764e619b3a1c6f2572332e', 'user', '100.0000', '8923792730'),
-(32, 'magaishere@hotmail.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'user', '100.0000', ''),
-(33, 'hola@gmail.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'user', '100.0000', '');
+(31, 'gwilliamt@quantcast.com', '7cd91510d2e7e2d51e764e619b3a1c6f2572332e', 'user', '100.0000', '8923792730');
 
 --
 -- Índices para tablas volcadas
@@ -296,13 +300,13 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `objeto`
@@ -320,7 +324,7 @@ ALTER TABLE `puntuacion`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Restricciones para tablas volcadas
