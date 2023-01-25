@@ -114,7 +114,9 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
         }else if($array_ruta[0] === "profile"){
             $userController->showProfile();
         }else if ($array_ruta[0] === "buy"){
-            $userController->makePurchase();
+            echo $userController->makePurchase();
+        }else if($array_ruta[0] === "logout"){
+            $userController->logout();
         }
     } else if (isset($array_ruta[1]) && !isset($array_ruta[2])) {
         if ($array_ruta[1] === "process") {
@@ -125,11 +127,13 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
             }else if ($array_ruta[0] === "users"){
                 $userController->userProcess();
             }
-        }else if (is_numeric($array_ruta[1])){
-            if ($array_ruta[0]==="product"){
+        }else if (is_numeric($array_ruta[1])) {
+            if ($array_ruta[0] === "product") {
                 $userController->showProduct($array_ruta[1]);
             }
-        }else if ($array_ruta[0]==="delete"){
+        }
+    } else if (isset($array_ruta[1], $array_ruta[2])){
+        if ($array_ruta[0]==="delete"){
             if ($array_ruta[1] === "user" && isset($array_ruta[2])){
                 $userController->deleteUser($array_ruta[2]);
             }
@@ -141,16 +145,21 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
     if (isset($array_ruta[1]) && $array_ruta[1] === "valuatedProds"){
         try {
             if (isset($_POST) && !empty($_POST)){
-                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, ($array_ruta[2] ?? null),$_POST['index']);
+                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index'],$_POST['order']??'DESC',(bool)$_POST['price']);
             }else {
-                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, ($array_ruta[2] ?? null),$_POST['index']??0);
+                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, !isset($_POST['idcat']) || $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index']??0,$_POST['order']??'DESC',$_POST['price']??false);
             }
         } catch (JsonException $e) {
             echo "Error: " . $e->getMessage();
         }
-    } if (isset($array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "prodsCat" && is_numeric($array_ruta[2])){
+    } if (isset($array_ruta[1]) && $array_ruta[1] === "prodsCat"){
+
         try {
-            echo \model\ChristiesGestorDB::productosUnaCategoria((int)$array_ruta[2]);
+            if (isset($_POST) && !empty($_POST)){
+                echo \model\ChristiesGestorDB::productosUnaCategoria($_POST['idcat'],$_POST['order']??'DESC');
+            }else{
+                echo "Error: " . $e->getMessage();
+            }
         } catch (JsonException $e) {
             echo "Error: " . $e->getMessage();
         }

@@ -41,7 +41,9 @@ $().ready(() =>{
 function invalidForm(){
     if($('input').hasClass('is-invalid')){
         $('#modalChangesForm').prop("disabled",true);
+        $("button[type='submit']").prop('disabled',true);
     }else {
         $('#modalChangesForm').prop("disabled",false);
+        $("button[type='submit']").prop('disabled',false);
     }
 }

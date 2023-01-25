@@ -76,15 +76,12 @@
                                                 <div class="form-notch-trailing"></div>
                                             </div>
                                         </div>
-
-                                        <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#">Forgot
-                                                password?</a></p>
                                         <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
                                     </form>
                                 </div>
 
                                 <div>
-                                    <p class="mb-0">Don't have an account? <a href="../index.php/register" class="text-white-50 fw-bold">Sign
+                                    <p class="mb-0">Don't have an account? <a href="../../index.php/register" class="text-white-50 fw-bold">Sign
                                             Up</a></p>
                                 </div>
 

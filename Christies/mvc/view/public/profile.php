@@ -43,9 +43,12 @@ include("components/header.html");
                                             <h6>Phone</h6>
                                             <p class="phone text-muted"></p>
                                         </div>
-                                        <div class="col-12 mb-3">
+                                        <div class="col-6 mb-3">
                                             <h6>Tokens</h6>
                                             <p class="tokens text-muted"></p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6><a href="../../index.php/logout" class="btn btn-warning">Logout</a></h6>
                                         </div>
                                         <div class="col-6 mb-3">
                                             <!-- Button trigger modal -->
@@ -103,7 +106,29 @@ include("components/header.html");
 
                                         </div>
                                         <div class="col-6 mb-3">
-                                            <a id="deleteBtn" type="button" class="btn btn-outline-danger">Delete</a>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete">
+                                                Delete
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modalDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="modalDeleteLabel">Modal title</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete your account?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

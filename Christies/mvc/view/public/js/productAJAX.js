@@ -45,8 +45,10 @@ $().ready(() => {
                 object: window.location.href.split('/')[7],
             },
             url: window.location.href.slice(0, window.location.href.lastIndexOf("product")) + 'buy',
-        }).done((response) => {
-
+        }).done((response)=>{
+            if(response){
+                window.location.href = window.location.href.slice(0, window.location.href.lastIndexOf("product")) + 'profile';
+            }
         });
     })
 })

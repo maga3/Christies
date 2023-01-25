@@ -86,7 +86,7 @@ class ChristiesGestorDB
                 return false;
             }
             $result = $stmt->fetch();
-            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'],$result['tokens'], $result['telf']);
+            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'], $result['tokens'], $result['telf']);
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
@@ -327,7 +327,7 @@ class ChristiesGestorDB
             if (!$stmt->execute([$idobj, $idusr])) {
                 return false;
             }
-            if(!$db->query("UPDATE usuario SET tokens = (tokens-(SELECT precio FROM objeto WHERE objeto.id_objeto=$idobj)) WHERE id_user = $idusr")){
+            if (!$db->query("UPDATE usuario SET tokens = (tokens-(SELECT precio FROM objeto WHERE objeto.id_objeto=$idobj)) WHERE id_user = $idusr")) {
                 return false;
             }
 //            return self::triggerPuntuacion($db, $idobj);
@@ -545,15 +545,27 @@ class ChristiesGestorDB
     /**
      * @throws JsonException
      */
-    public static function productsValuated($signin, $id_cat,$index): bool|string
+    public static function productsValuated($signin, $id_cat, $index, $order, $price): bool|string
     {
         try {
             $db = Conexion::connect();
 
-            if ($signin && $id_cat!==NULL) {
-                $sql = "SELECT puntuacion.puntuacion+(SELECT SUM() FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` DESC LIMIT 10";
-            }else {
-                $sql = "SELECT puntuacion.puntuacion+(SELECT SUM() FROM compra GROUP BY compra.id_objeto) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` DESC LIMIT $index,10";
+            if ($id_cat !== NULL && $order !== NULL && !$price) {
+                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra JOIN objeto o on compra.id_objeto = o.id_objeto WHERE objeto.id_cat = $id_cat) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
+            } else if ($price) {
+                //Compras no precio
+//                if ($id_cat !== NULL) {
+//                    $sql = "SELECT COUNT(*) AS 'puntuacion', objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM objeto LEFT JOIN compra c on objeto.id_objeto = c.id_objeto JOIN categoria ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) GROUP BY compra.id_objeto ORDER BY COUNT(*) $order LIMIT $index,10";
+//                } else {
+//                    $sql = "SELECT COUNT(*) AS 'puntuacion', objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM objeto LEFT JOIN compra ON objeto.id_objeto=compra.id_objeto JOIN categoria ON categoria.id_cat=objeto.id_cat GROUP BY objeto.id_objeto ORDER BY COUNT(*) DESC LIMIT $index,10; ";
+//                }
+                if ($id_cat !== NULL){
+                    $sql = "SELECT *, c.descripcion AS 'descripcion',objeto.img1 AS ruta_img FROM objeto JOIN categoria c on objeto.id_cat = c.id_cat WHERE objeto.id_cat=$id_cat ORDER BY objeto.precio $order LIMIT $index,10";
+                }else {
+                    $sql = "SELECT *, c.descripcion AS 'descripcion',objeto.img1 AS ruta_img FROM objeto JOIN categoria c on objeto.id_cat = c.id_cat ORDER BY objeto.precio $order LIMIT $index,10";
+                }
+            } else {
+                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
             }
 
             $result = $db->query($sql);
@@ -570,12 +582,11 @@ class ChristiesGestorDB
     /**
      * @throws JsonException
      */
-    public static function productosUnaCategoria($id_cat): bool|string
+    public static function productosUnaCategoria($id_cat, $modo): bool|string
     {
         try {
             $db = Conexion::connect();
-
-            $sql = "SELECT *, o.img1 AS 'ruta_img' FROM categoria JOIN objeto o on categoria.id_cat = o.id_cat WHERE o.id_cat=$id_cat";
+            $sql = "SELECT *, o.img1 AS 'ruta_img' FROM categoria JOIN objeto o on categoria.id_cat = o.id_cat JOIN puntuacion on puntuacion.id_obj=o.id_objeto WHERE o.id_cat=$id_cat ORDER BY puntuacion.puntuacion $modo";
             $result = $db->query($sql);
             $response = $result->fetchAll();
 
@@ -596,7 +607,7 @@ class ChristiesGestorDB
             $db = Conexion::connect();
             $query = "SELECT c2.nombre AS 'category', p.puntuacion AS 'num_comments',objeto.img2 AS 'img2', objeto.img3 AS 'img3', objeto.img1 AS 'img1', objeto.precio AS 'precio', objeto.nombre AS 'nombre', c.fecha AS 'fecha', u.email AS 'email', c.contenido AS 'contenido', objeto.lat AS 'lat', objeto.lon AS 'lon', (SELECT COUNT(*) FROM compra WHERE compra.id_objeto = ?) AS 'num_compras' FROM objeto JOIN comentario c on objeto.id_objeto = c.id_objeto JOIN usuario u on c.id_user = u.id_user JOIN puntuacion p on objeto.id_objeto = p.id_obj JOIN categoria c2 on objeto.id_cat = c2.id_cat WHERE objeto.id_objeto = ?";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$id,$id])) {
+            if (!$stmt->execute([$id, $id])) {
                 return false;
             }
             $result = $stmt->fetchAll();
@@ -615,7 +626,7 @@ class ChristiesGestorDB
     {
         try {
             $db = Conexion::connect();
-            $query = "SELECT * FROM objeto WHERE objeto.nombre LIKE '%".$cad."%' ";
+            $query = "SELECT * FROM objeto WHERE objeto.nombre LIKE '%" . $cad . "%' ";
             $stmt = $db->prepare($query);
             if (!$stmt->execute([])) {
                 return false;
@@ -681,7 +692,7 @@ class ChristiesGestorDB
                 return false;
             }
             $result = $stmt->fetch();
-            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'],$result['tokens'], $result['telf']);
+            $usuario = new Usuario($result['id_user'], $result['email'], $result['password'], $result['rol'], $result['tokens'], $result['telf']);
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
@@ -690,10 +701,10 @@ class ChristiesGestorDB
         return $usuario;
     }
 
-    public static function makePurchase(Usuario $usuario,ObjetoVirtual $objeto): bool
+    public static function makePurchase(Usuario $usuario, ObjetoVirtual $objeto): bool
     {
-        if ($usuario->getTokens()>=$objeto->getPrecio()){
-            return self::createCompra($objeto->getId(),$usuario->getId());
+        if ($usuario->getTokens() >= $objeto->getPrecio()) {
+            return self::createCompra($objeto->getId(), $usuario->getId());
         }
         return false;
     }

@@ -34,6 +34,9 @@ include("components/header.html");
             <img src="logo.png" width="200px" height="150px" alt="logo">
         </div>
         <h1 class="display-5 text-h1 text-center p-3 mb-5">Welcome to Christies</h1>
+        <div class="d-flex justify-content-center align-items-center mt-3">
+            <a  id="search-btn" class="btn btn-outline-danger">Search</a>
+        </div>
         <div class="d-flex justify-content-center m-5">
             <label class="form-select-lg" for="product-list-choice">
                 <h5 class="h5">What would you like to find?</h5>
@@ -41,9 +44,6 @@ include("components/header.html");
                 <datalist id="product-list">
 
                 </datalist>
-                <div class="d-flex justify-content-center align-items-center mt-3">
-                    <a  id="search-btn" class="btn btn-outline-danger">Search</a>
-                </div>
             </label>
         </div>
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">

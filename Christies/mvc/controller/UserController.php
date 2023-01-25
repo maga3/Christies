@@ -129,15 +129,22 @@ class UserController
 
     }
 
-    public function makePurchase(): void
+    public function makePurchase()
     {
-        if (isset($_POST['user'], $_POST['object']) && !empty($_POST['user']) && !empty($_POST['object'])){
-            $user = ChristiesGestorDB::readUserOnName($_POST['user']);
-            $object = ChristiesGestorDB::readProduct($_POST['object']);
-            if (ChristiesGestorDB::makePurchase($user, $object)){
-                header('Location: ../profile');
+        if (isset($_SESSION['login']) &&  $_SESSION['login']){
+            if ( isset($_POST['user'], $_POST['object']) && !empty($_POST['user']) && !empty($_POST['object'])){
+                $user = ChristiesGestorDB::readUserOnName($_POST['user']);
+                $object = ChristiesGestorDB::readProduct($_POST['object']);
+                return ChristiesGestorDB::makePurchase($user, $object);
             }
+        }else {
+            header('Location: profile');
         }
-        header('Location: ../home');
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header('Location: login');
     }
 }
