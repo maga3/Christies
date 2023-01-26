@@ -2,15 +2,39 @@
 
 namespace model;
 
+/**
+ * @author Martin Ruiz
+ */
 class Comentario implements cruddb
 {
-    protected int $id;
+    /**
+     * @author Martin Ruiz
+     * @var int|null
+     */
+    protected ?int $id;
+    /**
+     * @author Martin Ruiz
+     * @var string
+     */
     public string $contenido;
+    /**
+     * @author Martin Ruiz
+     * @var string
+     */
     public string $fecha;
+    /**
+     * @author Martin Ruiz
+     * @var ObjetoVirtual
+     */
     protected ObjetoVirtual $id_obj;
+    /**
+     * @author Martin Ruiz
+     * @var Usuario
+     */
     protected Usuario $id_usr;
 
     /**
+     * @author Martin Ruiz
      * @param int $id
      * @param string $contenido
      * @param string $fecha
@@ -27,6 +51,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getContenido(): string
@@ -35,6 +60,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $contenido
      * @return Comentario
      */
@@ -45,6 +71,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getFecha(): string
@@ -53,6 +80,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $fecha
      * @return Comentario
      */
@@ -63,6 +91,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return int
      */
     public function getId(): int
@@ -71,6 +100,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return ObjetoVirtual
      */
     public function getObj(): ObjetoVirtual
@@ -79,6 +109,7 @@ class Comentario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return Usuario
      */
     public function getUsr(): Usuario
@@ -87,12 +118,21 @@ class Comentario implements cruddb
     }
 
 
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
     public function create(): bool
     {
         return ChristiesGestorDB::createComment($this->getContenido(), $this->getObj()->getId(), $this->getUsr()->getId());
     }
 
-    public static function read($id)
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return false|Comentario
+     */
+    public static function read($id):false|Comentario
     {
         $comment = ChristiesGestorDB::readComment($id);
         if ($comment instanceof self){
@@ -101,16 +141,29 @@ class Comentario implements cruddb
         return false;
     }
 
-    public function update()
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
+    public function update():bool
     {
-        ChristiesGestorDB::updateComment($this->getId(), $this->getContenido());
+        return ChristiesGestorDB::updateComment($this->getId(), $this->getContenido());
     }
 
-    public static function delete($id)
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool
+     */
+    public static function delete($id):bool
     {
-        ChristiesGestorDB::deleteComment($id);
+        return ChristiesGestorDB::deleteComment($id);
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
     public static function lastid()
     {
         // TODO: Implement lastid() method.

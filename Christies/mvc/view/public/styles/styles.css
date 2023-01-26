@@ -29,6 +29,7 @@ h1 {
     color: #ff2525;
 }
 
+
 body {
     background-image: none !important;
     background-color: #D9D9D9 !important;
@@ -149,8 +150,8 @@ a {
         opacity: 0 !important;
     }
     .font-size-xs{
-        margin-top: 1.3rem !important;
-        font-size: 1.6rem !important;
+        margin-top: 1.4rem !important;
+        font-size: 1.3rem !important;
     }
 }
 
@@ -187,4 +188,8 @@ input{
 }
 .carousel-control-prev-icon{
     background-image: url(../../admin/imgs/icon-back.png);
+}
+
+#map{
+    height: 360px
 }

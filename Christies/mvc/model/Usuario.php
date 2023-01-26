@@ -2,16 +2,44 @@
 
 namespace model;
 
+/**
+ * @author Martin Ruiz
+ */
 class Usuario implements cruddb
 {
+    /**
+     * @author Martin Ruiz
+     * @var int
+     */
     protected int $id;
+    /**
+     * @author Martin Ruiz
+     * @var string
+     */
     protected string $email;
+    /**
+     * @author Martin Ruiz
+     * @var string
+     */
     public string $password;
+    /**
+     * @author Martin Ruiz
+     * @var string
+     */
     public string $rol;
+    /**
+     * @author Martin Ruiz
+     * @var float
+     */
     public float $tokens;
+    /**
+     * @author Martin Ruiz
+     * @var string
+     */
     public string $tlf;
 
     /**
+     * @author Martin Ruiz
      * @author martin ruiz
      * @param int $id
      * @param string $email
@@ -31,6 +59,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return int
      */
     public function getId(): int
@@ -39,6 +68,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getEmail(): string
@@ -47,6 +77,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $email
      * @return Usuario
      */
@@ -57,6 +88,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getPassword(): string
@@ -65,6 +97,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $password
      * @return Usuario
      */
@@ -75,6 +108,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getRol(): string
@@ -83,6 +117,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $rol
      * @return Usuario
      */
@@ -93,6 +128,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return float
      */
     public function getTokens(): float
@@ -101,6 +137,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param float $tokens
      * @return Usuario
      */
@@ -111,6 +148,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getTlf(): string
@@ -119,6 +157,7 @@ class Usuario implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $tlf
      * @return Usuario
      */
@@ -129,12 +168,21 @@ class Usuario implements cruddb
     }
 
 
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
     public function create(): bool
     {
         return ChristiesGestorDB::addUser($this->getEmail(),$this->getPassword(),$this->getTlf());
     }
 
-    public static function read($id)
+    /**
+     * @param $id
+     * @return Usuario|false
+     * @author Martin Ruiz
+     */
+    public static function read($id):Usuario|false
     {
         $user = ChristiesGestorDB::readUser($id);
         if ($user instanceof self){
@@ -143,16 +191,29 @@ class Usuario implements cruddb
         return false;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
     public function update(): bool
     {
         return ChristiesGestorDB::updateUser($this->getId(),$this->getEmail(),$this->getTokens(),$this->getTlf());
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool
+     */
     public static function delete($id): bool
     {
         return ChristiesGestorDB::deleteUser($id);
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return int
+     */
     public static function lastid(): int
     {
         return ChristiesGestorDB::userLastId();

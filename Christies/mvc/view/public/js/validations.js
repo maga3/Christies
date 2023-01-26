@@ -8,6 +8,15 @@ $().ready(() =>{
         }
         invalidForm();
     });
+    $('#name').keyup(() =>{
+        if (!/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test($('#name').val())) {
+            $('#name').addClass('is-invalid');
+        } else {
+            $('#name').addClass('is-valid');
+            if ($('#name').hasClass('is-invalid'))$('#name').removeClass('is-invalid');
+        }
+        invalidForm();
+    });
     $('#pass').keyup(() =>{
         if (!/^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test($('#pass').val())) {
             $('#pass').addClass('is-invalid');
@@ -52,8 +61,10 @@ function invalidForm(){
     if($('input').hasClass('is-invalid')){
         $('#modalChangesForm').prop("disabled",true);
         $("button[type='submit']").prop('disabled',true);
+        $("input[type='submit']").prop('disabled',true);
     }else {
         $('#modalChangesForm').prop("disabled",false);
         $("button[type='submit']").prop('disabled',false);
+        $("input[type='submit']").prop('disabled',false);
     }
 }

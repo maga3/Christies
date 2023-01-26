@@ -11,6 +11,7 @@ require("./model/Categoria.php");
 require("./model/ObjetoVirtual.php");
 require("./model/Usuario.php");
 require("./model/Comentario.php");
+require('./model/Mailer2.php');
 
 //Instancio el controlador
 $adminController = new AdminController();
@@ -21,6 +22,8 @@ $home = "/christies/mvc/index.php/";
 
 $ruta = str_replace($home, "", $_SERVER["REQUEST_URI"]);//accion
 $array_ruta = array_filter(explode("/", $ruta));
+
+const PUBLIC_SECTIONS = ['login'=>'','register'=>'','home'=>'','list'=>'','profile'=>'','buy'=>'','logout'=>'','comment'=>'','contact'=>'','users'=>'','product'=>'','delete'=>''];
 
 if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
     //Rutas del admin
@@ -100,8 +103,7 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
      *
      *
      */
-} else if (isset($array_ruta[0]) && $array_ruta[0] !== "admin" && $array_ruta[0] !== "api") {
-
+} else if (isset($array_ruta[0]) && !empty($array_ruta[0]) && array_key_exists($array_ruta[0],PUBLIC_SECTIONS)  && $array_ruta[0] !== "admin" && $array_ruta[0] !== "api") {
     if (!isset($array_ruta[1])) {
         if ($array_ruta[0] === "login") {
             $userController->showLogin();
@@ -130,6 +132,8 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
                 $userController->registerProcess();
             }else if ($array_ruta[0] === "users"){
                 $userController->userProcess();
+            }else if ($array_ruta[0] === "contact"){
+                $userController->contactProcess();
             }
         }else if (is_numeric($array_ruta[1])) {
             if ($array_ruta[0] === "product") {
@@ -149,9 +153,9 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
     if (isset($array_ruta[1]) && $array_ruta[1] === "valuatedProds"){
         try {
             if (isset($_POST) && !empty($_POST)){
-                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index'],$_POST['order']??'DESC', $_POST['price']==='true',$_POST['slider']==='true');
+                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index'],$_POST['order']??'DESC', $_POST['price']==='true',$_POST['slider']==='true',$_SESSION['user']??null);
             }else {
-                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, !isset($_POST['idcat']) || $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index']??0,$_POST['order']??'DESC',$_POST['price']??false,$_POST['price']??false);
+                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, !isset($_POST['idcat']) || $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index']??0,$_POST['order']??'DESC',$_POST['price']??false,$_POST['price']??false,$_SESSION['user']??null);
             }
         } catch (JsonException $e) {
             echo "Error: " . $e->getMessage();
@@ -193,11 +197,13 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
         }
     }
 }
-else if ($array_ruta[0] === 'admin' || $array_ruta[1] === '' || !isset($array_ruta[1])  || !isset($array_ruta[0])) {
+else if ($array_ruta[0] === 'admin' || $array_ruta[1] === '' || !isset($array_ruta[1]) || empty($array_ruta[0])) {
     $uri = $_SERVER['REQUEST_URI'];
     if ($uri[strlen($uri) - 1] === '/') {
         header('Location:' . $_SERVER['REQUEST_URI'] . 'login');
     } else {
         header('Location:' . $_SERVER['REQUEST_URI'] . '/login');
     }
+}else {
+    require('./view/404.html');
 }

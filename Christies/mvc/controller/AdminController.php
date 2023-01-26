@@ -7,13 +7,15 @@ use model\ObjetoVirtual;
 use model\Usuario;
 
 /**
- * @author martin ruiz
+ * @author Martin Ruiz
  * Clase controladora de acciones parte admin
  *
  */
 class AdminController
 {
     /**
+     *
+     * @author Martin Ruiz
      * Valida el login y da feedback del error
      * @return void
      */
@@ -27,16 +29,22 @@ class AdminController
             }
             if (!preg_match('/^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*/', $pass)) {
                 $_SESSION["passError"] = true;
-            } else if (ChristiesGestorDB::login($usr, $pass)) {
+            }
+
+            if (ChristiesGestorDB::loginAdmin($usr, $pass)) {
                 $_SESSION['loginAdmin'] = true;
                 $_SESSION['user'] = $usr;
                 header('Location: ../dashboard');
+            }else {
+                $_SESSION["userPassError"] = true;
             }
             header('Location: ../login');
         }
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * Muestra el formulario de login
      * @return void
      */
@@ -50,6 +58,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * Muestra el formulario de recuperar la password
      * @return void
      */
@@ -59,6 +69,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * Muestra el formulario para registrarse
      * @return void
      */
@@ -68,6 +80,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * Muestra el dashboard
      * @return void
      */
@@ -78,6 +92,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * Logsout
      * @return void
      */
@@ -88,6 +104,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function categorias(): void
@@ -99,6 +117,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function users()
@@ -110,6 +130,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function articles()
@@ -121,6 +143,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param $id
      * @return void
      */
@@ -136,6 +160,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param $id
      * @return void
      */
@@ -151,6 +177,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function comentarios(): void
@@ -162,6 +190,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param string $id
      * @return void
      */
@@ -180,6 +210,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function compras(): void
@@ -191,6 +223,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param $id
      * @return void
      */
@@ -232,6 +266,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param $id
      * @return void
      */
@@ -263,6 +299,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param ObjetoVirtual $article
      * @param int $num
      * @return bool
@@ -301,6 +339,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param Categoria $categoria
      * @param int $num
      * @return bool
@@ -332,6 +372,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param int $id
      * @return void
      */
@@ -377,6 +419,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param int $id
      * @return void
      */
@@ -389,6 +433,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param int $id
      * @return void
      */
@@ -401,13 +447,16 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function categoriasAdd(): void
     {
         require './model/sesiones.php';
-        $id = ChristiesGestorDB::categoriaLastId() + 1;
-        if (ChristiesGestorDB::addCat($id)) {
+        $categoria = new Categoria(null,'','','');
+        if ($categoria->create()) {
+            $id = ChristiesGestorDB::categoriaLastId() + 1;
             header('Location: ../categorias/' . $id);
         } else {
             header('Location: ../categorias');
@@ -415,6 +464,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      * @throws JsonException
      */
@@ -439,6 +490,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @return void
      */
     public function usersAdd(): void
@@ -465,6 +518,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param int $id
      * @return void
      */
@@ -477,6 +532,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @param int $id
      * @return void
      */
@@ -489,6 +546,8 @@ class AdminController
     }
 
     /**
+     *
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public function comentariosAdd()

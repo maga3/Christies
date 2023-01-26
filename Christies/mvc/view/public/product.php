@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="../../mvc/view/public/">
+    <base href="../../view/public/">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -14,7 +14,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles/styleHome.css">
+    <!-- Leaflets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+    <link rel="stylesheet" href="styles/styles.css">
     <link rel="icon" href="logo.png" type="image/png" sizes="16x16">
 
     <title>Christies</title>
@@ -62,12 +69,16 @@ include("components/header.html");
         <button id="buy-btn" type="button" class="btn btn-outline-dark">Buy</button>
     </div>
 
+    <div id="map">
+
+    </div>
+
     <div class="row d-flex justify-content-center mb-5">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                 <div class="card-body p-4 comments">
                     <div class="form-outline mb-4">
-                        <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
+                        <input type="text" id="addANote" class="form-control" placeholder="Type comment..."/>
                         <label class="form-label" for="addANote">+ Add a note</label>
                     </div>
                 </div>
@@ -82,6 +93,6 @@ include("components/header.html");
 include("components/footer.html");
 ?>
 </body>
-<script src="js/productAJAX.js"></script>
+<script type="module" src="js/productAJAX.js"></script>
 <script src="js/validations.js"></script>
 </html>

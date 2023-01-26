@@ -23,6 +23,7 @@
     <link rel="shortcut icon" href="../../view/admin/star-admin2/template/images/favicon.png"/>
     <!-- #myStyle-->
     <link rel="stylesheet" href="../../view/admin/css/style.css">
+    <link rel="shortcut icon" href="../../view/admin/imgs/logo.png" />
 </head>
 
 <body>
@@ -33,10 +34,21 @@
                 <div class="col-lg-4 mx-auto">
                     <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                         <div class="brand-logo">
-                            <img src="" alt="logo">
+                            <img src="../../view/admin/imgs/logo.png" alt="logo">
                         </div>
                         <h4>Hello! let's get started</h4>
                         <h6 class="fw-light">Sign in to continue.</h6>
+                        <?php
+                        if (isset($_SESSION['userPassError'])) {
+                            unset($_SESSION['userPassError']);
+                            ?>
+                            <div class="alert alert-danger" role="alert">
+                                User or password are wrong. Try again!!<br>
+                                Maybe you are not the admin <span style='font-size:20px;'>&#128527;</span>
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <form action="../../index.php/admin/login/process" class="pt-3" method="post">
                             <div class="form-group">
                                 <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"

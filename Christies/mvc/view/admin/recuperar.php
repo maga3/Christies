@@ -20,7 +20,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="../../view/admin/star-admin2/template/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="../../view/admin/star-admin2/template/images/favicon.png" />
+    <link rel="shortcut icon" href="../../view/admin/imgs/logo.png" />
     <!-- #myStyle-->
     <link rel="stylesheet" href="../../view/admin/css/style.css">
 </head>

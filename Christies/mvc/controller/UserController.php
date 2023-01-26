@@ -1,13 +1,20 @@
 <?php
-ob_start();
 
 use model\ChristiesGestorDB;
 use model\Usuario;
+use model\Mailer2;
 
+/**
+ * @author Martin Ruiz
+ */
 class UserController
 {
 
-    public function showLogin()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function showLogin(): void
     {
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             header('Location: ../index.php/home');
@@ -16,65 +23,95 @@ class UserController
         }
     }
 
-    public function loginProcess()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function loginProcess(): void
     {
+        unset($_SESSION['userError'], $_SESSION['passError']);
         $usr = $_POST['email'];
         $pass = $_POST['pass'];
 
         if (!filter_var($usr, FILTER_VALIDATE_EMAIL)) {
             $_SESSION["userError"] = true;
         }
-        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/', $pass)) {
+        if (!preg_match('/^(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/', $pass)) {
             $_SESSION["passError"] = true;
         }
+
         if (!isset($_SESSION["passError"]) && !isset($_SESSION["userError"]) &&
             ChristiesGestorDB::login($usr, $pass)) {
             $_SESSION['login'] = true;
             $_SESSION['user'] = $usr;
             header('Location: ../home');
-            die();
+        }else {
+            $_SESSION["userPassError"] = true;
         }
         header('Location: ../login');
     }
 
-    public function showRegister()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function showRegister(): void
     {
         require './view/public/register.php';
     }
 
-    public function registerProcess()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function registerProcess(): void
     {
-        $usr = $_POST['email'];
-        $pass = $_POST['pass'];
-        if (!filter_var($usr, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION["userError"] = true;
-        }
-        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/', $pass)) {
-            $_SESSION["passError"] = true;
-        }
+        if (isset($_POST['email']) && isset($_POST['pass'])) {
+            $usr = $_POST['email'];
+            $pass = $_POST['pass'];
+            if (!filter_var($usr, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION["userError"] = true;
+            }
+            if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$/', $pass)) {
+                $_SESSION["passError"] = true;
+            }
 
-        if (!isset($_SESSION["passError"]) && !isset($_SESSION["userError"]) &&
-            ChristiesGestorDB::addUser($usr, $pass)) {
-            $_SESSION['login'] = true;
-            $_SESSION['user'] = $usr;
-            header('Location: ../login');
-            die();
+            if (!isset($_SESSION["passError"]) && !isset($_SESSION["userError"]) &&
+                ChristiesGestorDB::addUser($usr, $pass)) {
+                $_SESSION['login'] = true;
+                $_SESSION['user'] = $usr;
+                header('Location: ../login');
+                die();
+            }
         }
         header('Location: ../register');
     }
 
-    public function showHome()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function showHome(): void
     {
         require './view/public/home.php';
     }
 
-    public function showProduct(float|int|string $id)
+    /**
+     * @author Martin Ruiz
+     * @param float|int|string $id
+     * @return void
+     */
+    public function showProduct(float|int|string $id): void
     {
         $product = ChristiesGestorDB::readProduct($id);
         require './view/public/product.php';
     }
 
-    public function showList()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function showList(): void
     {
         try {
             $cats = json_decode(ChristiesGestorDB::jsonCatIdNombre(), true, 512, JSON_THROW_ON_ERROR);
@@ -84,7 +121,11 @@ class UserController
         require './view/public/lista_productos.php';
     }
 
-    public function showProfile()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function showProfile(): void
     {
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             require './view/public/profile.php';
@@ -93,6 +134,10 @@ class UserController
         }
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
     public function userProcess(): void
     {
         if (isset($_POST) && !empty($_POST)) {
@@ -121,15 +166,26 @@ class UserController
         }
     }
 
-    public function deleteUser($name)
+    /**
+     * @author Martin Ruiz
+     * @param $name
+     * @return void
+     */
+    public function deleteUser($name): void
     {
         $users = ChristiesGestorDB::readUserOnName($name);
-        if ($users instanceof Usuario) $users::delete($users->getId());
-        session_destroy();
-        header('Location: ../home');
+        if ($users instanceof Usuario){
+            $users::delete($users->getId());
+            session_destroy();
+        }
+        header('Location: ../../home');
 
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return bool|void
+     */
     public function makePurchase()
     {
         if (isset($_SESSION['login']) &&  $_SESSION['login']){
@@ -143,13 +199,21 @@ class UserController
         }
     }
 
-    public function logout()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function logout(): void
     {
         session_destroy();
         header('Location: login');
     }
 
-    public function comment()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function comment(): void
     {
 
         if (isset($_POST) && !empty($_POST)){
@@ -165,12 +229,47 @@ class UserController
         }
     }
 
-    public function showContact()
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function showContact(): void
     {
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             require './view/public/contact.php';
         } else {
             header('Location: login');
+        }
+    }
+
+    /**
+     * @author Martin Ruiz
+     * @return void
+     */
+    public function contactProcess(): void
+    {
+        if (isset($_POST) && !empty($_POST)) {
+            if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['query'])){
+                $name = $_POST['name'];
+                $email = $_POST['email'];
+                $query = $_POST['query'];
+                $send = true;
+
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                    $send = false;
+                }
+                if (!preg_match("/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/",$name)){
+                    $send = false;
+                }
+
+                $queryFin = filter_var($query, FILTER_SANITIZE_STRING);
+
+                if ($send){
+                    $mailer = new Mailer2('mruizball92@gmail.com','mruizball92@gmail.com','Query christies',$queryFin);
+                    $mailer->sendEmail();
+                    header('Location: ../../index.php/profile');
+                }
+            }
         }
     }
 }

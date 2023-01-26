@@ -2,10 +2,39 @@
 
 namespace model;
 
+/**
+ * @author Martin Ruiz
+ */
 interface cruddb {
-    public function create();
-    public static function read($id);
-    public function update();
-    public static function delete($id);
+    /**
+     * @author Martin Ruiz
+     * @return mixed
+     */
+    public function create(): mixed;
+
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return mixed
+     */
+    public static function read($id): mixed;
+
+    /**
+     * @author Martin Ruiz
+     * @return mixed
+     */
+    public function update(): mixed;
+
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return mixed
+     */
+    public static function delete($id): mixed;
+
+    /**
+     * @author Martin Ruiz
+     * @return mixed
+     */
     public static function lastid();
 }

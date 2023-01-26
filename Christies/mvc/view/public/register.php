@@ -17,7 +17,7 @@
 </head>
 <body>
 <main class="container mt-4 mb-4 px-lg-5">
-    <section class="background-radial-gradient overflow-hidden">
+    <section class="min-vh-100 background-radial-gradient overflow-hidden">
         <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
@@ -36,11 +36,11 @@
 
                     <div class="card bg-glass">
                         <div class="card-body px-4 py-5 px-md-5">
-                            <form action="../index.php/register/process" method="post" enctype="multipart/form-data">
+                            <form action="../../index.php/register/process" method="post" enctype="multipart/form-data">
 
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
-                                    <input type="email" name="email" id="email" class="form-control">
+                                    <input type="email" name="email" id="email" class="form-control" required>
                                     <label class="form-label" for="email" style="margin-left: 0;">
                                         Email address
                                         <?php
@@ -63,7 +63,7 @@
 
                                 <!-- Password input -->
                                 <div class="form-outline mb-4">
-                                    <input type="password" name="pass" id="pass" class="form-control">
+                                    <input type="password" name="pass" id="pass" class="form-control" required>
                                     <label class="form-label" for="pass" style="margin-left: 0;">Password
                                         <?php
                                         if (isset($_SESSION['passError'])) {

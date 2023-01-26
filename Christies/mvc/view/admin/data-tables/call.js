@@ -27,7 +27,6 @@
                         'columnsjs': arrColumns
                     },
                     type: 'POST',
-
                 },
                 columns: response.columns,
             })

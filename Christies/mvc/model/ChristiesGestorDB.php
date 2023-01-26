@@ -5,13 +5,47 @@ namespace model;
 use JsonException;
 use PDO;
 
+/**
+ * @author Martin Ruiz
+ */
+
 class ChristiesGestorDB
 {
+    /**
+     * @author Martin Ruiz
+     * @param $usr
+     * @param $pass
+     * @return bool
+     */
+    public static function loginAdmin($usr, $pass): bool
+    {
+        try {
+            $db = Conexion::connect();
+            $pass = sha1($pass);
+            $res = $db->query("SELECT * FROM usuario u WHERE u.email = '".$usr."' AND u.password  = '".$pass."' AND 'admin' = (SELECT rol FROM usuario WHERE email = '".$usr."')");
+            if (!$res->fetch()) {
+                return false;
+            }
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return true;
+    }
+    /**
+     * @author Martin Ruiz
+     * @param $usr
+     * @param $pass
+     * @return bool
+     */
     public static function login($usr, $pass): bool
     {
         try {
             $db = Conexion::connect();
-            $res = $db->query("SELECT * FROM usuario WHERE email = $usr AND password = sha1($pass) AND rol = 'admin'");
+            $pass = sha1($pass);
+            $res = $db->query("SELECT * FROM usuario u WHERE u.email = '".$usr."' AND u.password  = '".$pass."'");
+
             if (!$res->fetch()) {
                 return false;
             }
@@ -25,6 +59,12 @@ class ChristiesGestorDB
 
     //USUARIO
     //Area de usuario donde se realizan las operaciones del crud con las conexiones a la base de datos
+    /**
+     * @author Martin Ruiz
+     * @param $email
+     * @param $password
+     * @return bool
+     */
     public static function addUser($email, $password): bool
     {
         try {
@@ -42,6 +82,14 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id_user
+     * @param $email
+     * @param $tokens
+     * @param $telf
+     * @return bool
+     */
     public static function updateUser($id_user, $email, $tokens, $telf): bool
     {
         try {
@@ -59,6 +107,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id_user
+     * @return bool
+     */
     public static function deleteUser($id_user): bool
     {
         try {
@@ -76,6 +129,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return Usuario|bool
+     */
     public static function readUser($id): Usuario|bool
     {
         try {
@@ -98,13 +156,17 @@ class ChristiesGestorDB
 
     //CATEGORIAS
     //Area de ccategorias donde se realizan las operaciones del crud con las conexiones a la base de datos
-    public static function addCat($id): bool
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
+    public static function addCat(): bool
     {
         try {
             $db = Conexion::connect();
-            $query = "INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES (?, '', '', '')";
+            $query = "INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES (null, '', '', '')";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$id])) {
+            if (!$stmt->execute([])) {
                 return false;
             }
         } catch (\PDOException $e) {
@@ -115,6 +177,14 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id_cat
+     * @param $nombre
+     * @param $descripcion
+     * @param $img
+     * @return bool
+     */
     public static function updateCat($id_cat, $nombre, $descripcion, $img): bool
     {
         try {
@@ -132,6 +202,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id_cat
+     * @return bool
+     */
     public static function deleteCat($id_cat): bool
     {
         try {
@@ -149,6 +224,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return Categoria|bool
+     */
     public static function readCategory($id): Categoria|bool
     {
         try {
@@ -172,6 +252,11 @@ class ChristiesGestorDB
     //PRODUCTOS
     //Area de comentarios donde se realizan las operaciones del crud con las conexiones a la base de datos
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool|ObjetoVirtual
+     */
     public static function readProduct($id): bool|ObjetoVirtual
     {
         try {
@@ -191,6 +276,13 @@ class ChristiesGestorDB
         return $product;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $nombre
+     * @param $precio
+     * @param $idcat
+     * @return bool
+     */
     public static function createProduct($nombre, $precio, $idcat)
     {
         try {
@@ -208,6 +300,18 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $nombre
+     * @param $precio
+     * @param $img1
+     * @param $img2
+     * @param $img3
+     * @param $idobj
+     * @param $lat
+     * @param $lon
+     * @return bool
+     */
     public static function updateProduct($nombre, $precio, $img1, $img2, $img3, $idobj, $lat, $lon)
     {
         try {
@@ -225,6 +329,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool
+     */
     public static function deleteProduct($id)
     {
         try {
@@ -244,6 +353,14 @@ class ChristiesGestorDB
 
 
     //Comentario crud
+
+    /**
+     * @author Martin Ruiz
+     * @param $content
+     * @param $id_objeto
+     * @param $id_user
+     * @return bool
+     */
     public static function createComment($content, $id_objeto, $id_user): bool
     {
         try {
@@ -262,6 +379,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool|Comentario
+     */
     public static function readComment($id): bool|Comentario
     {
         try {
@@ -281,6 +403,12 @@ class ChristiesGestorDB
         return $comentario;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param int $getId
+     * @param string $getContenido
+     * @return bool
+     */
     public static function updateComment(int $getId, string $getContenido): bool
     {
         try {
@@ -298,6 +426,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param int $getId
+     * @return bool
+     */
     public static function deleteComment(int $getId): bool
     {
         try {
@@ -318,6 +451,12 @@ class ChristiesGestorDB
 
     //Compras crud
 
+    /**
+     * @author Martin Ruiz
+     * @param $idobj
+     * @param $idusr
+     * @return bool
+     */
     public static function createCompra($idobj, $idusr)
     {
         try {
@@ -339,6 +478,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool|Compras
+     */
     public static function readCompra($id): bool|Compras
     {
         try {
@@ -358,6 +502,10 @@ class ChristiesGestorDB
         return $compras;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
     public static function updateCompra(): bool
     {
         try {
@@ -375,6 +523,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param int $getId
+     * @return bool
+     */
     public static function deleteCompra(int $getId): bool
     {
         try {
@@ -392,6 +545,11 @@ class ChristiesGestorDB
         return true;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $table
+     * @return array
+     */
     public static function getColumns($table): array
     {
         try {
@@ -412,6 +570,11 @@ class ChristiesGestorDB
         return $columns;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool|array
+     */
     public static function getCommentsOnUserId($id): bool|array
     {
         try {
@@ -434,6 +597,10 @@ class ChristiesGestorDB
         return $arrayComentarios;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return int
+     */
     public static function categoriaLastId(): int
     {
         try {
@@ -449,6 +616,10 @@ class ChristiesGestorDB
         return $response;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @return int
+     */
     public static function userLastId(): int
     {
         try {
@@ -465,6 +636,7 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function jsonCatIdNombre(): bool|string
@@ -483,6 +655,7 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function jsonObjIdNombre(): bool|string
@@ -501,6 +674,7 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function jsonUsrIdNombre(): bool|string
@@ -519,6 +693,7 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @param PDO|null $db
      * @param $id_objeto
      * @return false|void
@@ -543,14 +718,16 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
-    public static function productsValuated($signin, $id_cat, $index, $order, $price,$slider): bool|string
+    public static function productsValuated($signin, $id_cat, $index, $order, $price,$slider,$user): bool|string
     {
         try {
+//            var_dump($signin, $id_cat, $index, $order, $price,$slider,$user);
             $db = Conexion::connect();
             if ($id_cat !== NULL && $order !== NULL && !$price && !$slider) {
-                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra JOIN objeto o on compra.id_objeto = o.id_objeto WHERE objeto.id_cat = $id_cat) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
+                $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra JOIN objeto o on compra.id_objeto = o.id_objeto WHERE objeto.id_cat = $id_cat) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` RIGHT JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj LEFT JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
             } else if ($price && !$slider) {
                 //Compras no precio
 //                if ($id_cat !== NULL) {
@@ -565,8 +742,23 @@ class ChristiesGestorDB
                 }
             } else if(!$price && !$slider){
                 $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
-            }else {
-                $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat LIMIT $index,10";
+            }else if ($slider){
+
+                if ($signin){
+
+                    $sql1 = "SELECT * FROM comentario c join usuario u on c.id_user=u.id_user where u.id_user = (SELECT id_user from usuario WHERE usuario.email= '".$user."')";
+                    $hascoms = $db->query($sql1);
+
+                    if(!$hascoms->fetch()){
+                        $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY puntuacion.puntuacion DESC LIMIT $index,10";
+                    }else {
+                        $sql = "SELECT o.id_objeto AS 'id_objeto', o.img1 AS ruta_img FROM comentario c JOIN usuario u on c.id_user=u.id_user JOIN objeto o on c.id_objeto=o.id_objeto where u.id_user = (SELECT id_user from usuario WHERE usuario.email= '".$user."') LIMIT $index,10";
+                    }
+                }else {
+                    $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat LIMIT $index,10";
+                }
+            }else{
+                $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY puntuacion.puntuacion DESC LIMIT $index,10";
             }
 
             $result = $db->query($sql);
@@ -581,13 +773,14 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function productosUnaCategoria($id_cat, $modo): bool|string
     {
         try {
             $db = Conexion::connect();
-            $sql = "SELECT *, o.img1 AS 'ruta_img' FROM categoria JOIN objeto o on categoria.id_cat = o.id_cat JOIN puntuacion on puntuacion.id_obj=o.id_objeto WHERE o.id_cat=$id_cat ORDER BY puntuacion.puntuacion $modo";
+            $sql = "SELECT *, o.img1 AS 'ruta_img' FROM categoria LEFT JOIN objeto o on categoria.id_cat = o.id_cat LEFT JOIN puntuacion on puntuacion.id_obj=o.id_objeto WHERE o.id_cat=$id_cat ORDER BY puntuacion.puntuacion $modo";
             $result = $db->query($sql);
             $response = $result->fetchAll();
 
@@ -600,6 +793,7 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function productById(int $id): bool|string
@@ -621,6 +815,7 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function filteredListProds($cad): bool|string
@@ -642,15 +837,24 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function userdata(mixed $user): bool|string
     {
         try {
             $db = Conexion::connect();
-            $query = "SELECT u.email AS 'email', u.tokens AS 'tokens', u.telf AS 'telf', c.contenido AS 'contenido', o.nombre AS 'producto', c.fecha AS 'fecha_com'  FROM usuario u JOIN comentario c on u.id_user = c.id_user JOIN objeto o on c.id_objeto = o.id_objeto WHERE u.email  = ?";
+            $sql1 = "SELECT * FROM comentario JOIN usuario u on u.id_user = comentario.id_user WHERE u.email = '".$user."'";
+            $hasComments = $db->query($sql1);
+
+
+            if ($hasComments->fetch()){
+                $query = "SELECT u.email AS 'email', u.tokens AS 'tokens', u.telf AS 'telf', c.contenido AS 'contenido', o.nombre AS 'producto', c.fecha AS 'fecha_com'  FROM usuario u JOIN comentario c on u.id_user = c.id_user JOIN objeto o on c.id_objeto = o.id_objeto WHERE u.email  = '".$user."'";
+            }else {
+                $query = "SELECT u.email AS 'email', u.tokens AS 'tokens', u.telf AS 'telf' FROM usuario u WHERE u.email = '".$user."'";
+            }
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$user])) {
+            if (!$stmt->execute([])) {
                 return false;
             }
             $result = $stmt->fetchAll();
@@ -663,15 +867,16 @@ class ChristiesGestorDB
     }
 
     /**
+     * @author Martin Ruiz
      * @throws JsonException
      */
     public static function userPurchases(mixed $user): bool|string
     {
         try {
             $db = Conexion::connect();
-            $query = "SELECT o.nombre AS 'producto', c.fecha AS 'fecha_com', o.img1 AS 'img' FROM usuario u JOIN compra c on u.id_user = c.id_user JOIN objeto o on c.id_objeto = o.id_objeto WHERE u.email  = ?";
+            $query = "SELECT o.nombre AS 'producto', c.fecha AS 'fecha_com', o.img1 AS 'img' FROM usuario u JOIN compra c on u.id_user = c.id_user JOIN objeto o on c.id_objeto = o.id_objeto WHERE u.email  = '".$user."'";
             $stmt = $db->prepare($query);
-            if (!$stmt->execute([$user])) {
+            if (!$stmt->execute([])) {
                 return false;
             }
             $result = $stmt->fetchAll();
@@ -683,6 +888,11 @@ class ChristiesGestorDB
         return json_encode($result, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param mixed $actualName
+     * @return Usuario|bool
+     */
     public static function readUserOnName(mixed $actualName): Usuario|bool
     {
         try {
@@ -702,6 +912,12 @@ class ChristiesGestorDB
         return $usuario;
     }
 
+    /**
+     * @author Martin Ruiz
+     * @param Usuario $usuario
+     * @param ObjetoVirtual $objeto
+     * @return bool
+     */
     public static function makePurchase(Usuario $usuario, ObjetoVirtual $objeto): bool
     {
         if ($usuario->getTokens() >= $objeto->getPrecio()) {

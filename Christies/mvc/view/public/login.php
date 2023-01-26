@@ -19,7 +19,7 @@
 <main class="container mt-4 px-lg-5">
     <section class="pb-4">
         <div class="rounded-5">
-            <section class="w-100 px-4 py-5" style="border-radius: .5rem .5rem 0 0;">
+            <section class="vh-100 px-4 py-5" style="border-radius: .5rem .5rem 0 0;">
                 <div class="row d-flex justify-content-center">
                     <div class="col-12 col-md-8 col-lg-6 col-xl-6">
                         <div class="card bg-dark text-white" style="border-radius: 1rem;">
@@ -30,11 +30,20 @@
                                         <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
                                         <div class="form-outline form-white mb-4">
-
+                                            <?php
+                                            if (isset($_SESSION['userPassError'])) {
+                                                unset($_SESSION['userPassError']);
+                                                ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    User or password are wrong. Try again!!
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
                                             <label class="form-label" for="email"
                                                    style="margin-left: 0;">Email
                                                 <input type="email" id="email" name="email"
-                                                       class="form-control form-control-lg">
+                                                       class="form-control form-control-lg" required>
                                                 <?php
                                                 if (isset($_SESSION['userError'])) {
                                                     unset($_SESSION['userError']);
@@ -57,7 +66,7 @@
                                             <label class="form-label" for="pass"
                                                    style="margin-left: 0;">Password
                                                 <input type="password" id="pass" name="pass"
-                                                       class="form-control form-control-lg">
+                                                       class="form-control form-control-lg" required>
                                                 <?php
                                                 if (isset($_SESSION['passError'])) {
                                                     unset($_SESSION['passError']);

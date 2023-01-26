@@ -2,14 +2,34 @@
 
 namespace model;
 
-class Compras implements cruddb
+/**
+ * @author Martin Ruiz
+ */
+class Compras
 {
+    /**
+     * @author Martin Ruiz
+     * @var int|bool
+     */
     protected int $id;
+    /**
+     * @author Martin Ruiz
+     * @var string|bool
+     */
     public string $fecha;
+    /**
+     * @author Martin Ruiz
+     * @var int
+     */
     protected int $id_obj;
+    /**
+     * @author Martin Ruiz
+     * @var int
+     */
     protected int $id_user;
 
     /**
+     * @author Martin Ruiz
      * @param int $id
      * @param string $fecha
      * @param int $id_obj
@@ -24,6 +44,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return int
      */
     public function getId(): int
@@ -32,6 +53,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return string
      */
     public function getFecha(): string
@@ -40,6 +62,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param string $fecha
      * @return Compras
      */
@@ -50,6 +73,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return int
      */
     public function getIdObj(): int
@@ -58,6 +82,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param int $id_obj
      * @return Compras
      */
@@ -68,6 +93,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @return int
      */
     public function getIdUser(): int
@@ -76,6 +102,7 @@ class Compras implements cruddb
     }
 
     /**
+     * @author Martin Ruiz
      * @param int $id_user
      * @return Compras
      */
@@ -85,12 +112,21 @@ class Compras implements cruddb
         return $this;
     }
 
-    public function create()
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
+    public function create(): bool
     {
         return ChristiesGestorDB::createCompra($this->getIdObj(),$this->getIdUser());
     }
 
-    public static function read($id)
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return false|Compras
+     */
+    public static function read($id): Compras|bool
     {
         $compra = ChristiesGestorDB::readCompra($id);
         if($compra instanceof self) {
@@ -99,12 +135,21 @@ class Compras implements cruddb
         return false;
     }
 
-    public function update()
+    /**
+     * @author Martin Ruiz
+     * @return bool
+     */
+    public function update(): bool
     {
         return ChristiesGestorDB::updateCompra();
     }
 
-    public static function delete($id)
+    /**
+     * @author Martin Ruiz
+     * @param $id
+     * @return bool
+     */
+    public static function delete($id): bool
     {
         return ChristiesGestorDB::deleteCompra($id);
     }
