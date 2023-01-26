@@ -1,4 +1,4 @@
-import {mapaLeaflet} from "./map.js";
+import {mapaLeafletJustOneProd} from "./map.js";
 
 
 
@@ -42,7 +42,7 @@ $().ready(() => {
         }
 
         if (response[0].lat !== '0.00000000000000000000' && response[0].lat !== '0.00000000000000000000'){
-            mapaLeaflet(response[0].lat,response[0].lon,response[0].nombre);
+            mapaLeafletJustOneProd(response[0].lat,response[0].lon,response[0].nombre);
         }
         $('.form-label').text($('.form-label').text() + '. Total ' + response[0].num_comments);
         $('.numcompras').append("<span>Total number of products purchased " + response[0].num_compras + "</span>")

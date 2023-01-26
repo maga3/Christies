@@ -39,7 +39,7 @@ include("components/header.html");
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <label class="w-100">
-                                        <input type="text" id="name" class="form-control form-control-lg"
+                                        <input type="text" id="name" class="form-control form-control-lg" maxlength="25"
                                                placeholder="name"  name="name" required/>
                                     </label>
                                 </div>
@@ -53,7 +53,7 @@ include("components/header.html");
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <label class="w-100">
-                                        <input type="email" id="email" name="email" class="form-control form-control-lg"
+                                        <input type="email" id="email" name="email" class="form-control form-control-lg" maxlength="40"
                                                placeholder="example@example.com" required/>
                                     </label>
                                 </div>
@@ -67,7 +67,7 @@ include("components/header.html");
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <label class="w-100">
-                                    <textarea class="form-control" rows="3" name="query"
+                                    <textarea class="form-control" rows="3" name="query" id="addANote"
                                               placeholder="Message" required maxlength="550"></textarea>
                                     </label>
                                 </div>

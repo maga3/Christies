@@ -23,7 +23,7 @@ $home = "/christies/mvc/index.php/";
 $ruta = str_replace($home, "", $_SERVER["REQUEST_URI"]);//accion
 $array_ruta = array_filter(explode("/", $ruta));
 
-const PUBLIC_SECTIONS = ['login'=>'','register'=>'','home'=>'','list'=>'','profile'=>'','buy'=>'','logout'=>'','comment'=>'','contact'=>'','users'=>'','product'=>'','delete'=>''];
+const PUBLIC_SECTIONS = ['login'=>'','register'=>'','home'=>'','list'=>'','profile'=>'','buy'=>'','logout'=>'','comment'=>'','contact'=>'','users'=>'','product'=>'','delete'=>'','map'=>'','location'=>'',''];
 
 if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
     //Rutas del admin
@@ -123,6 +123,8 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
             $userController->comment();
         }else if ($array_ruta[0] === "contact"){
             $userController->showContact();
+        }else if ($array_ruta[0] === "map"){
+            $userController->showMap();
         }
     } else if (isset($array_ruta[1]) && !isset($array_ruta[2])) {
         if ($array_ruta[1] === "process") {
@@ -192,6 +194,12 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
     } if (isset($array_ruta[1]) && $array_ruta[1] === "userPurchases"){
         try {
             echo \model\ChristiesGestorDB::userPurchases($_POST['user']);
+        } catch (JsonException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    } if (isset($array_ruta[1]) && $array_ruta[1] === "prodsloc"){
+        try {
+            echo \model\ChristiesGestorDB::prodsloc();
         } catch (JsonException $e) {
             echo "Error: " . $e->getMessage();
         }

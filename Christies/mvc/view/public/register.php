@@ -12,12 +12,14 @@
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles/style.css">
+    <!-- Google Captcha-->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="icon" href="logo.png" type="image/png" sizes="16x16">
     <title>Christies</title>
 </head>
 <body>
 <main class="container mt-4 mb-4 px-lg-5">
-    <section class="min-vh-100 background-radial-gradient overflow-hidden">
+    <section class="vh-100 background-radial-gradient overflow-hidden">
         <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
             <div class="row gx-lg-5 align-items-center mb-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
@@ -83,9 +85,19 @@
                                         <div class="form-notch-trailing"></div>
                                     </div>
                                 </div>
-
+                                <div class="g-recaptcha" data-sitekey="6LfNGC0kAAAAAHM9eVlzUoPpYgoFT5qAL7aqN467"></div>
+                                <?php
+                                if (isset($_SESSION['captchaError'])) {
+                                    unset($_SESSION['captchaError']);
+                                    ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        Captcha not valid
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                                 <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-block mb-4">SIGN UP</button>
+                                <button type="submit" class="btn btn-primary btn-block mt-4 mb-4">SIGN UP</button>
                             </form>
                         </div>
                     </div>

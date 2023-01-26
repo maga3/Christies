@@ -925,4 +925,25 @@ class ChristiesGestorDB
         }
         return false;
     }
+
+    /**
+     * @throws JsonException
+     */
+    public static function prodsloc(): bool|string
+    {
+        try {
+            $db = Conexion::connect();
+            $query = "SELECT DISTINCT(objeto.id_objeto), objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.lat AS 'lat', objeto.lon AS 'lon' FROM objeto GROUP BY objeto.id_objeto";
+            $stmt = $db->prepare($query);
+            if (!$stmt->execute([])) {
+                return false;
+            }
+            $result = $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } finally {
+            $db = null;
+        }
+        return json_encode($result, JSON_THROW_ON_ERROR);
+    }
 }

@@ -61,12 +61,16 @@ class UserController
     }
 
     /**
-     * @author Martin Ruiz
      * @return void
+     * @throws JsonException
+     * @author Martin Ruiz
      */
     public function registerProcess(): void
     {
-        if (isset($_POST['email']) && isset($_POST['pass'])) {
+        $captcha = $_POST['g-recaptcha-response'];
+        if (isset($_POST['email'], $_POST['pass'])) {
+            $captchasecretekey = '6LfNGC0kAAAAAF8ZHwvLnOuvunNIipKI9mg7sKU0';
+
             $usr = $_POST['email'];
             $pass = $_POST['pass'];
             if (!filter_var($usr, FILTER_VALIDATE_EMAIL)) {
@@ -76,7 +80,14 @@ class UserController
                 $_SESSION["passError"] = true;
             }
 
-            if (!isset($_SESSION["passError"]) && !isset($_SESSION["userError"]) &&
+            $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$captchasecretekey&response=$captcha");
+            $decode_response = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+
+            if (!$decode_response['success']) {
+                $_SESSION["captchaError"] = true;
+            }
+
+            if (!isset($_SESSION["passError"]) && !isset($_SESSION["userError"]) && !isset($_SESSION['captchaError']) &&
                 ChristiesGestorDB::addUser($usr, $pass)) {
                 $_SESSION['login'] = true;
                 $_SESSION['user'] = $usr;
@@ -222,8 +233,8 @@ class UserController
                 $com = new \model\Comentario((int)null,$_POST['comment'],'',\model\ObjetoVirtual::read($_POST['idobj']),$user);
 
                 if ($com->create()){
+
                     header('Location: profile');
-                    exit();
                 }
             }
         }
@@ -271,5 +282,10 @@ class UserController
                 }
             }
         }
+    }
+
+    public function showMap()
+    {
+        require './view/public/map.php';
     }
 }

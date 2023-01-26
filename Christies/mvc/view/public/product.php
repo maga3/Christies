@@ -68,7 +68,9 @@ include("components/header.html");
     <div class="mb-5 d-flex justify-content-center align-items-center">
         <button id="buy-btn" type="button" class="btn btn-outline-dark">Buy</button>
     </div>
-
+    <div class="d-flex justify-content-center align-items-center mb-5">
+        <a class="btn btn-success" href="../../index.php/map">Map of products</a>
+    </div>
     <div id="map" class="mb-5">
 
     </div>
