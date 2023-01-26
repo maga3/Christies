@@ -115,5 +115,6 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 <script src="star-admin2/template/js/dashboard.js"></script>
 <script src="star-admin2/template/js/Chart.roundedBarCharts.js"></script>
 <!-- End custom js for this page-->
+<script src="js/validations.js"></script>
 </body>
 </html>

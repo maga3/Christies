@@ -68,7 +68,7 @@ include("components/header.html");
                                 <div class="col-md-9 pe-5">
                                     <label class="w-100">
                                     <textarea class="form-control" rows="3" name="query"
-                                              placeholder="Message" required></textarea>
+                                              placeholder="Message" required maxlength="550"></textarea>
                                     </label>
                                 </div>
                             </div>

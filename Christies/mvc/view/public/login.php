@@ -42,7 +42,7 @@
                                             ?>
                                             <label class="form-label" for="email"
                                                    style="margin-left: 0;">Email
-                                                <input type="email" id="email" name="email"
+                                                <input type="email" id="email" name="email" maxlength="50"
                                                        class="form-control form-control-lg" required>
                                                 <?php
                                                 if (isset($_SESSION['userError'])) {
@@ -65,7 +65,7 @@
                                         <div class="form-outline form-white mb-4">
                                             <label class="form-label" for="pass"
                                                    style="margin-left: 0;">Password
-                                                <input type="password" id="pass" name="pass"
+                                                <input type="password" id="pass" name="pass" maxlength="40"
                                                        class="form-control form-control-lg" required>
                                                 <?php
                                                 if (isset($_SESSION['passError'])) {

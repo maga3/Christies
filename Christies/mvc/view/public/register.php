@@ -40,7 +40,7 @@
 
                                 <!-- Email input -->
                                 <div class="form-outline mb-4">
-                                    <input type="email" name="email" id="email" class="form-control" required>
+                                    <input type="email" name="email" id="email" class="form-control" maxlength="40" required>
                                     <label class="form-label" for="email" style="margin-left: 0;">
                                         Email address
                                         <?php
@@ -63,7 +63,7 @@
 
                                 <!-- Password input -->
                                 <div class="form-outline mb-4">
-                                    <input type="password" name="pass" id="pass" class="form-control" required>
+                                    <input type="password" name="pass" id="pass" class="form-control" required maxlength="25">
                                     <label class="form-label" for="pass" style="margin-left: 0;">Password
                                         <?php
                                         if (isset($_SESSION['passError'])) {

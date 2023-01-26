@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 26, 2023 at 02:56 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 26-01-2023 a las 17:58:50
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `christies`
+-- Base de datos: `christies`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categoria`
+-- Estructura de tabla para la tabla `categoria`
 --
 
 CREATE TABLE `categoria` (
@@ -35,7 +35,7 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categoria`
+-- Volcado de datos para la tabla `categoria`
 --
 
 INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
@@ -47,7 +47,7 @@ INSERT INTO `categoria` (`id_cat`, `nombre`, `descripcion`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comentario`
+-- Estructura de tabla para la tabla `comentario`
 --
 
 CREATE TABLE `comentario` (
@@ -59,7 +59,7 @@ CREATE TABLE `comentario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `comentario`
+-- Volcado de datos para la tabla `comentario`
 --
 
 INSERT INTO `comentario` (`id_com`, `contenido`, `fecha`, `id_objeto`, `id_user`) VALUES
@@ -103,7 +103,7 @@ INSERT INTO `comentario` (`id_com`, `contenido`, `fecha`, `id_objeto`, `id_user`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `compra`
+-- Estructura de tabla para la tabla `compra`
 --
 
 CREATE TABLE `compra` (
@@ -114,7 +114,7 @@ CREATE TABLE `compra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `compra`
+-- Volcado de datos para la tabla `compra`
 --
 
 INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
@@ -129,7 +129,7 @@ INSERT INTO `compra` (`id_compra`, `fecha`, `id_objeto`, `id_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `objeto`
+-- Estructura de tabla para la tabla `objeto`
 --
 
 CREATE TABLE `objeto` (
@@ -138,36 +138,36 @@ CREATE TABLE `objeto` (
   `lat` decimal(8,6) DEFAULT NULL,
   `lon` decimal(9,6) DEFAULT NULL,
   `precio` decimal(64,2) NOT NULL,
-  `img1` varchar(255) NOT NULL,
-  `img2` varchar(255) DEFAULT NULL,
+  `img2` varchar(255) NOT NULL,
+  `img1` varchar(255) DEFAULT NULL,
   `img3` varchar(255) DEFAULT NULL,
   `id_cat` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `objeto`
+-- Volcado de datos para la tabla `objeto`
 --
 
-INSERT INTO `objeto` (`id_objeto`, `nombre`, `lat`, `lon`, `precio`, `img1`, `img2`, `img3`, `id_cat`) VALUES
-(1, 'tiramisua', '12.505046', '123.414445', '6.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_2.jpg', NULL, 2),
-(2, 'lunaTica', '20.724011', '-97.530817', '5000.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_1.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_2.jpg', '', 1),
-(3, 'Cazadora virtual', '-7.020680', '112.396364', '59.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/3_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/3_2.jpg', '', 4),
-(4, 'viaje a maldivas', '45.402837', '11.857706', '1000.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/4_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/4_2.jpg', '', 1),
-(5, 'salto bungee', '44.367191', '20.960452', '30.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/5_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/5_2.jpg', '', 3),
-(6, 'new york viaje', '13.467767', '144.745323', '800.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/6_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/6_2.jpg', '', 1),
-(7, 'lubina', '6.832201', '3.631913', '25.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/7_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/7_2.jpg', '', 2),
-(8, 'soccer jersey', '-29.688048', '-51.133338', '80.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/8_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/8_2.jpg', '', 4),
-(9, 'futbol espacial', '49.057980', '-122.252570', '2999.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/9_1.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/9_2.jpg', '', 3),
-(10, 'baseball pie', '14.375816', '121.039038', '500.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/10_1.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/10_2.jpg', '', 3),
-(11, 'Bocata lomo', '37.749246', '140.472968', '6.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/11_1.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/11_2.jpg', '', 2),
-(12, 'Polo nthf', '41.468940', '44.785078', '79.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/12_1.jpg', NULL, NULL, 4),
-(13, 'Escalada acuatica', '21.565982', '106.299291', '35.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/13_1.jpg', NULL, NULL, 3),
-(14, 'Botas tm', '50.414572', '16.165635', '99.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/14_1.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/14_2.jpg', '', 4);
+INSERT INTO `objeto` (`id_objeto`, `nombre`, `lat`, `lon`, `precio`, `img2`, `img1`, `img3`, `id_cat`) VALUES
+(1, 'tiramisua', '12.505046', '123.414445', '6.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_2.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/1_1.jpg', NULL, 2),
+(2, 'lunaTica', '20.724011', '-97.530817', '5000.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_2.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/2_1.jpg', '', 1),
+(3, 'Cazadora virtual', '-7.020680', '112.396364', '59.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/3_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/3_1.jpg', '', 4),
+(4, 'viaje a maldivas', '45.402837', '11.857706', '1000.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/4_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/4_1.jpg', '', 1),
+(5, 'salto bungee', '44.367191', '20.960452', '30.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/5_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/5_1.jpg', '', 3),
+(6, 'new york viaje', '13.467767', '144.745323', '800.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/6_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/6_1.jpg', '', 1),
+(7, 'lubina', '6.832201', '3.631913', '25.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/7_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/7_1.jpg', '', 2),
+(8, 'soccer jersey', '-29.688048', '-51.133338', '80.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/8_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/8_1.jpg', '', 4),
+(9, 'futbol espacial', '55.650000', '-122.252570', '2999.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/9_2.png', 'http://localhost/christies/mvc/view/admin/imgs/productos/9_1.jpg', '', 3),
+(10, 'baseball pie', '14.375816', '121.039038', '500.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/10_2.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/10_1.jpg', '', 3),
+(11, 'Bocata lomo', '37.749246', '140.472968', '6.00', 'http://localhost/christies/mvc/view/admin/imgs/productos/11_2.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/11_1.jpg', '', 2),
+(12, 'Polo nthf', '41.468940', '44.785078', '79.99', '', 'http://localhost/christies/mvc/view/admin/imgs/productos/12_1.jpg', NULL, 4),
+(13, 'Escalada acuatica', '21.565982', '106.299291', '35.00', '', 'http://localhost/christies/mvc/view/admin/imgs/productos/13_1.jpg', NULL, 3),
+(14, 'Botas tm', '50.414572', '16.165635', '99.99', 'http://localhost/christies/mvc/view/admin/imgs/productos/14_2.jpg', 'http://localhost/christies/mvc/view/admin/imgs/productos/14_1.jpg', '', 4);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `puntuacion`
+-- Estructura de tabla para la tabla `puntuacion`
 --
 
 CREATE TABLE `puntuacion` (
@@ -177,7 +177,7 @@ CREATE TABLE `puntuacion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `puntuacion`
+-- Volcado de datos para la tabla `puntuacion`
 --
 
 INSERT INTO `puntuacion` (`id`, `id_obj`, `puntuacion`) VALUES
@@ -195,7 +195,7 @@ INSERT INTO `puntuacion` (`id`, `id_obj`, `puntuacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estructura de tabla para la tabla `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -208,7 +208,7 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) VALUES
@@ -246,17 +246,17 @@ INSERT INTO `usuario` (`id_user`, `email`, `password`, `rol`, `tokens`, `telf`) 
 (33, 'usr1@usr1.com', '2b12e1a2252d642c09f640b63ed35dcc5690464a', 'user', '100.0000', '');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `categoria`
+-- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id_cat`);
 
 --
--- Indexes for table `comentario`
+-- Indices de la tabla `comentario`
 --
 ALTER TABLE `comentario`
   ADD PRIMARY KEY (`id_com`),
@@ -264,7 +264,7 @@ ALTER TABLE `comentario`
   ADD KEY `comentarios_ibfk_2` (`id_user`);
 
 --
--- Indexes for table `compra`
+-- Indices de la tabla `compra`
 --
 ALTER TABLE `compra`
   ADD PRIMARY KEY (`id_compra`),
@@ -272,92 +272,92 @@ ALTER TABLE `compra`
   ADD KEY `compras_ibfk_2` (`id_user`);
 
 --
--- Indexes for table `objeto`
+-- Indices de la tabla `objeto`
 --
 ALTER TABLE `objeto`
   ADD PRIMARY KEY (`id_objeto`),
   ADD KEY `id_cat` (`id_cat`);
 
 --
--- Indexes for table `puntuacion`
+-- Indices de la tabla `puntuacion`
 --
 ALTER TABLE `puntuacion`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_obj` (`id_obj`);
 
 --
--- Indexes for table `usuario`
+-- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `categoria`
+-- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
   MODIFY `id_cat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `comentario`
+-- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
   MODIFY `id_com` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
--- AUTO_INCREMENT for table `compra`
+-- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
   MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `objeto`
+-- AUTO_INCREMENT de la tabla `objeto`
 --
 ALTER TABLE `objeto`
   MODIFY `id_objeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `puntuacion`
+-- AUTO_INCREMENT de la tabla `puntuacion`
 --
 ALTER TABLE `puntuacion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `usuario`
+-- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `comentario`
+-- Filtros para la tabla `comentario`
 --
 ALTER TABLE `comentario`
   ADD CONSTRAINT `comentario_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `comentario_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `compra`
+-- Filtros para la tabla `compra`
 --
 ALTER TABLE `compra`
   ADD CONSTRAINT `compra_ibfk_1` FOREIGN KEY (`id_objeto`) REFERENCES `objeto` (`id_objeto`) ON UPDATE CASCADE,
   ADD CONSTRAINT `compra_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `usuario` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `objeto`
+-- Filtros para la tabla `objeto`
 --
 ALTER TABLE `objeto`
   ADD CONSTRAINT `objeto_ibfk_1` FOREIGN KEY (`id_cat`) REFERENCES `categoria` (`id_cat`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `puntuacion`
+-- Filtros para la tabla `puntuacion`
 --
 ALTER TABLE `puntuacion`
   ADD CONSTRAINT `puntuacion_ibfk_1` FOREIGN KEY (`id_obj`) REFERENCES `objeto` (`id_objeto`);

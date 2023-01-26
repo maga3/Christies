@@ -4,7 +4,7 @@
             <form action="<?php echo "../../index.php/admin/productos/".$article->getId().'/process';?>" method="post" enctype="multipart/form-data">
                 <label for="img1" class="mb-2">
                     Img1:
-                    <input type="file" name="img1" accept="image/png, image/jpeg, image/jpg"
+                    <input type="file" class="form-control mb-3"  name="img1" accept="image/png, image/jpeg, image/jpg"
                            onchange="viewFile(this,0)">
                     <img id="previewImg0" src="<?php echo $article->getImg1(); ?>" alt="img1" height="300px"
                          width="350px">
@@ -12,7 +12,7 @@
                 <h5 class="card-title mt-2">
                     <label for="nombre">
                         Nombre:
-                        <input type="text" name="nombre" onkeyup="validateName()"
+                        <input type="text" class="form-control" name="nombre" id="name"
                                value="<?php echo $article->getNombre(); ?>"/>
                         <span class="form-text" id="nameValidationMsg"></span>
                     </label>
@@ -21,7 +21,7 @@
                     <li class="list-group-item">
                         <label for="img2">
                             Img2:
-                            <input type="file" name="img2" accept="image/png, image/jpeg, image/jpg"
+                            <input type="file" class="form-control mb-3" name="img2" accept="image/png, image/jpeg, image/jpg"
                                    onchange="viewFile(this,1)">
                             <img id="previewImg1" class='card-img' src="<?php echo $article->getImg2(); ?>" alt='img2'
                                  width='100px'
@@ -31,9 +31,9 @@
                     <li class="list-group-item">
                         <label for="img3">
                             Img3:
-                            <input type="file" name="img3" accept="image/png, image/jpeg, image/jpg"
+                            <input type="file" class="form-control" name="img3" accept="image/png, image/jpeg, image/jpg"
                                    onchange="viewFile(this,2)">
-                            <img id="previewImg2" class='card-img' src="<?php echo $article->getImg3(); ?>" alt='img3'
+                            <img id="previewImg2"  class='card-img' src="<?php echo $article->getImg3(); ?>" alt='img3'
                                  width='350px'
                                  height='300px'>
                         </label>
@@ -41,21 +41,20 @@
                     <li class="list-group-item">
                             <label for="lat" class="mb-2">
                                 Lat:
-                                <input type="number" name="lat" min="-90" max="90" step="any"
+                                <input type="number" class="form-control" name="lat" min="-90" max="90" step="any" id="lat"
                                        value="<?php echo $article->getLat() === 0.00000000000000000000 ? 0 : $article->getLat() ; ?>">
                             </label>
                             <label for="lon">
                                 Lon:
-                                <input type="number" name="lon" min="-180" max="180" step="any"
+                                <input type="number" class="form-control" name="lon" min="-180" max="180" step="any" id="lon"
                                        value="<?php echo $article->getLon() === 0.00000000000000000000 ? 0 : $article->getLon() ; ?>">
                             </label>
                     </li>
                     <li class="list-group-item">
                         <label for="precio" class="mb-2">
                             Precio:
-                            <input type="number" name="precio" onkeyup="validatePrice()" step="any"
+                            <input type="number" class="form-control"  name="precio" id="price" step="any"
                                    value="<?php echo $article->getPrecio(); ?>">
-                            €
                             <span class="form-text" id="precioValidationMsg"></span>
                         </label>
                     </li>

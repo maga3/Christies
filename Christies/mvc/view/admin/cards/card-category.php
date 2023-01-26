@@ -4,7 +4,7 @@
             <form action="<?php echo "../../index.php/admin/categorias/".$categoria->getId().'/process';?>" method="post" enctype="multipart/form-data">
                 <label for="img1" class="mb-2">
                     Img1:
-                    <input type="file" name="img1" accept="image/png, image/jpeg, image/jpg"
+                    <input type="file" class="form-control mb-3" name="img1" accept="image/png, image/jpeg, image/jpg"
                            onchange="viewFile(this,0)">
                     <img id="previewImg0" src="<?php echo $categoria->getImg(); ?>" alt="img1" height="300px"
                          width="350px">
@@ -12,14 +12,14 @@
                 <h5 class="card-title mt-2">
                     <label for="nombre">
                         Nombre:
-                        <input type="text" name="nombre" onkeyup="validateName()"
+                        <input type="text" class="form-control mt-3" id="name" name="nombre"
                                value="<?php echo $categoria->getNombre(); ?>"/>
                         <span class="form-text" id="nameValidationMsg"></span>
                     </label>
                 </h5>
                 <label for="descripcion">
                     <h5 class="card-title"> Descripcion:</h5>
-                    <textarea name="descripcion" class="card-text" onkeyup="validateDescription()"><?php echo $categoria->getDescripcion(); ?></textarea>
+                    <textarea name="descripcion" class="card-text form-control" id="addANote"><?php echo $categoria->getDescripcion(); ?></textarea>
                     <span class="form-text" id="desValidationMsg"></span>
                 </label>
                 <div class="card-footer">

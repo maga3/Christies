@@ -78,14 +78,14 @@ include("components/header.html");
                                                                         <div class="row d-flex justify-content-center align-items-center">
                                                                             <h4 class="h4">Email</h4>
                                                                             <label for="email">
-                                                                                <input class="form-control" type="email" name="email" id="email">
+                                                                                <input class="form-control" type="email" name="email" id="email" maxlength="40">
                                                                                 <input hidden name="actualEmail" id="actualEmail">
                                                                             </label>
                                                                         </div>
                                                                         <div class="row d-flex justify-content-center align-items-center">
                                                                             <h4 class="h4">Tel</h4>
                                                                             <label for="tel">
-                                                                                <input class="form-control" type="tel" name="tel" id="tel">
+                                                                                <input class="form-control" type="tel" name="tel" id="tel" maxlength="16">
                                                                             </label>
                                                                         </div>
                                                                     </div>
