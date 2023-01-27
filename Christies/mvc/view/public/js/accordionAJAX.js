@@ -15,7 +15,7 @@ function modoCheck(id) {
     }
 }
 
-function ajaxProductsValuated(mode,price) {
+function ajaxProductsValuated(mode,price,punt) {
     $.ajax({
         method: "POST",
         dataType: "json",
@@ -24,12 +24,15 @@ function ajaxProductsValuated(mode,price) {
             order: mode,
             price: price,
             idcat: sessionStorage.getItem('cats')==='true'?parseInt(sessionStorage.getItem('cat')):'dont',
-            slider: 'false'
+            slider: 'false',
+            punt:punt
         },
         url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/valuatedProds',
     }).done((response) => {
         $('#accId').empty();
-        printAccordionJson(response);
+        let rows = response[response.length];
+
+        printAccordionJson(response,0);
     });
 }
 
@@ -42,7 +45,7 @@ $().ready(() => {
         dataType: "json",
         url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/valuatedProds',
     }).done((response) => {
-        printAccordionJson(response);
+        printAccordionJson(response,0);
         $('#cat').change(() => {
             sessionStorage.setItem('cats', 'true');
             sessionStorage.setItem('index', '0');
@@ -56,34 +59,38 @@ $().ready(() => {
                 url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/prodsCat',
             }).done((response) => {
                 $('#accId').empty();
-                printAccordionJson(response);
+                let rows = response[response.length];
+
+                printAccordionJson(response,0);
             })
         })
     })
     moreProdsAjax();
     $('#popularity').click(() => {
         sessionStorage.setItem('price', 'false');
+        sessionStorage.setItem('punt', 'true');
         let mode = modoCheck('#popularity');
         if (sessionStorage.getItem('cats')==='true') {
-            catsFiltering(mode,false);
+            catsFiltering(mode,false,true);
         } else {
-            ajaxProductsValuated(mode,false);
+            ajaxProductsValuated(mode,false,true);
         }
     });
     $('#bestsellers').click(() => {
         let mode = modoCheck('#bestsellers');
+        sessionStorage.setItem('punt', 'false');
         sessionStorage.setItem('price', 'true');
         if (sessionStorage.getItem('cats')==='true') {
-            catsFiltering(mode,true);
+            catsFiltering(mode,true,false);
         } else {
-            ajaxProductsValuated(mode,true);
+            ajaxProductsValuated(mode,true,false);
         }
     });
 });
 
 function moreProdsAjax() {
     $('#moreProds').click(() => {
-        if (sessionStorage.getItem('cats')) {
+        if (sessionStorage.getItem('cats') === 'true') {
             $.ajax({
                 method: "POST",
                 dataType: "json",
@@ -94,7 +101,11 @@ function moreProdsAjax() {
                 url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/prodsCat',
             }).done((response) => {
                 sessionStorage.setItem('index', (parseInt(sessionStorage.getItem('index')) + 10));
-                printAccordionJson(response);
+                $('#accId').empty();
+                let rows = response[response.length];
+
+                $('#moreProds').prop('disabled',parseInt(rows)<(parseInt(sessionStorage.getItem('index'))+10));
+                printAccordionJson(response,0);
             });
         } else {
             $.ajax({
@@ -102,11 +113,19 @@ function moreProdsAjax() {
                 dataType: "json",
                 data: {
                     index: parseInt(sessionStorage.getItem('index')) + 10,
+                    order: 'DESC',
+                    price: sessionStorage.getItem('price')==='true'?parseInt(sessionStorage.getItem('price')):'false',
+                    idcat: sessionStorage.getItem('cats')==='true'?parseInt(sessionStorage.getItem('cat')):'dont',
+                    slider: 'false',
+                    punt:sessionStorage.getItem('punt')==='true'?parseInt(sessionStorage.getItem('punt')):'false'
                 },
                 url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/valuatedProds',
             }).done((response) => {
                 sessionStorage.setItem('index', parseInt(sessionStorage.getItem('index')) + 10);
-                printAccordionJson(response);
+                let rows = response[response.length-1];
+
+                $('#moreProds').prop('disabled',parseInt(rows)<(parseInt(sessionStorage.getItem('index'))+10));
+                printAccordionJson(response,sessionStorage.getItem('index'));
             });
         }
     })
@@ -126,17 +145,16 @@ function catsFiltering(mode,price) {
         url: window.location.href.slice(0, window.location.href.indexOf("list")) + 'api/valuatedProds',
     }).done((response) => {
         $('#accId').empty();
-        printAccordionJson(response);
+        printAccordionJson(response,0);
     });
 }
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string[0].toUpperCase() + string.slice(1);
 }
 
 
-function printAccordionJson(response) {
-    let i = 0;
+function printAccordionJson(response,i) {
     for (const element of response) {
         let heading = 'heading' + i;
         let idCollapse = 'collapse' + i;
@@ -144,8 +162,8 @@ function printAccordionJson(response) {
             $('#accId').append("<h2 class='accordion-header' id='" + heading + "'><button class='accordion-button' type='button' data-bs-toggle='collapse' " +
                 "data-bs-target='#" + idCollapse + "' aria-expanded='true' aria-controls='" + idCollapse + "'><div class='col-3 text-uppercase'>" +
                 "" + element.nombre + "</div><div class='col-5 col-sm-8 d-flex justify-content-end'>" +
-                "<img class='xs-accordion-img' width='70%' height='350px' src='" + element.ruta_img + "' " +
-                "alt='productos " + element + "'></div></button></h2><div id='" + idCollapse + "' class='accordion-collapse collapse show' " +
+                "<img class='xs-accordion-img' width='70%' height='20%' src='" + element.ruta_img + "' " +
+                "alt='productos " + element.nombre + "'></div></button></h2><div id='" + idCollapse + "' class='accordion-collapse collapse show' " +
                 "aria-labelledby='" + heading + "' data-bs-parent='#accId'><div class='accordion-body d-flex'>" +
                 "<div class='row col-12'><div class='align-middle col-4'>" + capitalizeFirstLetter(element.descripcion) + "</div>" +
                 "<div class='col-4'>" + element.precio + "</div>" +
@@ -154,8 +172,8 @@ function printAccordionJson(response) {
             $('#accId').append("<h2 class='accordion-header' id='" + heading + "'><button class='accordion-button' type='button' data-bs-toggle='collapse' " +
                 "data-bs-target='#" + idCollapse + "' aria-expanded='true' aria-controls='" + idCollapse + "'><div class='col-3 text-uppercase'>" +
                 "" + element.nombre + "</div><div class='col-5 col-sm-8 d-flex justify-content-end'>" +
-                "<img class='xs-accordion-img' width='70%' height='350px' src='" + element.ruta_img + "' " +
-                "alt='productos " + element + "'></div></button></h2><div id='" + idCollapse + "' class='accordion-collapse collapse' " +
+                "<img class='xs-accordion-img' width='70%' height='20%' src='" + element.ruta_img + "' " +
+                "alt='productos " + element.nombre + "'></div></button></h2><div id='" + idCollapse + "' class='accordion-collapse collapse' " +
                 "aria-labelledby='" + heading + "' data-bs-parent='#accId'><div class='accordion-body d-flex'>" +
                 "<div class='row col-12'><div class='align-middle col-4'>" + capitalizeFirstLetter(element.descripcion) + "</div>" +
                 "<div class='col-4'>" + element.precio + "</div>" +

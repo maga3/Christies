@@ -1,8 +1,10 @@
 <?php
+
 session_start();
 
 //Incluyo los archivos necesarios
 require("./controller/AdminController.php");
+require("./controller/ApiController.php");
 require("./controller/UserController.php");
 require("./model/Conexion.php");
 require("./model/cruddb.php");
@@ -13,9 +15,10 @@ require("./model/Usuario.php");
 require("./model/Comentario.php");
 require('./model/Mailer2.php');
 
-//Instancio el controlador
-$adminController = new AdminController();
-$userController = new UserController();
+//Instancio los controladores
+$adminController = new controller\AdminController();
+$userController = new controller\UserController();
+$apiController = new controller\ApiController();
 
 //Ruta de la home
 $home = "/christies/mvc/index.php/";
@@ -153,59 +156,22 @@ if (isset($array_ruta[0], $array_ruta[1]) && $array_ruta[0] === "admin") {
 //api calls jsons
 }else if (isset($array_ruta[0]) && $array_ruta[0] === "api"){
     if (isset($array_ruta[1]) && $array_ruta[1] === "valuatedProds"){
-        try {
-            if (isset($_POST) && !empty($_POST)){
-                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index'],$_POST['order']??'DESC', $_POST['price']==='true',$_POST['slider']==='true',$_SESSION['user']??null);
-            }else {
-                echo \model\ChristiesGestorDB::productsValuated($_SESSION['login'] ?? false, !isset($_POST['idcat']) || $_POST['idcat'] ==='dont'?null:$_POST['idcat'],$_POST['index']??0,$_POST['order']??'DESC',$_POST['price']??false,$_POST['price']??false,$_SESSION['user']??null);
-            }
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->productsJSON();
     } if (isset($array_ruta[1]) && $array_ruta[1] === "prodsCat"){
-
-        try {
-            if (isset($_POST) && !empty($_POST)){
-                echo \model\ChristiesGestorDB::productosUnaCategoria($_POST['idcat'],$_POST['order']??'DESC');
-            }else{
-                echo "Error: " . $e->getMessage();
-            }
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->productsCatJSON() ;
     }  if (isset($array_ruta[1], $array_ruta[2]) && $array_ruta[1] === "product" && is_numeric($array_ruta[2])){
-        try {
-            echo \model\ChristiesGestorDB::productById((int)$array_ruta[2]);
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->productByIdJSON((int) $array_ruta[2]);
     } if (isset($array_ruta[1]) && $array_ruta[1] === "listProds"){
-        try {
-            echo \model\ChristiesGestorDB::filteredListProds($_POST['search']);
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->searchBarObjectJSON();
     } if (isset($array_ruta[1]) && $array_ruta[1] === "userData"){
-        try {
-            echo \model\ChristiesGestorDB::userdata($_POST['user']);
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->userDataJSON();
     } if (isset($array_ruta[1]) && $array_ruta[1] === "userPurchases"){
-        try {
-            echo \model\ChristiesGestorDB::userPurchases($_POST['user']);
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->userPurchasesJSON();
     } if (isset($array_ruta[1]) && $array_ruta[1] === "prodsloc"){
-        try {
-            echo \model\ChristiesGestorDB::prodsloc();
-        } catch (JsonException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+        echo $apiController->prodLocationJSON();
     }
 }
-else if ($array_ruta[0] === 'admin' || $array_ruta[1] === '' || !isset($array_ruta[1]) || empty($array_ruta[0])) {
+else if ($array_ruta[0] === 'admin' || empty($array_ruta[0])) {
     $uri = $_SERVER['REQUEST_URI'];
     if ($uri[strlen($uri) - 1] === '/') {
         header('Location:' . $_SERVER['REQUEST_URI'] . 'login');

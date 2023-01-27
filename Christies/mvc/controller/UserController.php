@@ -1,5 +1,7 @@
 <?php
 
+namespace controller;
+
 use model\ChristiesGestorDB;
 use model\Usuario;
 use model\Mailer2;
@@ -104,7 +106,8 @@ class UserController
      */
     public function showHome(): void
     {
-        require './view/public/home.php';
+        $content = 'home.php';
+        require './view/public/template.php';
     }
 
     /**
@@ -114,8 +117,9 @@ class UserController
      */
     public function showProduct(float|int|string $id): void
     {
-        $product = ChristiesGestorDB::readProduct($id);
-        require './view/public/product.php';
+        $product = \model\ObjetoVirtual::read($id);
+        $content = 'product.php';
+        require './view/public/templateRuta2.php';
     }
 
     /**
@@ -129,7 +133,8 @@ class UserController
         } catch (JsonException $e) {
             echo "Error: " . $e->getMessage();
         }
-        require './view/public/lista_productos.php';
+        $content = 'lista_productos.php';
+        require './view/public/template.php';
     }
 
     /**
@@ -139,7 +144,8 @@ class UserController
     public function showProfile(): void
     {
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-            require './view/public/profile.php';
+            $content = 'profile.php';
+            require './view/public/template.php';
         } else {
             header('Location: ../index.php/login');
         }
@@ -194,10 +200,10 @@ class UserController
     }
 
     /**
-     * @author Martin Ruiz
-     * @return bool|void
+     * @return bool
+     *@author Martin Ruiz
      */
-    public function makePurchase()
+    public function makePurchase(): bool
     {
         if (isset($_SESSION['login']) &&  $_SESSION['login']){
             if ( isset($_POST['user'], $_POST['object']) && !empty($_POST['user']) && !empty($_POST['object'])){
@@ -231,9 +237,7 @@ class UserController
             $user = ChristiesGestorDB::readUserOnName($_POST['user']);
             if ($user instanceof Usuario){
                 $com = new \model\Comentario((int)null,$_POST['comment'],'',\model\ObjetoVirtual::read($_POST['idobj']),$user);
-
                 if ($com->create()){
-
                     header('Location: profile');
                 }
             }
@@ -247,7 +251,8 @@ class UserController
     public function showContact(): void
     {
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-            require './view/public/contact.php';
+            $content = 'contact.php';
+            require './view/public/template.php';
         } else {
             header('Location: login');
         }
@@ -286,6 +291,7 @@ class UserController
 
     public function showMap()
     {
-        require './view/public/map.php';
+        $content = 'map.php';
+        require './view/public/template.php';
     }
 }

@@ -8,6 +8,7 @@ $().ready(() => {
             idcat: parseInt(sessionStorage.getItem('cat')),
             index: 0,
             price: 'false',
+            punt: 'false',
         },
         url: window.location.href.slice(0, window.location.href.lastIndexOf("home")) + 'api/valuatedProds',
     }).done((response) => {

@@ -55,6 +55,7 @@ $().ready(() => {
         }
 
 
+
         $('#addANote').keyup((e) => {
                 if (e.code === 'Enter' && $('#addANote').hasClass('is-valid')){
                     $.ajax({
@@ -74,18 +75,20 @@ $().ready(() => {
 
     });
 
+    $('#buy-btn').prop('disabled',typeof sessionStorage.getItem('user') !== 'string');
     $('#buy-btn').click(() => {
         $.ajax({
             method: "POST",
-            dataType: "json",
             data: {
                 user: sessionStorage.getItem('user'),
                 object: window.location.href.split('/')[7],
             },
             url: window.location.href.slice(0, window.location.href.lastIndexOf("product")) + 'buy',
-        }).done((response) => {
-            if (response) {
-                window.location.href = window.location.href.slice(0, window.location.href.lastIndexOf("product")) + 'profile';
+        }).done((response)=>{
+            if (response === ''){
+                window.location.reload();
+            }else {
+                window.location.replace(window.location.href.slice(0, window.location.href.lastIndexOf("product")) + 'profile');
             }
         });
     })

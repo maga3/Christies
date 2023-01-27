@@ -2,13 +2,6 @@
     <div class="card text-black text-center mb-3">
         <div class="card-body bg-inverse-secondary">
             <form action="<?php echo "../../index.php/admin/productos/".$article->getId().'/process';?>" method="post" enctype="multipart/form-data">
-                <label for="img1" class="mb-2">
-                    Img1:
-                    <input type="file" class="form-control mb-3"  name="img1" accept="image/png, image/jpeg, image/jpg"
-                           onchange="viewFile(this,0)">
-                    <img id="previewImg0" src="<?php echo $article->getImg1(); ?>" alt="img1" height="300px"
-                         width="350px">
-                </label>
                 <h5 class="card-title mt-2">
                     <label for="nombre">
                         Nombre:
@@ -17,7 +10,14 @@
                         <span class="form-text" id="nameValidationMsg"></span>
                     </label>
                 </h5>
-                <ul class="list-group list-group-flush bg-gradient-success">
+                <label for="img1" class="mb-4">
+                    Img1:
+                    <input type="file" class="form-control mb-3"  name="img1" accept="image/png, image/jpeg, image/jpg"
+                           onchange="viewFile(this,0)">
+                    <img id="previewImg0" src="<?php echo $article->getImg1(); ?>" alt="img1" height="300px"
+                         width="350px">
+                </label>
+                <ul class="list-group list-group-flush bg-secondary">
                     <li class="list-group-item">
                         <label for="img2">
                             Img2:

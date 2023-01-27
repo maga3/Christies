@@ -60,15 +60,15 @@ class ObjetoVirtual implements cruddb
      * @param string $nombre
      * @param string $img1
      * @param string $img2
-     * @param string $img3
+     * @param string|null $img3
      * @param float $lat
      * @param float $lon
      * @param int $id_cat
      * @author martin ruiz
      */
-    public function __construct(int $id, float $precio, string $nombre, string $img1, $img2,$img3, float $lat, float $lon, int $id_cat)
+    public function __construct(int $id, float $precio, string $nombre, string $img1, string $img2, ?string $img3, float $lat, float $lon, int $id_cat)
     {
-        $this->id = $id;
+        $this->id = $id ?? null;
         $this->precio = $precio;
         $this->nombre = $nombre;
         $this->img1 = $img1;

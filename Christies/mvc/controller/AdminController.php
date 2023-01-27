@@ -1,5 +1,8 @@
 <?php
 
+namespace controller;
+
+use JsonException;
 use model\Categoria;
 use model\ChristiesGestorDB;
 use model\Comentario;
@@ -15,9 +18,9 @@ class AdminController
 {
     /**
      *
+     * @return void
      * @author Martin Ruiz
      * Valida el login y da feedback del error
-     * @return void
      */
     public function login(): void
     {
@@ -35,7 +38,7 @@ class AdminController
                 $_SESSION['loginAdmin'] = true;
                 $_SESSION['user'] = $usr;
                 header('Location: ../dashboard');
-            }else {
+            } else {
                 $_SESSION["userPassError"] = true;
             }
             header('Location: ../login');
@@ -44,9 +47,9 @@ class AdminController
 
     /**
      *
+     * @return void
      * @author Martin Ruiz
      * Muestra el formulario de login
-     * @return void
      */
     public function showLogin(): void
     {
@@ -59,9 +62,9 @@ class AdminController
 
     /**
      *
+     * @return void
      * @author Martin Ruiz
      * Muestra el formulario de recuperar la password
-     * @return void
      */
     public function showRecuperar(): void
     {
@@ -70,9 +73,9 @@ class AdminController
 
     /**
      *
+     * @return void
      * @author Martin Ruiz
      * Muestra el formulario para registrarse
-     * @return void
      */
     public function showRegister(): void
     {
@@ -81,9 +84,9 @@ class AdminController
 
     /**
      *
+     * @return void
      * @author Martin Ruiz
      * Muestra el dashboard
-     * @return void
      */
     public function showDashboard(): void
     {
@@ -93,9 +96,9 @@ class AdminController
 
     /**
      *
+     * @return void
      * @author Martin Ruiz
      * Logsout
-     * @return void
      */
     public function logout(): void
     {
@@ -105,8 +108,8 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function categorias(): void
     {
@@ -118,8 +121,8 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function users()
     {
@@ -131,8 +134,8 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function articles()
     {
@@ -144,9 +147,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param $id
      * @return void
+     * @author Martin Ruiz
      */
     public function articlesCard($id)
     {
@@ -161,9 +164,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param $id
      * @return void
+     * @author Martin Ruiz
      */
     public function categoriesCard($id): void
     {
@@ -178,8 +181,8 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function comentarios(): void
     {
@@ -191,9 +194,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param string $id
      * @return void
+     * @author Martin Ruiz
      */
     public function usersCard(string $id): void
     {
@@ -211,8 +214,8 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function compras(): void
     {
@@ -224,9 +227,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param $id
      * @return void
+     * @author Martin Ruiz
      */
     public function productoProcess($id): void
     {
@@ -267,9 +270,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param $id
      * @return void
+     * @author Martin Ruiz
      */
     public function categoriasProcess($id): void
     {
@@ -300,10 +303,10 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param ObjetoVirtual $article
      * @param int $num
      * @return bool
+     * @author Martin Ruiz
      */
     private function filecheck(ObjetoVirtual $article, int $num): bool
     {
@@ -340,10 +343,10 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param Categoria $categoria
      * @param int $num
      * @return bool
+     * @author Martin Ruiz
      */
     private function filecheckC(Categoria $categoria, int $num): bool
     {
@@ -372,17 +375,17 @@ class AdminController
     }
 
     /**
-     *
-     * @author Martin Ruiz
      * @param int $id
      * @return void
+     * @author Martin Ruiz
      */
     public function usersProcess(int $id)
     {
         require './model/sesiones.php';
         if ($id !== null) {
-            $users = ChristiesGestorDB::readUser($id);
+            $users = Usuario::read($id);
             $comentarios = ChristiesGestorDB::getCommentsOnUserId($id);
+
             if ($users instanceof Usuario) {
                 $change = false;
 
@@ -420,9 +423,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param int $id
      * @return void
+     * @author Martin Ruiz
      */
     public function deleteUser(int $id): void
     {
@@ -434,9 +437,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param int $id
      * @return void
+     * @author Martin Ruiz
      */
     public function deleteComment(int $id): void
     {
@@ -448,15 +451,15 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function categoriasAdd(): void
     {
         require './model/sesiones.php';
-        $categoria = new Categoria(null,'','','');
+        $categoria = new Categoria((int)null, '', '', '');
         if ($categoria->create()) {
-            $id = ChristiesGestorDB::categoriaLastId() + 1;
+            $id = ChristiesGestorDB::categoriaLastId();
             header('Location: ../categorias/' . $id);
         } else {
             header('Location: ../categorias');
@@ -465,34 +468,37 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
      * @throws JsonException
+     * @author Martin Ruiz
      */
     public function productosAdd(): void
     {
         require './model/sesiones.php';
         if (isset($_POST) && !empty($_POST)) {
 
-            if (isset($_POST['id_cat'], $_POST['nombre'], $_POST['precio']) &&
-                is_numeric($_POST['id_cat']) &&
-                preg_match('/^[a-zA-Záéíóú][a-zA-Záéíóú_\'.\-\s?]{2,23}$/u', $_POST['nombre']) &&
-                preg_match('/^(^\d+(\.\d{1,2})?$)$/', $_POST['precio']) &&
-                ChristiesGestorDB::createProduct($_POST['nombre'], (float)$_POST['precio'], $_POST['id_cat'])) {
-                header('Location: ../productos');
+            if (isset($_POST['id_cat'], $_POST['nombre'], $_POST['precio'])) {
+                $obj = new ObjetoVirtual((int)null, (float)$_POST['precio'], $_POST['nombre'], '', '', '', (float)null, (float)null,(int) $_POST['id_cat']);
+
+                if (preg_match('/^[a-zA-Záéíóú][a-zA-Záéíóú_\'.\-\s?]{2,23}$/u', $_POST['nombre']) &&
+                    preg_match('/^(^\d+(\.\d{1,2})?$)$/', $_POST['precio']) &&
+                    $obj->create()) {
+                    header('Location: ../productos');
+                }
             }
-        } else {
-            $contenido = 'Producto';
-            $cats = json_decode(ChristiesGestorDB::jsonCatIdNombre(), true, 512, JSON_THROW_ON_ERROR);
-            $content = './view/admin/adding/product.php';
-            require './view/admin/plantilla.php';
+
         }
+        $contenido = 'Producto';
+        $cats = json_decode(ChristiesGestorDB::jsonCatIdNombre(), true, 512, JSON_THROW_ON_ERROR);
+        $content = './view/admin/adding/product.php';
+        require './view/admin/plantilla.php';
+
     }
 
     /**
      *
-     * @author Martin Ruiz
      * @return void
+     * @author Martin Ruiz
      */
     public function usersAdd(): void
     {
@@ -519,9 +525,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param int $id
      * @return void
+     * @author Martin Ruiz
      */
     public function deleteCategoria(int $id): void
     {
@@ -533,9 +539,9 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @param int $id
      * @return void
+     * @author Martin Ruiz
      */
     public function deleteProducto(int $id): void
     {
@@ -547,8 +553,8 @@ class AdminController
 
     /**
      *
-     * @author Martin Ruiz
      * @throws JsonException
+     * @author Martin Ruiz
      */
     public function comentariosAdd()
     {

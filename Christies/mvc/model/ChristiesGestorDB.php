@@ -283,7 +283,7 @@ class ChristiesGestorDB
      * @param $idcat
      * @return bool
      */
-    public static function createProduct($nombre, $precio, $idcat)
+    public static function createProduct($nombre, $precio, $idcat): bool
     {
         try {
             $db = Conexion::connect();
@@ -457,7 +457,7 @@ class ChristiesGestorDB
      * @param $idusr
      * @return bool
      */
-    public static function createCompra($idobj, $idusr)
+    public static function createCompra($idobj, $idusr): bool
     {
         try {
             $db = Conexion::connect();
@@ -721,11 +721,11 @@ class ChristiesGestorDB
      * @author Martin Ruiz
      * @throws JsonException
      */
-    public static function productsValuated($signin, $id_cat, $index, $order, $price,$slider,$user): bool|string
+    public static function productsValuated($signin, $id_cat, $index, $order, $price,$slider,$user,$punt): bool|string
     {
         try {
-//            var_dump($signin, $id_cat, $index, $order, $price,$slider,$user);
             $db = Conexion::connect();
+
             if ($id_cat !== NULL && $order !== NULL && !$price && !$slider) {
                 $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra JOIN objeto o on compra.id_objeto = o.id_objeto WHERE objeto.id_cat = $id_cat) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio' FROM `puntuacion` RIGHT JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj LEFT JOIN `categoria` ON categoria.id_cat=objeto.id_cat WHERE objeto.id_cat IN (SELECT id_cat FROM categoria WHERE id_cat=$id_cat) ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
             } else if ($price && !$slider) {
@@ -740,7 +740,7 @@ class ChristiesGestorDB
                 }else {
                     $sql = "SELECT *, c.descripcion AS 'descripcion',objeto.img1 AS ruta_img FROM objeto JOIN categoria c on objeto.id_cat = c.id_cat ORDER BY objeto.precio $order LIMIT $index,10";
                 }
-            } else if(!$price && !$slider){
+            } else if(!$price && !$slider && $punt){
                 $sql = "SELECT puntuacion.puntuacion+(SELECT COUNT(*) FROM compra) AS 'puntuacion', puntuacion.id_obj AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY `puntuacion`.`puntuacion` $order LIMIT $index,10";
             }else if ($slider){
 
@@ -758,12 +758,14 @@ class ChristiesGestorDB
                     $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat LIMIT $index,10";
                 }
             }else{
-                $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY puntuacion.puntuacion DESC LIMIT $index,10";
+                $sql = "SELECT objeto.id_objeto AS 'id_objeto', objeto.img1 AS ruta_img, categoria.descripcion AS 'descripcion', objeto.nombre AS 'nombre', objeto.precio AS 'precio', objeto.img1 AS ruta_img FROM `puntuacion` RIGHT JOIN `objeto` ON objeto.id_objeto=puntuacion.id_obj JOIN `categoria` ON categoria.id_cat=objeto.id_cat ORDER BY puntuacion.puntuacion LIMIT $index,10";
             }
 
+            $rownumQuery = $db->query("SELECT COUNT(*) as count_rows FROM objeto");
+            $rownum = $rownumQuery->fetch();
             $result = $db->query($sql);
             $response = $result->fetchAll();
-
+            $response[count($response)-1]=$rownum['count_rows'];
         } catch (\PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
@@ -800,7 +802,7 @@ class ChristiesGestorDB
     {
         try {
             $db = Conexion::connect();
-            $query = "SELECT c2.nombre AS 'category', p.puntuacion AS 'num_comments',objeto.img2 AS 'img2', objeto.img3 AS 'img3', objeto.img1 AS 'img1', objeto.precio AS 'precio', objeto.nombre AS 'nombre', c.fecha AS 'fecha', u.email AS 'email', c.contenido AS 'contenido', objeto.lat AS 'lat', objeto.lon AS 'lon', (SELECT COUNT(*) FROM compra WHERE compra.id_objeto = ?) AS 'num_compras' FROM objeto JOIN comentario c on objeto.id_objeto = c.id_objeto JOIN usuario u on c.id_user = u.id_user JOIN puntuacion p on objeto.id_objeto = p.id_obj JOIN categoria c2 on objeto.id_cat = c2.id_cat WHERE objeto.id_objeto = ?";
+            $query = "SELECT c2.nombre AS 'category', p.puntuacion AS 'num_comments',objeto.img2 AS 'img2', objeto.img3 AS 'img3', objeto.img1 AS 'img1', objeto.precio AS 'precio', objeto.nombre AS 'nombre', c.fecha AS 'fecha', u.email AS 'email', c.contenido AS 'contenido', objeto.lat AS 'lat', objeto.lon AS 'lon', (SELECT COUNT(*) FROM compra WHERE compra.id_objeto = ?) AS 'num_compras' FROM objeto LEFT JOIN comentario c on objeto.id_objeto = c.id_objeto LEFT JOIN usuario u on c.id_user = u.id_user LEFT JOIN puntuacion p on objeto.id_objeto = p.id_obj JOIN categoria c2 on objeto.id_cat = c2.id_cat WHERE objeto.id_objeto = ?";
             $stmt = $db->prepare($query);
             if (!$stmt->execute([$id, $id])) {
                 return false;
@@ -923,13 +925,14 @@ class ChristiesGestorDB
         if ($usuario->getTokens() >= $objeto->getPrecio()) {
             return self::createCompra($objeto->getId(), $usuario->getId());
         }
+        $_SESSION['notEnough']=true;
         return false;
     }
 
     /**
      * @throws JsonException
      */
-    public static function prodsloc(): bool|string
+    public static function prodslocation(): bool|string
     {
         try {
             $db = Conexion::connect();
