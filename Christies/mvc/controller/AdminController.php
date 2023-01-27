@@ -17,7 +17,6 @@ use model\Usuario;
 class AdminController
 {
     /**
-     *
      * @return void
      * @author Martin Ruiz
      * Valida el login y da feedback del error
@@ -68,6 +67,7 @@ class AdminController
      */
     public function showRecuperar(): void
     {
+        require './model/sesiones.php';
         require './view/admin/recuperar.php';
     }
 
@@ -79,6 +79,7 @@ class AdminController
      */
     public function showRegister(): void
     {
+        require './model/sesiones.php';
         require './view/admin/register.php';
     }
 
@@ -124,7 +125,7 @@ class AdminController
      * @return void
      * @author Martin Ruiz
      */
-    public function users()
+    public function users(): void
     {
         require './model/sesiones.php';
         $contenido = 'usuarios';
@@ -137,7 +138,7 @@ class AdminController
      * @return void
      * @author Martin Ruiz
      */
-    public function articles()
+    public function articles(): void
     {
         require './model/sesiones.php';
         $contenido = 'objetos';
@@ -151,11 +152,11 @@ class AdminController
      * @return void
      * @author Martin Ruiz
      */
-    public function articlesCard($id)
+    public function articlesCard($id): void
     {
         require './model/sesiones.php';
         $contenido = 'Articulos';
-        $article = ChristiesGestorDB::readProduct($id);
+        $article = ObjetoVirtual::read($id);
         if ($article instanceof ObjetoVirtual) {
             $content = './view/admin/cards/card-product.php';
             require './view/admin/plantilla.php';
@@ -172,7 +173,7 @@ class AdminController
     {
         require './model/sesiones.php';
         $contenido = 'Categoria';
-        $categoria = ChristiesGestorDB::readCategory($id);
+        $categoria = Categoria::read($id);
         if ($categoria instanceof Categoria) {
             $content = './view/admin/cards/card-category.php';
             require './view/admin/plantilla.php';
@@ -202,9 +203,8 @@ class AdminController
     {
         require './model/sesiones.php';
         $contenido = 'usuarios';
-        $usuario = ChristiesGestorDB::readUser((int)$id);
+        $usuario = Usuario::read(((int)$id));
         $comentarios = ChristiesGestorDB::getCommentsOnUserId((int)$id);
-
 
         if ($usuario instanceof Usuario) {
             $content = './view/admin/cards/card-usuario.php';
@@ -235,7 +235,7 @@ class AdminController
     {
         require './model/sesiones.php';
         if ($id !== null) {
-            $article = ChristiesGestorDB::readProduct($id);
+            $article = ObjetoVirtual::read($id);
 
             if ($article instanceof ObjetoVirtual) {
                 $change = false;
@@ -278,7 +278,7 @@ class AdminController
     {
         require './model/sesiones.php';
         if ($id !== null) {
-            $categoria = ChristiesGestorDB::readCategory($id);
+            $categoria = Categoria::read($id);
             if ($categoria instanceof Categoria) {
                 $change = false;
 
@@ -335,7 +335,7 @@ class AdminController
                     $change = true;
                 }
             } else {
-                $_SESSION['muygrande'] = true;
+                $_SESSION['muygrande' . $num] = true;
             }
         }
         return $change;
@@ -379,7 +379,7 @@ class AdminController
      * @return void
      * @author Martin Ruiz
      */
-    public function usersProcess(int $id)
+    public function usersProcess(int $id): void
     {
         require './model/sesiones.php';
         if ($id !== null) {
@@ -460,7 +460,7 @@ class AdminController
         $categoria = new Categoria((int)null, '', '', '');
         if ($categoria->create()) {
             $id = ChristiesGestorDB::categoriaLastId();
-            header('Location: ../categorias/' . $id);
+            header('Location: ../' . $id);
         } else {
             header('Location: ../categorias');
         }
@@ -478,7 +478,7 @@ class AdminController
         if (isset($_POST) && !empty($_POST)) {
 
             if (isset($_POST['id_cat'], $_POST['nombre'], $_POST['precio'])) {
-                $obj = new ObjetoVirtual((int)null, (float)$_POST['precio'], $_POST['nombre'], '', '', '', (float)null, (float)null,(int) $_POST['id_cat']);
+                $obj = new ObjetoVirtual((int)null, (float)$_POST['precio'], $_POST['nombre'], '', '', '', (float)null, (float)null, (int)$_POST['id_cat']);
 
                 if (preg_match('/^[a-zA-Záéíóú][a-zA-Záéíóú_\'.\-\s?]{2,23}$/u', $_POST['nombre']) &&
                     preg_match('/^(^\d+(\.\d{1,2})?$)$/', $_POST['precio']) &&
@@ -556,7 +556,7 @@ class AdminController
      * @throws JsonException
      * @author Martin Ruiz
      */
-    public function comentariosAdd()
+    public function comentariosAdd(): void
     {
         require './model/sesiones.php';
         if (isset($_POST) && !empty($_POST)) {

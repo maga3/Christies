@@ -16,6 +16,16 @@
                            onchange="viewFile(this,0)">
                     <img id="previewImg0" src="<?php echo $article->getImg1(); ?>" alt="img1" height="300px"
                          width="350px">
+                    <?php
+                    if (isset($_SESSION['muygrande1'])) {
+                        unset($_SESSION['muygrande1']);
+                        ?>
+                        <div class="alert alert-danger" role="alert">
+                            IMG size exceeds the maximum allowed
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </label>
                 <ul class="list-group list-group-flush bg-secondary">
                     <li class="list-group-item">
@@ -26,6 +36,16 @@
                             <img id="previewImg1" class='card-img' src="<?php echo $article->getImg2(); ?>" alt='img2'
                                  width='100px'
                                  height='300px'>
+                            <?php
+                            if (isset($_SESSION['muygrande2'])) {
+                                unset($_SESSION['muygrande2']);
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    IMG size exceeds the maximum allowed
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </label>
                     </li>
                     <li class="list-group-item">
@@ -36,6 +56,16 @@
                             <img id="previewImg2"  class='card-img' src="<?php echo $article->getImg3(); ?>" alt='img3'
                                  width='350px'
                                  height='300px'>
+                            <?php
+                            if (isset($_SESSION['muygrande3'])) {
+                                unset($_SESSION['muygrande3']);
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    IMG size exceeds the maximum allowed
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </label>
                     </li>
                     <li class="list-group-item">
